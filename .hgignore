@@ -1,0 +1,5 @@
+syntax: glob
+# ignore the object files libraries and executables
+*.o
+*.a
+*.x

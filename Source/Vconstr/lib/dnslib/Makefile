@@ -2,8 +2,9 @@
 #
 # Makefile for dnstyfun-library
 #
+FC=ifort
 
-PROG=$(HOME)/Vconstr/lib/dnslib
+PROG=../dnslib
 OBJSNOVEC = \
 $(PROG).a(aovl.o)\
 $(PROG).a(aovls.o)\
@@ -45,10 +46,11 @@ $(PROG).a(wrtkso.o)\
 $(PROG).a(wrtorb.o)\
 $(PROG).a(ylms.o)
 
-FFLAGS = -O2
+FFLAGS = -O2 -autodouble -fixed 
+#-std=legacy
 
 $(PROG).a:: $(OBJSNOVEC) $(OBJSVEC);
 				ar -ru $(PROG).a *.o
 
 $(OBJSNOVEC):;
-				xlf $(FFLAGS) -c $*.f
+				$(FC) $(FFLAGS) -c $*.f

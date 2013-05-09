@@ -1,0 +1,19 @@
+ifort -O2 -autodouble -fixed  -c corlsd.f
+ifort -O2 -autodouble -fixed  -c gcor.f
+ifort -O2 -autodouble -fixed  -c lyp.f
+ifort -O2 -autodouble -fixed  -c pw91c.f
+ifort -O2 -autodouble -fixed  -c pw91c1.f
+ifort -O2 -autodouble -fixed  -c pw91x.f
+ifort -O2 -autodouble -fixed  -c pw91x1.f
+ifort -O2 -autodouble -fixed  -c xcbeck.f
+ifort -O2 -autodouble -fixed  -c xcener.f
+ifort -O2 -autodouble -fixed  -c xcpot.f
+ifort -O2 -autodouble -fixed  -c xcprep.f
+ifort -O2 -autodouble -fixed  -c xcvpot.f
+ifort -O2 -autodouble -fixed  -c xcvwnd.f
+ifort -O2 -autodouble -fixed  -c xcvwne.f
+ifort -O2 -autodouble -fixed  -c xcvwnf.f
+ifort -O2 -autodouble -fixed  -c xcvwnp.f
+ifort -O2 -autodouble -fixed  -c xcprdw.f
+ar -ru ../xclib.a *.o
+ar: creating ../xclib.a

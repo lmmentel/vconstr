@@ -2,18 +2,17 @@
 #
 # Makefile for dnstyfun-library
 #
+FC=ifort
 
-PROG=$(HOME)/Vconstr/lib/xclib
+PROG=../xclib
 OBJSNOVEC = \
 $(PROG).a(corlsd.o)\
 $(PROG).a(gcor.o)\
-$(PROG).a(hcth.o)\
 $(PROG).a(lyp.o)\
 $(PROG).a(pw91c.o)\
 $(PROG).a(pw91c1.o)\
 $(PROG).a(pw91x.o)\
 $(PROG).a(pw91x1.o)\
-$(PROG).a(vvv.o)\
 $(PROG).a(xcbeck.o)\
 $(PROG).a(xcener.o)\
 $(PROG).a(xcpot.o)\
@@ -25,11 +24,11 @@ $(PROG).a(xcvwnf.o)\
 $(PROG).a(xcvwnp.o)\
 $(PROG).a(xcprdw.o)
 
-FFLAGS = -O2
+FFLAGS = -O2 -autodouble -fixed 
 
 $(PROG).a:: $(OBJSNOVEC) $(OBJSVEC);
 				ar -ru $(PROG).a *.o
 
 $(OBJSNOVEC):;
-				xlf $(FFLAGS) -c $*.f
+				$(FC) $(FFLAGS) -c $*.f
 

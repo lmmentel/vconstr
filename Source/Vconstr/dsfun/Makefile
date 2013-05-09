@@ -1,4 +1,7 @@
-PROG = $(HOME)/bin/dsfun
+
+FC=ifort
+
+PROG = ../bin/dsfun
 OBJSNOVEC = \
 clcens.o\
 clwxci.o\
@@ -12,13 +15,12 @@ brains.o\
 sntial.o\
 vntial.o
 
-LIBS = $(HOME)/Vconstr/lib/dnslib.a $(HOME)/Vconstr/lib/xclib.a $(HOME)/atmol/libatm.a
-#LIBS = $(HOME)/Vconstr/lib/dnslib.a $(HOME)/Vconstr/lib/xclib.a $(HOME)/MYRTA/ATMOL/atmol/lib/libatm.a
-FFLAGS = -O2
+LIBS = ../lib/dnslib.a ../lib/xclib.a 
+FFLAGS = -O2 -autodouble -fixed
 LFLAGS =
 
 $(PROG) :  $(OBJSNOVEC) $(LIBS)
-					xlf -bmaxdata:419430400 $(FFLAGS) -o $(PROG) *.o $(LIBS) 
+					$(FC)  $(FFLAGS) -o $(PROG) *.o $(LIBS) 
 
 $(OBJSNOVEC):;
-					xlf $(FFLAGS) -c $*.f
+					$(FC) $(FFLAGS) -c $*.f
