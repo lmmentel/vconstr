@@ -28,25 +28,29 @@ c
       character*44 fname
       common/discc/ied(16),fname(16)
 c
-      character*8 smtype,hmat,int2e
+      character*8 smtype,hmat,int2e,title
       logical lsym,lintsm,lrdocc,lrfun,lfield,atmol4
       dimension occmo(nmomx),info(infmx)
       dimension fxyz(3)
 c
-      common /titel/title(10)
+clmm      common /titel/title(10)
 c
       data hmat,int2e/'h-matrix','2-elec'/
 c
-      call prep99
-      call tidajt(date,time,accno,anam,idum)
-      write(6,666)anam,date,time,accno
-  666 format(1h1//
-     *24x,18('*'),' dsfun ',18('*') //
-     *24x,'job name   ',a8//
-     *24x,'date       ',a8//
-     *24x,'time       ',a8//
-     *24x,'acct       ',a8//
-     *24x,44('*')///)
+c.....lmm stuff for input processing 
+      character*100 buffer, inptf
+      namelist /input/ title,nmos,occ,norb, 
+     & itrx, tstthr, smtype, thresh, alpha, beta, gamma
+clmm      call prep99
+clmm      call tidajt(date,time,accno,anam,idum)
+clmm      write(6,666)anam,date,time,accno
+clmm  666 format(1h1//
+clmm     *24x,18('*'),' dsfun ',18('*') //
+clmm     *24x,'job name   ',a8//
+clmm     *24x,'date       ',a8//
+clmm     *24x,'time       ',a8//
+clmm     *24x,'acct       ',a8//
+clmm     *24x,44('*')///)
 c
       nmos = -1
       nppr = 0
@@ -83,185 +87,193 @@ c
       fxyz(1:3)=0.d0
 c
       write(6,'(''  Selfconsistent Kohn-Sham calculation '')')
-      call givtim(top,bot)
-      write(6,'(/''****input read at'',f13.3,'' wall'',f13.3,
-     + '' secs''/)')top,bot
-      goto 55
+clmm      call givtim(top,bot)
+clmm      write(6,'(/''****input read at'',f13.3,'' wall'',f13.3,
+clmm     + '' secs''/)')top,bot
+c      goto 55
 c
-   50 call input
-   55 call passdf(ii)
-      if (ii.le.0) then
-         call cinput(jrec,jump,0)
-         call erroutf(jrec)
-         call caserr(' password not recognised ')
-      endif
-      go to (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)ii
-c
-c*** title
-    1 read(5,'(10a8)') title
-      goto 50
+c.....lmm start.....commented this horrible input processing 
+c   50 call input
+c   55 call passdf(ii)
+c      if (ii.le.0) then
+c         call cinput(jrec,jump,0)
+c         call erroutf(jrec)
+c         call caserr(' password not recognised ')
+c      endif
+c      go to (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)ii
 c
 c*** nmos
-    2 call inpi(nmos)
-      if (nmos.gt.nmomx) then
-        write(6,'(''ERROR; Too many Kohn-Sham orbitals specified; '',
-     + i4,'' > '',i4)')nmos,nmomx
-        stop
-      endif
-      lrdocc=.false.
-      do imo=1,nmos
-        occmo(imo)=2.d0
-      enddo
-      goto 50
+c    2 call inpi(nmos)
+c      if (nmos.gt.nmomx) then
+c        write(6,'(''ERROR; Too many Kohn-Sham orbitals specified; '',
+c     + i4,'' > '',i4)')nmos,nmomx
+c        stop
+c      endif
+c      lrdocc=.false.
+c      do imo=1,nmos
+c        occmo(imo)=2.d0
+c      enddo
+c      goto 50
 c
 c*** occ
-    3 if (nmos.le.0) then
-        write(6,'(''ERROR; nmos not yet defined'')')
-        stop
-      endif
-      do i=1,nmos
-        call inpf(occmo(i))
-        rnel=rnel+occmo(i)
-      enddo
-      if (abs(modulo(rnel,1.d0)).gt.eps) then
-        write(6,'(''ERROR; Number of electrons incorrect'')')
-        write(6,'('' rnel = '',f6.2)')rnel
-        stop
-      endif
-      goto 50
-c
-c*** conv
-    4 call inpi(itrx)
-      call inpf(tstthr)
-      goto 50
+c    3 if (nmos.le.0) then
+c        write(6,'(''ERROR; nmos not yet defined'')')
+c        stop
+c      endif
+c      do i=1,nmos
+c        call inpf(occmo(i))
+c        rnel=rnel+occmo(i)
+c      enddo
+c      if (abs(modulo(rnel,1.d0)).gt.eps) then
+c        write(6,'(''ERROR; Number of electrons incorrect'')')
+c        write(6,'('' rnel = '',f6.2)')rnel
+c        stop
+c      endif
+c      goto 50
 c
 c*** shift
-    5 call inpf(df)
-      goto 50
+c    5 call inpf(df)
+c      goto 50
 c
 c*** vcrrmx
-    6 call inpf(crrmn)
-      crrmn=abs(crrmn)
-      call inpf(crrmx)
-      crrmx=abs(crrmx)
-      if (crrmn.ge.1.d0) then
-        write(6,'(/,''ERROR; crrmn must be less than 1.0'')')
-        crrmn = 0.95d0
-      endif
-      if (crrmx.le.1.d0) then
-        write(6,'(/,''ERROR; crrmx must be greater than 1.0'')')
-        crrmx = 1.05d0
-      endif
-      goto 50
+c    6 call inpf(crrmn)
+c      crrmn=abs(crrmn)
+c      call inpf(crrmx)
+c      crrmx=abs(crrmx)
+c      if (crrmn.ge.1.d0) then
+c        write(6,'(/,''ERROR; crrmn must be less than 1.0'')')
+c        crrmn = 0.95d0
+c      endif
+c      if (crrmx.le.1.d0) then
+c        write(6,'(/,''ERROR; crrmx must be greater than 1.0'')')
+c        crrmx = 1.05d0
+c      endif
+c      goto 50
 c
-c*** symdet
-    7 lsym = .true.
-      call inpa(smtype)
+c
+c*** pprint
+c    9 call inpi(nppr)
+c      if (nppr.gt.infmx) then
+c        write(6,'(''ERROR; Requested too many intermediate storages ''
+c     +,''of the potential ; '',i4 ,'' > '',i4)') nppr,infmx
+c        stop
+c      endif
+c      do i=1,nppr
+c        call inpi(info(i))
+c      enddo
+c      goto 50
+c
+c*** vprint 
+c   10 call inpi(nvpr)
+c      goto 50
+c
+c*** dmpfile
+c   11 call inpi(idmp)
+c      call inpi(ismo)
+c      if ((ismo.lt.1).and.(ismo.gt.190)) then
+c        write(6,'(''ERROR; mo section not properly specified'')')
+c        stop
+c      endif
+c      call inpi(isno)
+c      if ((isno.lt.1).and.(isno.gt.190)) then
+c        write(6,'(''ERROR; no section not properly specified'')')
+c        stop
+c      endif
+c      call inpi(isoe)
+c      if ((isoe.lt.1).and.(isoe.gt.190)) then
+c        write(6,'(''ERROR; splice section not properly specified'')')
+c        stop
+c      endif
+c      goto 50
+c
+c*** intfile
+c   12 call inpi(iint)
+c      goto 50
+c
+c*** ksdmp
+c   13 call inpi(iks)
+c      if ((isks.lt.1).and.(isks.gt.190)) then
+c        write(6,'(''ERROR; ks section not properly specified'')')
+c        stop
+c      endif
+c      goto 50
+c
+c** adapt
+c   14 call inpi(isao)
+c      if ((isao.lt.1).and.(isao.gt.190)) then
+c        write(6,'(''ERROR; isao not properly specified'')')
+c        stop
+c      endif
+c      goto 50
+c
+c** ensdet
+c   15 call inpi(ibcens)
+c      call inpi(iscens)
+c      call inpi(kpens)
+c      if (kpens.lt.0) then
+c        kpens=-1
+c      else
+c        kpens=1
+c      endif
+c      call inpf(dqmax)
+c      if ((dqmax.le.0.d0).or.(dqmax.ge.2.d0)) then
+c        write(6,'(/''WARNING; dqmax > 0.3'')')
+c        write(6,'(''  default value taken instead'')')
+c        dqmax=1.d-1
+c      endif
+c      goto 50
+c
+c*** dipole
+c   16 lfield=.true.
+c      do i=1,3
+c        call inpf(fxyz(i))
+c      enddo
+c      goto 50
+c
+c** lrfun
+c   17 lrfun=.true.
+c      call inpf(dvdmp)
+c      goto 50
+c
+c** damping
+c   18 call inpf(scfdmp)
+c      goto 50
+c
+c*** enter
+c   19 call getgss(idmp,norb,atmol4)
+c.....lmm have to get norb somehow, numbe rof contracted gaussians
+c.....for the time being get it from the input       
+c.....lmm get input file name form command line open it, read the 
+c.....lmm contents and close
+      call getarg(1, buffer)
+      read(buffer, *) inptf
+      open(unit=11, file=trim(inptf), status='old',form='formatted',
+     &     delim='apostrophe', iostat=ios)
+      read(11, nml=input)
+      close(11)
+c.....lmm end of input reading 
+c
+c.....lmm check for input consistency 
+c.....nmos
+      if (nmos.gt.-1) then
+        if (nmos.gt.nmomx) then
+          write(6,'(''ERROR; Too many Kohn-Sham orbitals specified; '',
+     + i4,'' > '',i4)')nmos,nmomx
+          stop
+        endif
+        lrdocc=.false.
+        do imo=1,nmos
+          occmo(imo)=2.d0
+        enddo
+      endif
+c.....symdet
       if (smtype.eq.int2e) then
         lintsm = .true.
       elseif (smtype.ne.hmat) then
         write(6,'(/,''WARNING; symmetry determination not '',
      + ''properly specified'')')
       endif
-      call inpf(thresh)
-      goto 50
-c
-c*** vxalph
-    8 call inpf(alpha)
-      call inpf(beta)
-      call inpf(gamma)
-      goto 50
-c
-c*** pprint
-    9 call inpi(nppr)
-      if (nppr.gt.infmx) then
-        write(6,'(''ERROR; Requested too many intermediate storages ''
-     +,''of the potential ; '',i4 ,'' > '',i4)') nppr,infmx
-        stop
-      endif
-      do i=1,nppr
-        call inpi(info(i))
-      enddo
-      goto 50
-c
-c*** vprint 
-   10 call inpi(nvpr)
-      goto 50
-c
-c*** dmpfile
-   11 call inpi(idmp)
-      call inpi(ismo)
-      if ((ismo.lt.1).and.(ismo.gt.190)) then
-        write(6,'(''ERROR; mo section not properly specified'')')
-        stop
-      endif
-      call inpi(isno)
-      if ((isno.lt.1).and.(isno.gt.190)) then
-        write(6,'(''ERROR; no section not properly specified'')')
-        stop
-      endif
-      call inpi(isoe)
-      if ((isoe.lt.1).and.(isoe.gt.190)) then
-        write(6,'(''ERROR; splice section not properly specified'')')
-        stop
-      endif
-      goto 50
-c
-c*** intfile
-   12 call inpi(iint)
-      goto 50
-c
-c*** ksdmp
-   13 call inpi(iks)
-      if ((isks.lt.1).and.(isks.gt.190)) then
-        write(6,'(''ERROR; ks section not properly specified'')')
-        stop
-      endif
-      goto 50
-c
-c** adapt
-   14 call inpi(isao)
-      if ((isao.lt.1).and.(isao.gt.190)) then
-        write(6,'(''ERROR; isao not properly specified'')')
-        stop
-      endif
-      goto 50
-c
-c** ensdet
-   15 call inpi(ibcens)
-      call inpi(iscens)
-      call inpi(kpens)
-      if (kpens.lt.0) then
-        kpens=-1
-      else
-        kpens=1
-      endif
-      call inpf(dqmax)
-      if ((dqmax.le.0.d0).or.(dqmax.ge.2.d0)) then
-        write(6,'(/''WARNING; dqmax > 0.3'')')
-        write(6,'(''  default value taken instead'')')
-        dqmax=1.d-1
-      endif
-      goto 50
-c
-c*** dipole
-   16 lfield=.true.
-      do i=1,3
-        call inpf(fxyz(i))
-      enddo
-      goto 50
-c
-c** lrfun
-   17 lrfun=.true.
-      call inpf(dvdmp)
-      goto 50
-c
-c** damping
-   18 call inpf(scfdmp)
-      goto 50
-c
-c*** enter
-   19 call getgss(idmp,norb,atmol4)
+c.....lmm end of check for input consistency 
       write(6,'(//''***** title : '',10a8,''*****'')')title
       write(6,'(/''  norb = '',i3)')norb
       if (nmos.gt.0) then
@@ -286,7 +298,7 @@ c*** enter
       if (nvpr.lt.nmos) nvpr = nmos
       ispi=0
       do i=1,nmos
-      if(occmo(i).lt.1.5d0) ispi=1
+        if(occmo(i).lt.1.5d0) ispi=1
       enddo
 c
       open(90,file='vntial.dat',status='old',err=222)
@@ -357,16 +369,16 @@ c     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,idmp,ismo,isno,isao,
 c     + isoe,isks,lsym,lintsm,lrdocc,lrfun,nmosa,nmosb,atmol4)
 c      else
       nmos=2
-      call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
-     + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
-     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,idmp,ismo,isno,isao,
-     + isoe,isks,lsym,lintsm,lrdocc,lrfun,atmol4) 
+clm      call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
+clm     + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
+clm     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,idmp,ismo,isno,isao,
+clm     + isoe,isks,lsym,lintsm,lrdocc,lrfun,atmol4) 
 c      endif
 
-      call revind
-      call secsum
-      call whtps
-      call givtim(top,bot)
+clmm      call revind
+clmm      call secsum
+clmm      call whtps
+clmm      call givtim(top,bot)
       write(6,10101)top,bot
 10101 format(//' end of dnstyfun at',f13.3,' wall',f13.3,' secs')
       stop
@@ -378,21 +390,21 @@ c
 c
 c***********************************************************************
 c
-      subroutine passdf(ip)
+clmm      subroutine passdf(ip)
 c     get data field of a card and see what it is
 c     ip =  0  : not recognised
 c     ip >  0  : it was item ip of the list
-      implicit real*8(a-h,o-z)
-      parameter (ncnt=19)
-      character*8 cnt(ncnt),word
-      data cnt/ 'title','nmos','occ','conv','shift','vcrrmx','symdet',
-     * 'vxalph','pprint','vprint','dmpfile','intfile','ksdmp','adapt',
-     * 'ensdet','dipole','lrfun','damping','enter' /
+clmm      implicit real*8(a-h,o-z)
+clmm      parameter (ncnt=19)
+clmm      character*8 cnt(ncnt),word
+clmm      data cnt/ 'title','nmos','occ','conv','shift','vcrrmx','symdet',
+clmm     * 'vxalph','pprint','vprint','dmpfile','intfile','ksdmp','adapt',
+clmm     * 'ensdet','dipole','lrfun','damping','enter' /
 c
-      call reada(word)
-      ip=locatc(cnt,ncnt,word)
-      return
-      end
+clmm      call reada(word)
+clmm      ip=locatc(cnt,ncnt,word)
+clmm      return
+clmm      end
 c
 c***********************************************************************
 c

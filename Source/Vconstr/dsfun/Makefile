@@ -15,7 +15,7 @@ brains.o\
 sntial.o\
 vntial.o
 
-LIBS = ../lib/dnslib.a ../lib/xclib.a 
+LIBS =  ../lib/xclib.a 
 FFLAGS = -O2 -autodouble -fixed
 LFLAGS =
 

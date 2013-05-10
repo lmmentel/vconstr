@@ -1,0 +1,13 @@
+&input
+    norb=2
+    nmos=1
+    occ=2
+    itrx=1
+    tstthr=1.0d-10
+    smtype='h-matrix'
+    thresh=1.0d-6
+    alpha=1.373
+    beta=2.0
+    gamma=2.0
+    title='h2'
+/

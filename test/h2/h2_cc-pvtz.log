@@ -1,0 +1,2846 @@
+----- GAMESS execution script 'rungms' -----
+This job is running on host doreen
+under operating system Linux at pią, 10 maj 2013, 20:18:06 KST
+Available scratch disk space (Kbyte units) at beginning of the job is
+System plików      1K-bl     użyte dostępne %uż. zamont. na
+/dev/sda5      242137496 219842512  9995108  96% /home
+GAMESS temporary binary files will be written to /home/lmentel/scratch
+GAMESS supplementary output files will be written to /home/lmentel/scratch
+Copying input file h2_cc-pvtz.inp to your run's scratch directory...
+cp h2_cc-pvtz.inp /home/lmentel/scratch/h2_cc-pvtz.F05
+unset echo
+/home/lmentel/Programs/gamess-may2012/ddikick.x /home/lmentel/Programs/gamess-may2012/gamess.01.x h2_cc-pvtz -ddi 1 1 doreen -scr /home/lmentel/scratch
+
+ Distributed Data Interface kickoff program.
+ Initiating 1 compute processes on 1 nodes to run the following command:
+ /home/lmentel/Programs/gamess-may2012/gamess.01.x h2_cc-pvtz 
+
+          ******************************************************
+          *         GAMESS VERSION =  1 MAY 2012 (R1)          *
+          *             FROM IOWA STATE UNIVERSITY             *
+          * M.W.SCHMIDT, K.K.BALDRIDGE, J.A.BOATZ, S.T.ELBERT, *
+          *   M.S.GORDON, J.H.JENSEN, S.KOSEKI, N.MATSUNAGA,   *
+          *          K.A.NGUYEN, S.J.SU, T.L.WINDUS,           *
+          *       TOGETHER WITH M.DUPUIS, J.A.MONTGOMERY       *
+          *         J.COMPUT.CHEM.  14, 1347-1363(1993)        *
+          **************** 64 BIT LINUX VERSION ****************
+
+  SINCE 1993, STUDENTS AND POSTDOCS WORKING AT IOWA STATE UNIVERSITY
+  AND ALSO IN THEIR VARIOUS JOBS AFTER LEAVING ISU HAVE MADE IMPORTANT
+  CONTRIBUTIONS TO THE CODE:
+     IVANA ADAMOVIC, CHRISTINE AIKENS, YURI ALEXEEV, POOJA ARORA,
+     ANDREY ASADCHEV, ROB BELL, PRADIPTA BANDYOPADHYAY, JONATHAN BENTZ,
+     BRETT BODE, GALINA CHABAN, WEI CHEN, CHEOL HO CHOI, PAUL DAY,
+     ALBERT DEFUSCO, TIM DUDLEY, DMITRI FEDOROV, GRAHAM FLETCHER,
+     MARK FREITAG, KURT GLAESEMANN, DAN KEMP, GRANT MERRILL,
+     NORIYUKI MINEZAWA, JONATHAN MULLIN, TAKESHI NAGATA,
+     SEAN NEDD, HEATHER NETZLOFF, BOSILJKA NJEGIC, RYAN OLSON, MIKE PAK,
+     JIM SHOEMAKER, LYUDMILA SLIPCHENKO, SAROM SOK, JIE SONG,
+     TETSUYA TAKETSUGU, SIMON WEBB, SOOHAENG YOO, FEDERICO ZAHARIEV
+
+  ADDITIONAL CODE HAS BEEN PROVIDED BY COLLABORATORS IN OTHER GROUPS:
+     IOWA STATE UNIVERSITY:
+          JOE IVANIC, LAIMUTIS BYTAUTAS, KLAUS RUEDENBERG
+     UNIVERSITY OF TOKYO: KIMIHIKO HIRAO, TAKAHITO NAKAJIMA,
+          TAKAO TSUNEDA, MUNEAKI KAMIYA, SUSUMU YANAGISAWA,
+          KIYOSHI YAGI, MAHITO CHIBA, SEIKEN TOKURA, NAOAKI KAWAKAMI
+     UNIVERSITY OF AARHUS: FRANK JENSEN
+     UNIVERSITY OF IOWA: VISVALDAS KAIRYS, HUI LI
+     NATIONAL INST. OF STANDARDS AND TECHNOLOGY: WALT STEVENS, DAVID GARMER
+     UNIVERSITY OF PISA: BENEDETTA MENNUCCI, JACOPO TOMASI
+     UNIVERSITY OF MEMPHIS: HENRY KURTZ, PRAKASHAN KORAMBATH
+     UNIVERSITY OF ALBERTA: TOBY ZENG, MARIUSZ KLOBUKOWSKI
+     UNIVERSITY OF NEW ENGLAND: MARK SPACKMAN
+     MIE UNIVERSITY: HIROAKI UMEDA
+     MICHIGAN STATE UNIVERSITY:
+          KAROL KOWALSKI, MARTA WLOCH, JEFFREY GOUR, JESSE LUTZ, PIOTR PIECUCH
+     UNIVERSITY OF SILESIA: MONIKA MUSIAL, STANISLAW KUCHARSKI
+     FACULTES UNIVERSITAIRES NOTRE-DAME DE LA PAIX:
+          OLIVIER QUINET, BENOIT CHAMPAGNE
+     UNIVERSITY OF CALIFORNIA - SANTA BARBARA: BERNARD KIRTMAN
+     INSTITUTE FOR MOLECULAR SCIENCE:
+          KAZUYA ISHIMURA, MICHIO KATOUDA, AND SHIGERU NAGASE
+     UNIVERSITY OF NOTRE DAME: DAN CHIPMAN
+     KYUSHU UNIVERSITY:
+          HARUYUKI NAKANO,
+          FENG LONG GU, JACEK KORCHOWIEC, MARCIN MAKOWSKI, AND YURIKO AOKI,
+          HIROTOSHI MORI AND EISAKU MIYOSHI
+     PENNSYLVANIA STATE UNIVERSITY:
+          TZVETELIN IORDANOV, CHET SWALINA, JONATHAN SKONE,
+          SHARON HAMMES-SCHIFFER
+     WASEDA UNIVERSITY:
+          MASATO KOBAYASHI, TOMOKO AKAMA, TSUGUKI TOUMA,
+          TAKESHI YOSHIKAWA, YASUHIRO IKABATA, HIROMI NAKAI
+     UNIVERSITY OF NEBRASKA:
+          PEIFENG SU, DEJUN SI, NANDUN THELLAMUREGE, YALI WANG, HUI LI
+     UNIVERSITY OF ZURICH:
+          ROBERTO PEVERATI, KIM BALDRIDGE
+     N. COPERNICUS UNIVERSITY AND JACKSON STATE UNIVERSITY:
+          MARIA BARYSZ
+
+ EXECUTION OF GAMESS BEGUN Fri May 10 20:18:06 2013
+
+            ECHO OF THE FIRST FEW INPUT CARDS -
+ INPUT CARD> $CONTRL SCFTYP=RHF RUNTYP=ENERGY UNITS=BOHR ISPHER=1 $END                      
+ INPUT CARD> $SYSTEM TIMLIM=1 $END                                                          
+ INPUT CARD> $DATA                                                                          
+ INPUT CARD>Hydrogen molecule at equlibium in cc-pVTZ basis                                 
+ INPUT CARD>dnh      2                                                                      
+ INPUT CARD>                                                                                
+ INPUT CARD>H     1.0      0.000000    0.000000   0.724368                                  
+ INPUT CARD>S   3                                                                           
+ INPUT CARD>  1     33.8700000              0.0060680                                       
+ INPUT CARD>  2      5.0950000              0.0453080                                       
+ INPUT CARD>  3      1.1590000              0.2028220                                       
+ INPUT CARD>S   1                                                                           
+ INPUT CARD>  1      0.3258000              1.0000000                                       
+ INPUT CARD>S   1                                                                           
+ INPUT CARD>  1      0.1027000              1.0000000                                       
+ INPUT CARD>P   1                                                                           
+ INPUT CARD>  1      1.4070000              1.0000000                                       
+ INPUT CARD>P   1                                                                           
+ INPUT CARD>  1      0.3880000              1.0000000                                       
+ INPUT CARD>D   1                                                                           
+ INPUT CARD>  1      1.0570000              1.0000000                                       
+ INPUT CARD>                                                                                
+ INPUT CARD> $END                                                                           
+    1000000 WORDS OF MEMORY AVAILABLE
+
+
+     RUN TITLE
+     ---------
+ Hydrogen molecule at equlibium in cc-pVTZ basis                                 
+
+ THE POINT GROUP OF THE MOLECULE IS DNH     
+ THE ORDER OF THE PRINCIPAL AXIS IS     2
+ *** WARNING! ATOM   1 SHELL    1 TYPE S HAS NORMALIZATION   4.20152657
+
+ ATOM      ATOMIC                      COORDINATES (BOHR)
+           CHARGE         X                   Y                   Z
+ H           1.0     0.0000000000        0.0000000000       -0.7243680000
+ H           1.0     0.0000000000        0.0000000000        0.7243680000
+
+          INTERNUCLEAR DISTANCES (ANGS.)
+          ------------------------------
+
+                1 H          2 H     
+
+   1 H       0.0000000    0.7666381 *
+   2 H       0.7666381 *  0.0000000  
+
+  * ... LESS THAN  3.000
+
+
+     ATOMIC BASIS SET
+     ----------------
+ THE CONTRACTED PRIMITIVE FUNCTIONS HAVE BEEN UNNORMALIZED
+ THE CONTRACTED BASIS FUNCTIONS ARE NOW NORMALIZED TO UNITY
+
+  SHELL TYPE  PRIMITIVE        EXPONENT          CONTRACTION COEFFICIENT(S)
+
+ H         
+
+      7   S       1            33.8700000    0.025494863235
+      7   S       2             5.0950000    0.190362765893
+      7   S       3             1.1590000    0.852162022245
+
+      8   S       4             0.3258000    1.000000000000
+
+      9   S       5             0.1027000    1.000000000000
+
+     10   P       6             1.4070000    1.000000000000
+
+     11   P       7             0.3880000    1.000000000000
+
+     12   D       8             1.0570000    1.000000000000
+
+ TOTAL NUMBER OF BASIS SET SHELLS             =   12
+ NUMBER OF CARTESIAN GAUSSIAN BASIS FUNCTIONS =   30
+ NOTE: THIS RUN WILL RESTRICT THE MO VARIATION SPACE TO SPHERICAL HARMONICS.
+ THE NUMBER OF ORBITALS KEPT IN THE VARIATIONAL SPACE WILL BE PRINTED LATER.
+ NUMBER OF ELECTRONS                          =    2
+ CHARGE OF MOLECULE                           =    0
+ SPIN MULTIPLICITY                            =    1
+ NUMBER OF OCCUPIED ORBITALS (ALPHA)          =    1
+ NUMBER OF OCCUPIED ORBITALS (BETA )          =    1
+ TOTAL NUMBER OF ATOMS                        =    2
+ THE NUCLEAR REPULSION ENERGY IS        0.6902568860
+
+ THIS MOLECULE IS RECOGNIZED AS BEING LINEAR,
+ ORBITAL LZ DEGENERACY TOLERANCE ETOLLZ= 1.00E-06
+
+     $CONTRL OPTIONS
+     ---------------
+ SCFTYP=RHF          RUNTYP=ENERGY       EXETYP=RUN     
+ MPLEVL=       0     CITYP =NONE         CCTYP =NONE         VBTYP =NONE    
+ DFTTYP=NONE         TDDFT =NONE    
+ MULT  =       1     ICHARG=       0     NZVAR =       0     COORD =UNIQUE  
+ PP    =NONE         RELWFN=NONE         LOCAL =NONE         NUMGRD=       F
+ ISPHER=       1     NOSYM =       0     MAXIT =      30     UNITS =BOHR    
+ PLTORB=       F     MOLPLT=       F     AIMPAC=       F     FRIEND=        
+ NPRINT=       7     IREST =       0     GEOM  =INPUT   
+ NORMF =       0     NORMP =       0     ITOL  =      20     ICUT  =       9
+ INTTYP=BEST         GRDTYP=BEST         QMTTOL= 1.0E-06
+
+     $SYSTEM OPTIONS
+     ---------------
+  REPLICATED MEMORY=     1000000 WORDS (ON EVERY NODE).
+ DISTRIBUTED MEMDDI=           0 MILLION WORDS IN AGGREGATE,
+ MEMDDI DISTRIBUTED OVER   1 PROCESSORS IS           0 WORDS/PROCESSOR.
+ TOTAL MEMORY REQUESTED ON EACH PROCESSOR=     1000000 WORDS.
+ TIMLIM=           1.00 MINUTES, OR       0.0 DAYS.
+ PARALL= F  BALTYP=  DLB     KDIAG=    0  COREFL= F
+ MXSEQ2=     300 MXSEQ3=     150
+
+          ----------------
+          PROPERTIES INPUT
+          ----------------
+
+     MOMENTS            FIELD           POTENTIAL          DENSITY
+ IEMOM =       1   IEFLD =       0   IEPOT =       0   IEDEN =       0
+ WHERE =COMASS     WHERE =NUCLEI     WHERE =NUCLEI     WHERE =NUCLEI  
+ OUTPUT=BOTH       OUTPUT=BOTH       OUTPUT=BOTH       OUTPUT=BOTH    
+ IEMINT=       0   IEFINT=       0                     IEDINT=       0
+                                                       MORB  =       0
+          EXTRAPOLATION IN EFFECT
+          SOSCF IN EFFECT
+ ORBITAL PRINTING OPTION: NPREO=     1    30     2     1
+
+     -------------------------------
+     INTEGRAL TRANSFORMATION OPTIONS
+     -------------------------------
+     NWORD  =            0
+     CUTOFF = 1.0E-09     MPTRAN =       0
+     DIRTRF =       F     AOINTS =DUP     
+
+          ----------------------
+          INTEGRAL INPUT OPTIONS
+          ----------------------
+ NOPK  =       1 NORDER=       0 SCHWRZ=       F
+
+     ------------------------------------------
+     THE POINT GROUP IS DNH, NAXIS= 2, ORDER= 8
+     ------------------------------------------
+ .....inside daread start
+ idaf   =                    10
+ len    =                   432
+ nrec   =                     7
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   432
+ ns     =                     2
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                  1728
+ nrec   =                     8
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                  1728
+ ns     =                     3
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                  4800
+ nrec   =                     9
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                  4090
+ ns     =                     4
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside dard start
+ len    =                   710
+ ns     =                     5
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                 10800
+ nrec   =                    10
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                  4090
+ ns     =                     6
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside dard start
+ len    =                  4090
+ ns     =                     7
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside dard start
+ len    =                  2620
+ ns     =                     8
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+ -- VARIATIONAL SPACE WILL BE RESTRICTED TO PURE SPHERICAL HARMONICS ONLY --
+ AFTER EXCLUDING CONTAMINANT COMBINATIONS FROM THE CARTESIAN GAUSSIAN BASIS
+ SET, THE NUMBER OF SPHERICAL HARMONICS KEPT IN THE VARIATION SPACE IS   28
+
+     DIMENSIONS OF THE SYMMETRY SUBSPACES ARE
+ AG  =    7     AU  =    1     B3U =    3     B3G =    3     B1G =    1
+ B1U =    7     B2U =    3     B2G =    3
+ .....inside daread start
+ idaf   =                    10
+ len    =                   432
+ nrec   =                     7
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   432
+ ns     =                     2
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                  1728
+ nrec   =                     8
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                  1728
+ ns     =                     3
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                  4800
+ nrec   =                     9
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                  4090
+ ns     =                     4
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside dard start
+ len    =                   710
+ ns     =                     5
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                 10800
+ nrec   =                    10
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                  4090
+ ns     =                     6
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside dard start
+ len    =                  4090
+ ns     =                     7
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside dard start
+ len    =                  2620
+ ns     =                     8
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+ ..... DONE SETTING UP THE RUN .....
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS 100.00%
+
+          ********************
+          1 ELECTRON INTEGRALS
+          ********************
+ ...... END OF ONE-ELECTRON INTEGRALS ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS 100.00%
+
+          -------------
+          GUESS OPTIONS
+          -------------
+          GUESS =HUCKEL            NORB  =       0          NORDER=       0
+          MIX   =       F          PRTMO =       F          PUNMO =       F
+          TOLZ  = 1.0E-08          TOLE  = 1.0E-05
+          SYMDEN=       F          PURIFY=       F
+
+ INITIAL GUESS ORBITALS GENERATED BY HUCKEL   ROUTINE.
+ HUCKEL GUESS REQUIRES      8048 WORDS.
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    44
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    11
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+ STATISTICS FOR GENERATION OF SYMMETRY ORBITAL -Q- MATRIX
+ NUMBER OF CARTESIAN ATOMIC ORBITALS=         30
+ NUMBER OF SPHERICAL CONTAMINANTS DROPPED=     2
+ NUMBER OF LINEARLY DEPENDENT MOS DROPPED=     0
+ TOTAL NUMBER OF MOS IN VARIATION SPACE=      28
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    44
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    11
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    45
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    18
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    15
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    19
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    45
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    18
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+ SYMMETRIES FOR INITIAL GUESS ORBITALS FOLLOW.   BOTH SET(S).
+     1 ORBITALS ARE OCCUPIED (    0 CORE ORBITALS).
+     1=AG       2=B1U      3=AG       4=AG       5=AG       6=AG       7=AG  
+     8=AG       9=AU      10=B3U     11=B3U 
+ ...... END OF INITIAL ORBITAL SELECTION ......
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS 100.00%
+
+                    ----------------------
+                    AO INTEGRAL TECHNOLOGY
+                    ----------------------
+     S,P,L SHELL ROTATED AXIS INTEGRALS, REPROGRAMMED BY
+        KAZUYA ISHIMURA (IMS) AND JOSE SIERRA (SYNSTAR).
+     S,P,D,L SHELL ROTATED AXIS INTEGRALS PROGRAMMED BY
+        KAZUYA ISHIMURA (INSTITUTE FOR MOLECULAR SCIENCE).
+     S,P,D,F,G SHELL TO TOTAL QUARTET ANGULAR MOMENTUM SUM 5,
+        ERIC PROGRAM BY GRAHAM FLETCHER (ELORET AND NASA ADVANCED
+        SUPERCOMPUTING DIVISION, AMES RESEARCH CENTER).
+     S,P,D,F,G,L SHELL GENERAL RYS QUADRATURE PROGRAMMED BY
+        MICHEL DUPUIS (PACIFIC NORTHWEST NATIONAL LABORATORY).
+
+          --------------------
+          2 ELECTRON INTEGRALS
+          --------------------
+
+ THE -PK- OPTION IS OFF, THE INTEGRALS ARE NOT IN SUPERMATRIX FORM.
+ STORING   15000 INTEGRALS/RECORD ON DISK, USING 12 BYTES/INTEGRAL.
+ TWO ELECTRON INTEGRAL EVALUATION REQUIRES   90474 WORDS OF MEMORY.
+ II,JST,KST,LST =  1  1  1  1 NREC =         1 INTLOC =    1
+ II,JST,KST,LST =  2  1  1  1 NREC =         1 INTLOC =    1
+ II,JST,KST,LST =  3  1  1  1 NREC =         1 INTLOC =    1
+ II,JST,KST,LST =  4  1  1  1 NREC =         1 INTLOC =    1
+ II,JST,KST,LST =  5  1  1  1 NREC =         1 INTLOC =    1
+ II,JST,KST,LST =  6  1  1  1 NREC =         1 INTLOC =    1
+ II,JST,KST,LST =  7  1  1  1 NREC =         1 INTLOC =    1
+ II,JST,KST,LST =  8  1  1  1 NREC =         1 INTLOC =    5
+ II,JST,KST,LST =  9  1  1  1 NREC =         1 INTLOC =   32
+ II,JST,KST,LST = 10  1  1  1 NREC =         1 INTLOC =  124
+ II,JST,KST,LST = 11  1  1  1 NREC =         1 INTLOC =  595
+ II,JST,KST,LST = 12  1  1  1 NREC =         1 INTLOC = 2269
+ TOTAL NUMBER OF NONZERO TWO-ELECTRON INTEGRALS =               14905
+          1 INTEGRAL RECORDS WERE STORED ON DISK FILE  8.
+  ...... END OF TWO-ELECTRON INTEGRALS .....
+ STEP CPU TIME =     0.03 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  80.00%
+
+          --------------------------
+                 RHF SCF CALCULATION
+          --------------------------
+
+     NUCLEAR ENERGY =         0.6902568860
+     MAXIT =   30     NPUNCH=    2
+     EXTRAP=T  DAMP=F  SHIFT=F  RSTRCT=F  DIIS=F  DEM=F  SOSCF=T
+     DENSITY MATRIX CONV=  1.00E-05
+     SOSCF WILL OPTIMIZE      27 ORBITAL ROTATIONS, SOGTOL=   0.250
+     MEMORY REQUIRED FOR RHF ITERS=     36828 WORDS.
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    11
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    12
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    45
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    18
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    15
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    19
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                    30
+ nrec   =                    17
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                    30
+ ns     =                    22
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+ ITER EX DEM     TOTAL ENERGY        E CHANGE  DENSITY CHANGE     ORB. GRAD
+   1  0  0       -1.1198110626    -1.1198110626   0.059891555   0.000000000
+          ---------------START SECOND ORDER SCF---------------
+   2  1  0       -1.1316490767    -0.0118380141   0.015660792   0.012483008
+   3  2  0       -1.1322605578    -0.0006114811   0.004870881   0.002883872
+   4  3  0       -1.1322939373    -0.0000333796   0.000022587   0.000097083
+   5  4  0       -1.1322939464    -0.0000000091   0.000006021   0.000011242
+   6  5  0       -1.1322939466    -0.0000000001   0.000000064   0.000000180
+
+          -----------------
+          DENSITY CONVERGED
+          -----------------
+     TIME TO FORM FOCK OPERATORS=       0.0 SECONDS (       0.0 SEC/ITER)
+     TIME TO SOLVE SCF EQUATIONS=       0.0 SECONDS (       0.0 SEC/ITER)
+
+ FINAL RHF ENERGY IS       -1.1322939466 AFTER   6 ITERATIONS
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    15
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    19
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                    30
+ nrec   =                    17
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                    30
+ ns     =                    22
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+ LZ VALUE ANALYSIS FOR THE MOS
+ ----------------------------------------
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                   379
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    16
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ MO     1 (    1) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     2 (    2) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     3 (    3) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     4 (    4) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     5 (    5) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO     6 (    5) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO     7 (    6) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO     8 (    7) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO     9 (    7) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    10 (    8) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO    11 (    9) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO    12 (   10) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO    13 (   11) HAS LZ(WEIGHT)=-2.00( 50.0%)  2.00( 50.0%) 
+ MO    14 (   11) HAS LZ(WEIGHT)=-2.00( 50.0%)  2.00( 50.0%) 
+ MO    15 (   12) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    16 (   12) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    17 (   13) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO    18 (   14) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    19 (   14) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    20 (   15) HAS LZ(WEIGHT)=-2.00( 50.0%)  2.00( 50.0%) 
+ MO    21 (   15) HAS LZ(WEIGHT)=-2.00( 50.0%)  2.00( 50.0%) 
+ MO    22 (   16) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    23 (   16) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    24 (   17) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO    25 (   18) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    26 (   18) HAS LZ(WEIGHT)=-1.00( 50.0%)  1.00( 50.0%) 
+ MO    27 (   19) HAS LZ(WEIGHT)= 0.00(100.0%) 
+ MO    28 (   20) HAS LZ(WEIGHT)= 0.00(100.0%) 
+
+          ------------
+          EIGENVECTORS
+          ------------
+
+                      1          2          3          4          5
+                   -0.5866     0.1634     0.3075     0.6334     0.6899
+                     AG         B1U        AG         B1U        B3U 
+    1  H  1  S    0.183389   0.072494  -0.054990  -0.117070  -0.000000
+    2  H  1  S    0.284370  -0.237737  -0.743738  -1.973228  -0.000000
+    3  H  1  S    0.139831   2.226136   0.863444   2.196520  -0.000000
+    4  H  1  X    0.000000   0.000000  -0.000000  -0.000000  -0.059114
+    5  H  1  Y    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+    6  H  1  Z    0.011773  -0.032267  -0.016043  -0.074811  -0.000000
+    7  H  1  X    0.000000   0.000000  -0.000000  -0.000000   0.581629
+    8  H  1  Y    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+    9  H  1  Z    0.018067  -0.079794   0.045145  -0.097198  -0.000000
+   10  H  1 XX   -0.000500   0.008871  -0.004038   0.032006  -0.000000
+   11  H  1 YY   -0.000500   0.008871  -0.004038   0.032006  -0.000000
+   12  H  1 ZZ    0.000999  -0.017741   0.008076  -0.064012  -0.000000
+   13  H  1 XY    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+   14  H  1 XZ    0.000000   0.000000  -0.000000  -0.000000  -0.010024
+   15  H  1 YZ    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+   16  H  2  S    0.183389  -0.072494  -0.054990   0.117070  -0.000000
+   17  H  2  S    0.284370   0.237737  -0.743738   1.973228  -0.000000
+   18  H  2  S    0.139831  -2.226136   0.863444  -2.196520  -0.000000
+   19  H  2  X    0.000000   0.000000  -0.000000  -0.000000  -0.059114
+   20  H  2  Y    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+   21  H  2  Z   -0.011773  -0.032267   0.016043  -0.074811  -0.000000
+   22  H  2  X    0.000000   0.000000  -0.000000  -0.000000   0.581629
+   23  H  2  Y    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+   24  H  2  Z   -0.018067  -0.079794  -0.045145  -0.097198  -0.000000
+   25  H  2 XX   -0.000500  -0.008871  -0.004038  -0.032006  -0.000000
+   26  H  2 YY   -0.000500  -0.008871  -0.004038  -0.032006  -0.000000
+   27  H  2 ZZ    0.000999   0.017741   0.008076   0.064012  -0.000000
+   28  H  2 XY    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+   29  H  2 XZ    0.000000   0.000000  -0.000000  -0.000000   0.010024
+   30  H  2 YZ    0.000000   0.000000  -0.000000  -0.000000  -0.000000
+
+                      6          7          8          9         10
+                    0.6899     1.0892     1.1155     1.1155     1.5213
+                     B2U        AG         B2G        B3G        B1U 
+    1  H  1  S   -0.000000  -0.000241  -0.000000  -0.000000   0.023034
+    2  H  1  S   -0.000000  -0.662834  -0.000000  -0.000000  11.765274
+    3  H  1  S   -0.000000   0.352318  -0.000000  -0.000000  -0.159486
+    4  H  1  X   -0.000000  -0.000000  -0.073599  -0.000000  -0.000000
+    5  H  1  Y   -0.059114  -0.000000  -0.000000  -0.073599  -0.000000
+    6  H  1  Z   -0.000000  -0.103257  -0.000000  -0.000000   0.122829
+    7  H  1  X   -0.000000  -0.000000   1.369355  -0.000000  -0.000000
+    8  H  1  Y    0.581629  -0.000000  -0.000000   1.369355  -0.000000
+    9  H  1  Z   -0.000000   1.026654  -0.000000  -0.000000   5.874556
+   10  H  1 XX   -0.000000  -0.028617  -0.000000  -0.000000  -0.150951
+   11  H  1 YY   -0.000000  -0.028617  -0.000000  -0.000000  -0.150951
+   12  H  1 ZZ   -0.000000   0.057235  -0.000000  -0.000000   0.301902
+   13  H  1 XY   -0.000000  -0.000000  -0.000000  -0.000000  -0.000000
+   14  H  1 XZ   -0.000000  -0.000000   0.094948  -0.000000  -0.000000
+   15  H  1 YZ   -0.010024  -0.000000  -0.000000   0.094948  -0.000000
+   16  H  2  S   -0.000000  -0.000241  -0.000000  -0.000000  -0.023034
+   17  H  2  S   -0.000000  -0.662834  -0.000000  -0.000000 -11.765274
+   18  H  2  S   -0.000000   0.352318  -0.000000  -0.000000   0.159486
+   19  H  2  X   -0.000000  -0.000000   0.073599  -0.000000  -0.000000
+   20  H  2  Y   -0.059114  -0.000000  -0.000000   0.073599  -0.000000
+   21  H  2  Z   -0.000000   0.103257  -0.000000  -0.000000   0.122829
+   22  H  2  X   -0.000000  -0.000000  -1.369355  -0.000000  -0.000000
+   23  H  2  Y    0.581629  -0.000000  -0.000000  -1.369355  -0.000000
+   24  H  2  Z   -0.000000  -1.026654  -0.000000  -0.000000   5.874556
+   25  H  2 XX   -0.000000  -0.028617  -0.000000  -0.000000   0.150951
+   26  H  2 YY   -0.000000  -0.028617  -0.000000  -0.000000   0.150951
+   27  H  2 ZZ   -0.000000   0.057235  -0.000000  -0.000000  -0.301902
+   28  H  2 XY   -0.000000  -0.000000  -0.000000  -0.000000  -0.000000
+   29  H  2 XZ   -0.000000  -0.000000   0.094948  -0.000000  -0.000000
+   30  H  2 YZ    0.010024  -0.000000  -0.000000   0.094948  -0.000000
+
+                     11         12         13         14         15
+                    2.3415     2.4205     3.1728     3.1728     3.3966
+                     B1U        AG         AG         B1G        B2U 
+    1  H  1  S   -0.691640  -0.958122  -0.000000   0.000000  -0.000000
+    2  H  1  S    3.872284   1.001240  -0.000000   0.000000  -0.000000
+    3  H  1  S   -1.297585  -0.390974  -0.000000   0.000000  -0.000000
+    4  H  1  X    0.000000  -0.000000  -0.000000   0.000000  -0.000000
+    5  H  1  Y    0.000000  -0.000000  -0.000000   0.000000   0.567518
+    6  H  1  Z    0.520422  -0.105661  -0.000000   0.000000  -0.000000
+    7  H  1  X    0.000000  -0.000000  -0.000000   0.000000  -0.000000
+    8  H  1  Y    0.000000  -0.000000  -0.000000   0.000000  -0.349120
+    9  H  1  Z    0.955491   0.218586  -0.000000   0.000000  -0.000000
+   10  H  1 XX   -0.217307   0.061099   0.531032   0.000000  -0.000000
+   11  H  1 YY   -0.217307   0.061099  -0.531032   0.000000  -0.000000
+   12  H  1 ZZ    0.434613  -0.122198  -0.000000   0.000000  -0.000000
+   13  H  1 XY    0.000000  -0.000000  -0.000000   0.613183  -0.000000
+   14  H  1 XZ    0.000000  -0.000000  -0.000000   0.000000  -0.000000
+   15  H  1 YZ    0.000000  -0.000000  -0.000000   0.000000   0.346950
+   16  H  2  S    0.691640  -0.958122  -0.000000   0.000000  -0.000000
+   17  H  2  S   -3.872284   1.001240  -0.000000   0.000000  -0.000000
+   18  H  2  S    1.297585  -0.390974  -0.000000   0.000000  -0.000000
+   19  H  2  X    0.000000  -0.000000  -0.000000   0.000000  -0.000000
+   20  H  2  Y    0.000000  -0.000000  -0.000000   0.000000   0.567518
+   21  H  2  Z    0.520422   0.105661  -0.000000   0.000000  -0.000000
+   22  H  2  X    0.000000  -0.000000  -0.000000   0.000000  -0.000000
+   23  H  2  Y    0.000000  -0.000000  -0.000000   0.000000  -0.349120
+   24  H  2  Z    0.955491  -0.218586  -0.000000   0.000000  -0.000000
+   25  H  2 XX    0.217307   0.061099   0.531032   0.000000  -0.000000
+   26  H  2 YY    0.217307   0.061099  -0.531032   0.000000  -0.000000
+   27  H  2 ZZ   -0.434613  -0.122198  -0.000000   0.000000  -0.000000
+   28  H  2 XY    0.000000  -0.000000  -0.000000   0.613183  -0.000000
+   29  H  2 XZ    0.000000  -0.000000  -0.000000   0.000000  -0.000000
+   30  H  2 YZ    0.000000  -0.000000  -0.000000   0.000000  -0.346950
+
+                     16         17         18         19         20
+                    3.3966     3.6642     3.9143     3.9143     4.0570
+                     B3U        AG         B3G        B2G        B1U 
+    1  H  1  S   -0.000000   0.033311   0.000000   0.000000  -0.000000
+    2  H  1  S   -0.000000   0.289532   0.000000   0.000000  -0.000000
+    3  H  1  S   -0.000000  -0.156368   0.000000   0.000000  -0.000000
+    4  H  1  X    0.567518  -0.000000   0.000000  -0.557946  -0.000000
+    5  H  1  Y   -0.000000  -0.000000  -0.557946   0.000000  -0.000000
+    6  H  1  Z   -0.000000   0.837102   0.000000   0.000000  -0.000000
+    7  H  1  X   -0.349120  -0.000000   0.000000   1.089678  -0.000000
+    8  H  1  Y   -0.000000  -0.000000   1.089678   0.000000  -0.000000
+    9  H  1  Z   -0.000000  -0.829799   0.000000   0.000000  -0.000000
+   10  H  1 XX   -0.000000   0.187894   0.000000   0.000000  -0.748027
+   11  H  1 YY   -0.000000   0.187894   0.000000   0.000000   0.748027
+   12  H  1 ZZ   -0.000000  -0.375788   0.000000   0.000000  -0.000000
+   13  H  1 XY   -0.000000  -0.000000   0.000000   0.000000  -0.000000
+   14  H  1 XZ    0.346950  -0.000000   0.000000   0.779002  -0.000000
+   15  H  1 YZ   -0.000000  -0.000000   0.779002   0.000000  -0.000000
+   16  H  2  S   -0.000000   0.033311   0.000000   0.000000  -0.000000
+   17  H  2  S   -0.000000   0.289532   0.000000   0.000000  -0.000000
+   18  H  2  S   -0.000000  -0.156368   0.000000   0.000000  -0.000000
+   19  H  2  X    0.567518  -0.000000   0.000000   0.557946  -0.000000
+   20  H  2  Y   -0.000000  -0.000000   0.557946   0.000000  -0.000000
+   21  H  2  Z   -0.000000  -0.837102   0.000000   0.000000  -0.000000
+   22  H  2  X   -0.349120  -0.000000   0.000000  -1.089678  -0.000000
+   23  H  2  Y   -0.000000  -0.000000  -1.089678   0.000000  -0.000000
+   24  H  2  Z   -0.000000   0.829799   0.000000   0.000000  -0.000000
+   25  H  2 XX   -0.000000   0.187894   0.000000   0.000000   0.748027
+   26  H  2 YY   -0.000000   0.187894   0.000000   0.000000  -0.748027
+   27  H  2 ZZ   -0.000000  -0.375788   0.000000   0.000000  -0.000000
+   28  H  2 XY   -0.000000  -0.000000   0.000000   0.000000  -0.000000
+   29  H  2 XZ   -0.346950  -0.000000   0.000000   0.779002  -0.000000
+   30  H  2 YZ   -0.000000  -0.000000   0.779002   0.000000  -0.000000
+
+                     21         22         23         24         25
+                    4.0570     4.0905     4.0905     4.5727     5.6311
+                     AU         B3U        B2U        B1U        B2G 
+    1  H  1  S   -0.000000   0.000000   0.000000   0.656460   0.000000
+    2  H  1  S   -0.000000   0.000000   0.000000   6.404424   0.000000
+    3  H  1  S   -0.000000   0.000000   0.000000   0.168706   0.000000
+    4  H  1  X   -0.000000   0.676583   0.000000  -0.000000   0.968224
+    5  H  1  Y   -0.000000   0.000000   0.676583  -0.000000   0.000000
+    6  H  1  Z   -0.000000   0.000000   0.000000  -0.167477   0.000000
+    7  H  1  X   -0.000000  -0.261598   0.000000  -0.000000   0.439121
+    8  H  1  Y   -0.000000   0.000000  -0.261598  -0.000000   0.000000
+    9  H  1  Z   -0.000000   0.000000   0.000000   3.531688   0.000000
+   10  H  1 XX   -0.000000   0.000000   0.000000  -0.487347   0.000000
+   11  H  1 YY   -0.000000   0.000000   0.000000  -0.487347   0.000000
+   12  H  1 ZZ   -0.000000   0.000000   0.000000   0.974693   0.000000
+   13  H  1 XY    0.863747   0.000000   0.000000  -0.000000   0.000000
+   14  H  1 XZ   -0.000000  -0.536937   0.000000  -0.000000   1.308163
+   15  H  1 YZ   -0.000000   0.000000  -0.536937  -0.000000   0.000000
+   16  H  2  S   -0.000000   0.000000   0.000000  -0.656460   0.000000
+   17  H  2  S   -0.000000   0.000000   0.000000  -6.404424   0.000000
+   18  H  2  S   -0.000000   0.000000   0.000000  -0.168706   0.000000
+   19  H  2  X   -0.000000   0.676583   0.000000  -0.000000  -0.968224
+   20  H  2  Y   -0.000000   0.000000   0.676583  -0.000000   0.000000
+   21  H  2  Z   -0.000000   0.000000   0.000000  -0.167477   0.000000
+   22  H  2  X   -0.000000  -0.261598   0.000000  -0.000000  -0.439121
+   23  H  2  Y   -0.000000   0.000000  -0.261598  -0.000000   0.000000
+   24  H  2  Z   -0.000000   0.000000   0.000000   3.531688   0.000000
+   25  H  2 XX   -0.000000   0.000000   0.000000   0.487347   0.000000
+   26  H  2 YY   -0.000000   0.000000   0.000000   0.487347   0.000000
+   27  H  2 ZZ   -0.000000   0.000000   0.000000  -0.974693   0.000000
+   28  H  2 XY   -0.863747   0.000000   0.000000  -0.000000   0.000000
+   29  H  2 XZ   -0.000000   0.536937   0.000000  -0.000000   1.308163
+   30  H  2 YZ   -0.000000   0.000000   0.536937  -0.000000   0.000000
+
+                     26         27         28
+                    5.6311     5.6998     6.8402
+                     B3G        AG         B1U 
+    1  H  1  S    0.000000   1.142324   1.367559
+    2  H  1  S    0.000000  -0.534854   4.210167
+    3  H  1  S    0.000000   0.083538  -0.570126
+    4  H  1  X    0.000000  -0.000000  -0.000000
+    5  H  1  Y    0.968224  -0.000000  -0.000000
+    6  H  1  Z    0.000000   0.098232   1.897867
+    7  H  1  X    0.000000  -0.000000  -0.000000
+    8  H  1  Y    0.439121  -0.000000  -0.000000
+    9  H  1  Z    0.000000  -0.682167   1.679256
+   10  H  1 XX    0.000000   0.540226  -0.519624
+   11  H  1 YY    0.000000   0.540226  -0.519624
+   12  H  1 ZZ    0.000000  -1.080452   1.039249
+   13  H  1 XY    0.000000  -0.000000  -0.000000
+   14  H  1 XZ    0.000000  -0.000000  -0.000000
+   15  H  1 YZ    1.308163  -0.000000  -0.000000
+   16  H  2  S    0.000000   1.142324  -1.367559
+   17  H  2  S    0.000000  -0.534854  -4.210167
+   18  H  2  S    0.000000   0.083538   0.570126
+   19  H  2  X    0.000000  -0.000000  -0.000000
+   20  H  2  Y   -0.968224  -0.000000  -0.000000
+   21  H  2  Z    0.000000  -0.098232   1.897867
+   22  H  2  X    0.000000  -0.000000  -0.000000
+   23  H  2  Y   -0.439121  -0.000000  -0.000000
+   24  H  2  Z    0.000000   0.682167   1.679256
+   25  H  2 XX    0.000000   0.540226   0.519624
+   26  H  2 YY    0.000000   0.540226   0.519624
+   27  H  2 ZZ    0.000000  -1.080452  -1.039249
+   28  H  2 XY    0.000000  -0.000000  -0.000000
+   29  H  2 XZ    0.000000  -0.000000  -0.000000
+   30  H  2 YZ    1.308163  -0.000000  -0.000000
+ ...... END OF RHF CALCULATION ......
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.1 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  83.33%
+
+     ----------------------------------------------------------------
+     PROPERTY VALUES FOR THE RHF   SELF-CONSISTENT FIELD WAVEFUNCTION
+     ----------------------------------------------------------------
+ .....inside daread start
+ idaf   =                    10
+ len    =                   115
+ nrec   =                     2
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   115
+ ns     =                     9
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    11
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    12
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    13
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    14
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+          -----------------
+          ENERGY COMPONENTS
+          -----------------
+
+         WAVEFUNCTION NORMALIZATION =       1.0000000000
+
+                ONE ELECTRON ENERGY =      -2.4718636834
+                TWO ELECTRON ENERGY =       0.6493128509
+           NUCLEAR REPULSION ENERGY =       0.6902568860
+                                      ------------------
+                       TOTAL ENERGY =      -1.1322939466
+
+ ELECTRON-ELECTRON POTENTIAL ENERGY =       0.6493128509
+  NUCLEUS-ELECTRON POTENTIAL ENERGY =      -3.5692230251
+   NUCLEUS-NUCLEUS POTENTIAL ENERGY =       0.6902568860
+                                      ------------------
+             TOTAL POTENTIAL ENERGY =      -2.2296532883
+               TOTAL KINETIC ENERGY =       1.0973593417
+                 VIRIAL RATIO (V/T) =       2.0318351552
+
+  ...... PI ENERGY ANALYSIS ......
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    11
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    12
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    13
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    14
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    14
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    23
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+ ENERGY ANALYSIS:
+            FOCK ENERGY=     -1.1732380303
+          BARE H ENERGY=     -2.4718636834
+     ELECTRONIC ENERGY =     -1.8225508569
+         KINETIC ENERGY=      1.0973593417
+          N-N REPULSION=      0.6902568860
+           TOTAL ENERGY=     -1.1322939709
+        SIGMA PART(1+2)=     -1.8225508569
+               (K,V1,2)=      1.0973593417     -3.5692230251      0.6493128266
+           PI PART(1+2)=      0.0000000000
+               (K,V1,2)=      0.0000000000      0.0000000000      0.0000000000
+  SIGMA SKELETON, ERROR=     -1.1322939709     -0.0000000000
+             MIXED PART= 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ ...... END OF PI ENERGY ANALYSIS ......
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    51
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    27
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    15
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    19
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                    30
+ nrec   =                    17
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                    30
+ ns     =                    22
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    51
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    27
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+          ---------------------------------------
+          MULLIKEN AND LOWDIN POPULATION ANALYSES
+          ---------------------------------------
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   900
+ nrec   =                    15
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   900
+ ns     =                    19
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+     ATOMIC MULLIKEN POPULATION IN EACH MOLECULAR ORBITAL
+
+                      1
+
+                  2.000000
+
+    1             1.000000
+    2             1.000000
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                    30
+ nrec   =                    69
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                    30
+ ns     =                    28
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+               ----- POPULATIONS IN EACH AO -----
+                             MULLIKEN      LOWDIN
+              1  H  1  S      0.24073     0.17551
+              2  H  1  S      0.51667     0.29635
+              3  H  1  S      0.22647     0.24520
+              4  H  1  X      0.00000     0.00000
+              5  H  1  Y      0.00000     0.00000
+              6  H  1  Z      0.00431     0.00510
+              7  H  1  X      0.00000     0.00000
+              8  H  1  Y      0.00000     0.00000
+              9  H  1  Z      0.01158     0.02304
+             10  H  1 XX      0.00024     0.06964
+             11  H  1 YY      0.00000     0.06964
+             12  H  1 ZZ      0.00000     0.11550
+             13  H  1 XY      0.00000     0.00000
+             14  H  1 XZ      0.00000     0.00000
+             15  H  1 YZ      0.00000     0.00000
+             16  H  2  S      0.24073     0.17551
+             17  H  2  S      0.51667     0.29635
+             18  H  2  S      0.22647     0.24520
+             19  H  2  X      0.00000     0.00000
+             20  H  2  Y      0.00000     0.00000
+             21  H  2  Z      0.00431     0.00510
+             22  H  2  X      0.00000     0.00000
+             23  H  2  Y      0.00000     0.00000
+             24  H  2  Z      0.01158     0.02304
+             25  H  2 XX      0.00024     0.06964
+             26  H  2 YY      0.00000     0.06964
+             27  H  2 ZZ      0.00000     0.11550
+             28  H  2 XY      0.00000     0.00000
+             29  H  2 XZ      0.00000     0.00000
+             30  H  2 YZ      0.00000     0.00000
+
+          ----- MULLIKEN ATOMIC OVERLAP POPULATIONS -----
+          (OFF-DIAGONAL ELEMENTS NEED TO BE MULTIPLIED BY 2)
+
+             1           2
+
+    1    0.5806773
+    2    0.4193227   0.5806773
+
+          TOTAL MULLIKEN AND LOWDIN ATOMIC POPULATIONS
+       ATOM         MULL.POP.    CHARGE          LOW.POP.     CHARGE
+    1 H             1.000000   -0.000000         1.000000   -0.000000
+    2 H             1.000000   -0.000000         1.000000    0.000000
+
+          MULLIKEN SPHERICAL HARMONIC POPULATIONS
+       ATOM           S       P       D      F      G      H      I    TOTAL
+    1 H             0.98    0.02    0.00   0.00   0.00   0.00   0.00    1.00
+    2 H             0.98    0.02    0.00   0.00   0.00   0.00   0.00    1.00
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+
+          -------------------------------
+          BOND ORDER AND VALENCE ANALYSIS     BOND ORDER THRESHOLD=0.050
+          -------------------------------
+
+                   BOND                       BOND                       BOND
+  ATOM PAIR DIST  ORDER      ATOM PAIR DIST  ORDER      ATOM PAIR DIST  ORDER
+    1   2  0.767  1.000
+
+                       TOTAL       BONDED        FREE
+      ATOM            VALENCE     VALENCE     VALENCE
+    1 H                 1.000       1.000      -0.000
+    2 H                 1.000       1.000      -0.000
+
+          ---------------------
+          ELECTROSTATIC MOMENTS
+          ---------------------
+
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    16
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    21
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    12
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside daread end
+ .....inside dard start
+ len    =                   465
+ ns     =                    13
+ idtyp  =                     0
+      /machin/
+ nwdvar =                     1
+ maxfm  =               1000000
+ maxsm  =                     0
+ limfm  =        17539234414025
+ limsm  =                     0
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     1
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  F
+ maswrk =  T
+ .....inside dard end
+ POINT   1           X           Y           Z (BOHR)    CHARGE
+                 0.000000    0.000000    0.000000       -0.00 (A.U.)
+         DX          DY          DZ         /D/  (DEBYE)
+     0.000000    0.000000    0.000000    0.000000
+ ...... END OF PROPERTY EVALUATION ......
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.1 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS 100.00%
+               580000  WORDS OF DYNAMIC MEMORY USED
+ EXECUTION OF GAMESS TERMINATED NORMALLY Fri May 10 20:18:06 2013
+ DDI: 263624 bytes (0.3 MB / 0 MWords) used by master data server.
+
+ ----------------------------------------
+ CPU timing information for all processes
+ ========================================
+ 0: 0.52 + 0.12 = 0.64
+ ----------------------------------------
+ ddikick.x: exited gracefully.
+unset echo
+----- accounting info -----
+Files used on the master node doreen were:
+-rw-rw-r-- 1 lmentel lmentel   14697 maj 10 20:18 /home/lmentel/scratch/h2_cc-pvtz.dat
+-rw-r--r-- 1 lmentel lmentel     634 maj 10 20:18 /home/lmentel/scratch/h2_cc-pvtz.F05
+-rw-rw-r-- 1 lmentel lmentel  180016 maj 10 20:18 /home/lmentel/scratch/h2_cc-pvtz.F08
+-rw-rw-r-- 1 lmentel lmentel 1014320 maj 10 20:18 /home/lmentel/scratch/h2_cc-pvtz.F10
+pwd
+cp /home/lmentel/scratch/h2_cc-pvtz.F08 /home/lmentel/work/mercurial_repo/Vconstr/test/h2/h2_cc-pvtz.F08
+pwd
+cp /home/lmentel/scratch/h2_cc-pvtz.F09 /home/lmentel/work/mercurial_repo/Vconstr/test/h2/h2_cc-pvtz.F09
+cp: nie można wykonać stat na `/home/lmentel/scratch/h2_cc-pvtz.F09': Nie ma takiego pliku ani katalogu
+pwd
+cp /home/lmentel/scratch/h2_cc-pvtz.F10 /home/lmentel/work/mercurial_repo/Vconstr/test/h2/h2_cc-pvtz.F10
+pwd
+cp /home/lmentel/scratch/basis.info /home/lmentel/work/mercurial_repo/Vconstr/test/h2/h2_cc-pvtz.basinfo
+unset echo
+ls: No match.
+ls: No match.
+ls: No match.
+pią, 10 maj 2013, 20:18:09 KST
+0.0u 0.0s 0:03.14 0.6% 0+0k 0+2368io 0pf+0w

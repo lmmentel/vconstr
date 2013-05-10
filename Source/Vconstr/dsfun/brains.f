@@ -106,7 +106,8 @@ c
 c
 c** get one electron matrix (on mo basis) from dumpfile
 c
-      call hmatmo(idmp,isoe,hmatx,norb)
+c     here should be a call to gamess-us file read
+c      call hmatmo(idmp,isoe,hmatx,norb)
       if (lsym) then
 c
 c** determine symmetry of the orbitals, using the orbitals itself if
