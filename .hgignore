@@ -5,3 +5,9 @@ syntax: glob
 *.x
 *.mod
 .*.swp
+# latex stuff
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls

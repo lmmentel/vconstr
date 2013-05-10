@@ -1,4 +1,5 @@
       program dsfun
+       use basisModule 
 c***********************************************************************
 c Calculate Kohn-Sham density functional
 c energy and wavefunction in basis of HF-orbitals.
@@ -32,15 +33,21 @@ c
       logical lsym,lintsm,lrdocc,lrfun,lfield,atmol4
       dimension occmo(nmomx),info(infmx)
       dimension fxyz(3)
+clmm..data structures  for handling gamess-us basis set stuff
+      character*80 gamtitle
+      allocatable znuc(:),coords(:,:), evec(:), expon(:),contrc1(:),
+     &            contrc2(:), imin(:), imax(:), katom(:), intyp(:),
+     &            ish(:), ityp(:)
 c
 clmm      common /titel/title(10)
 c
       data hmat,int2e/'h-matrix','2-elec'/
 c
 c.....lmm stuff for input processing 
-      character*100 buffer, inptf
+      character*100 buffer, inptf, basisfile
       namelist /input/ title,nmos,occ,norb, 
-     & itrx, tstthr, smtype, thresh, alpha, beta, gamma
+     & itrx, tstthr, smtype, thresh, alpha, beta, gamma,
+     & basisfile, df, nppr, scfdmp, dvdmp, lrfun, lfield, fxyz
 clmm      call prep99
 clmm      call tidajt(date,time,accno,anam,idum)
 clmm      write(6,666)anam,date,time,accno
@@ -93,27 +100,6 @@ clmm     + '' secs''/)')top,bot
 c      goto 55
 c
 c.....lmm start.....commented this horrible input processing 
-c   50 call input
-c   55 call passdf(ii)
-c      if (ii.le.0) then
-c         call cinput(jrec,jump,0)
-c         call erroutf(jrec)
-c         call caserr(' password not recognised ')
-c      endif
-c      go to (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)ii
-c
-c*** nmos
-c    2 call inpi(nmos)
-c      if (nmos.gt.nmomx) then
-c        write(6,'(''ERROR; Too many Kohn-Sham orbitals specified; '',
-c     + i4,'' > '',i4)')nmos,nmomx
-c        stop
-c      endif
-c      lrdocc=.false.
-c      do imo=1,nmos
-c        occmo(imo)=2.d0
-c      enddo
-c      goto 50
 c
 c*** occ
 c    3 if (nmos.le.0) then
@@ -129,10 +115,6 @@ c        write(6,'(''ERROR; Number of electrons incorrect'')')
 c        write(6,'('' rnel = '',f6.2)')rnel
 c        stop
 c      endif
-c      goto 50
-c
-c*** shift
-c    5 call inpf(df)
 c      goto 50
 c
 c*** vcrrmx
@@ -165,25 +147,6 @@ c      goto 50
 c
 c*** vprint 
 c   10 call inpi(nvpr)
-c      goto 50
-c
-c*** dmpfile
-c   11 call inpi(idmp)
-c      call inpi(ismo)
-c      if ((ismo.lt.1).and.(ismo.gt.190)) then
-c        write(6,'(''ERROR; mo section not properly specified'')')
-c        stop
-c      endif
-c      call inpi(isno)
-c      if ((isno.lt.1).and.(isno.gt.190)) then
-c        write(6,'(''ERROR; no section not properly specified'')')
-c        stop
-c      endif
-c      call inpi(isoe)
-c      if ((isoe.lt.1).and.(isoe.gt.190)) then
-c        write(6,'(''ERROR; splice section not properly specified'')')
-c        stop
-c      endif
 c      goto 50
 c
 c*** intfile
@@ -230,16 +193,6 @@ c        call inpf(fxyz(i))
 c      enddo
 c      goto 50
 c
-c** lrfun
-c   17 lrfun=.true.
-c      call inpf(dvdmp)
-c      goto 50
-c
-c** damping
-c   18 call inpf(scfdmp)
-c      goto 50
-c
-c*** enter
 c   19 call getgss(idmp,norb,atmol4)
 c.....lmm have to get norb somehow, numbe rof contracted gaussians
 c.....for the time being get it from the input       
@@ -252,7 +205,31 @@ c.....lmm contents and close
       read(11, nml=input)
       close(11)
 c.....lmm end of input reading 
-c
+clmm..
+clmm..get the gaussian basis information from the basis file
+clmm..
+      call read_job_info(trim(basisfile), gamtitle, natoms, icharge, 
+     & mult, nbf, nx, ne, na, nb, nshell, nprimi) 
+clmm..
+clmm..allocate the arrays holding the basis information
+clmm..
+      allocate(znuc(natoms), coords(3,natoms), imin(natoms), 
+     &         imax(natoms), evec(3))
+      allocate(katom(nshell), intyp(nshell))
+      allocate(ish(nprimi), ityp(nprimi), expon(nprimi), 
+     &         contrc1(nprimi), contrc2(nprimi)) 
+clmm..
+clmm..read the basis set information
+clmm..
+      call read_basis_info(trim(basisfile), natoms, nshell, nprimi, 
+     & znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom,
+     & intyp, ish, ityp)
+clmm..
+clmm..print the basis set information
+clmm..
+      call write_basis_info(gamtitle, natoms, icharge, mult, nbf, nx, 
+     & ne, na, nb, nshell, nprimi, znuc, coords, evec, expon, contrc1,
+     &  contrc2, imin, imax, katom, intyp, ish, ityp)
 c.....lmm check for input consistency 
 c.....nmos
       if (nmos.gt.-1) then
@@ -334,13 +311,6 @@ c
         write(6,'(''   kpens = '',i4)')kpens
         write(6,'(''   dqmax = '',f4.2)')dqmax
       endif
-      if (nppr.ne.0) write(6,'(/''  Intermediate storage of Vxc '',
-     + ''required at itr = '',10(i4,'' ''))')(info(i),i=1,nppr)
-      iednum=ied(idmp)
-      write(6,'(/'' Summary of dumpfile  '',a4,'' sections''/,
-     + ''  Molecular Orbital basis :'',i3,/,
-     + ''  Natural Orbitals        :'',i3,/,
-     + ''  one-electron h-matrix   :'',i3)')iednum,ismo,isno,isoe
       if (isao.gt.0) then
         write(6,'(''  Symmetry adaptation     :'',i3)')isao
       endif

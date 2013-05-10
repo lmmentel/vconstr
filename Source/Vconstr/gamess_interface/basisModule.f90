@@ -108,29 +108,29 @@ end subroutine write_basis_info
 
 end module basisModule
 
-program test_basis_info
- use basisModule
- implicit none
-  character(len=100) :: filename
-  character(len=80)  :: title
-  integer            :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
-  real(kind(1.0d0)), allocatable :: znuc(:), coords(:,:), evec(:)
-  real(kind(1.0d0)), allocatable :: expon(:), contrc1(:), contrc2(:) 
-  integer,           allocatable :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:) 
- 
-  filename = 'basis.info'
-
-  call read_job_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
-  allocate(znuc(natoms), coords(3,natoms), imin(natoms), imax(natoms), evec(3))
-  allocate(katom(nshell), intyp(nshell))
-  allocate(ish(nprimi), ityp(nprimi), expon(nprimi), contrc1(nprimi), contrc2(nprimi))
-
- call read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,                        &
-                           expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
-  call write_basis_info(title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi,          &
-       znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
-
-  deallocate(ish, ityp, expon, contrc1, contrc2)
-  deallocate(katom, intyp)
-  deallocate(znuc, coords, imin, imax, evec)
-end program test_basis_info
+!program test_basis_info
+! use basisModule
+! implicit none
+!  character(len=100) :: filename
+!  character(len=80)  :: title
+!  integer            :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
+!  real(kind(1.0d0)), allocatable :: znuc(:), coords(:,:), evec(:)
+!  real(kind(1.0d0)), allocatable :: expon(:), contrc1(:), contrc2(:) 
+!  integer,           allocatable :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:) 
+! 
+!  filename = 'basis.info'
+!
+!  call read_job_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
+!  allocate(znuc(natoms), coords(3,natoms), imin(natoms), imax(natoms), evec(3))
+!  allocate(katom(nshell), intyp(nshell))
+!  allocate(ish(nprimi), ityp(nprimi), expon(nprimi), contrc1(nprimi), contrc2(nprimi))
+!
+! call read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,                        &
+!                           expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
+!  call write_basis_info(title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi,          &
+!       znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
+!
+!  deallocate(ish, ityp, expon, contrc1, contrc2)
+!  deallocate(katom, intyp)
+!  deallocate(znuc, coords, imin, imax, evec)
+!end program test_basis_info

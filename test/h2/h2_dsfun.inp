@@ -10,4 +10,12 @@
     beta=2.0
     gamma=2.0
     title='h2'
+    basisfile='h2_cc-pvtz.basinfo'
+    df=1.1234d0
+    nppr=3  
+    scfdmp=0.5d0
+    lrfun=.false.
+    dvdmp=0.3d0
+    lfield=.true.
+    fxyz(1)=1.1,2.2,3.3
 /
