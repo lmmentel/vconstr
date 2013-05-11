@@ -82,6 +82,16 @@
 echo Files used on the master node master were:
 ls -lF 
 \end{minted}
+\section{dbrain.f requires the following data}
+    \begin{itemize}
+        \item \verb!hmatx! core hamiltonian matrix 
+        \item \verb!tsmat! kinetic energy operator integrals
+        \item \verb!vnmat! electron-nuclear attraction operator integrals
+        \item \verb!vmopao! molecular orbitals in primitive ao basis
+        \item \verb!vmoao! moelcular orbitals in mo basis
+        \item \verb!pmo! mo density matrix in mo basis
+        \item \verb!pnomo! ci density matrix in mo basis  
+    \end{item}
 \section{dsfun.x input}        
     \begin{table}[H]
         \begin{center}
@@ -99,6 +109,12 @@ ls -lF
         \verb!dvdmp! & real & linear response procedure damping \\
         \verb!lfield! & logical & electric field \\
         \verb!fzyx! & real(1:3) & components of the electric field \\
+        \verb!nvpr! & integer & vprint \\
+        \verb!lsym! & logical & symmetrize the orbitals \\
+        \verb!lintsm! & logical & determine symmetry using orbitals(if false h-matrix) \\
+        \verb!ismo! & integer & mo section in the atmol dumpfile \\
+        \verb!isno! & integer & no section in the atmol dumpfile \\
+        \verb!isao! & integer & adapt section in the atmol dumpfile from which the Vmopao matrix is restored \\
         \bottomrule
         \end{tabular*}
         \end{center}

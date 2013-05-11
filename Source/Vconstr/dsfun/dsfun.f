@@ -41,13 +41,12 @@ clmm..data structures  for handling gamess-us basis set stuff
 c
 clmm      common /titel/title(10)
 c
-      data hmat,int2e/'h-matrix','2-elec'/
-c
 c.....lmm stuff for input processing 
-      character*100 buffer, inptf, basisfile
-      namelist /input/ title,nmos,occ,norb, 
+      character*100 buffer, inptf, gbasisfile, gdictnfile, gintegfile
+      namelist /input/ title,nmos,occ,lsym,lintsm, 
      & itrx, tstthr, smtype, thresh, alpha, beta, gamma,
-     & basisfile, df, nppr, scfdmp, dvdmp, lrfun, lfield, fxyz
+     & df, nppr, scfdmp, dvdmp, lrfun, lfield, fxyz,
+     & gbasisfile, gdictnfile, gintegfile
 clmm      call prep99
 clmm      call tidajt(date,time,accno,anam,idum)
 clmm      write(6,666)anam,date,time,accno
@@ -145,30 +144,6 @@ c        call inpi(info(i))
 c      enddo
 c      goto 50
 c
-c*** vprint 
-c   10 call inpi(nvpr)
-c      goto 50
-c
-c*** intfile
-c   12 call inpi(iint)
-c      goto 50
-c
-c*** ksdmp
-c   13 call inpi(iks)
-c      if ((isks.lt.1).and.(isks.gt.190)) then
-c        write(6,'(''ERROR; ks section not properly specified'')')
-c        stop
-c      endif
-c      goto 50
-c
-c** adapt
-c   14 call inpi(isao)
-c      if ((isao.lt.1).and.(isao.gt.190)) then
-c        write(6,'(''ERROR; isao not properly specified'')')
-c        stop
-c      endif
-c      goto 50
-c
 c** ensdet
 c   15 call inpi(ibcens)
 c      call inpi(iscens)
@@ -184,13 +159,6 @@ c        write(6,'(/''WARNING; dqmax > 0.3'')')
 c        write(6,'(''  default value taken instead'')')
 c        dqmax=1.d-1
 c      endif
-c      goto 50
-c
-c*** dipole
-c   16 lfield=.true.
-c      do i=1,3
-c        call inpf(fxyz(i))
-c      enddo
 c      goto 50
 c
 c   19 call getgss(idmp,norb,atmol4)
@@ -210,6 +178,9 @@ clmm..get the gaussian basis information from the basis file
 clmm..
       call read_job_info(trim(basisfile), gamtitle, natoms, icharge, 
      & mult, nbf, nx, ne, na, nb, nshell, nprimi) 
+clmm..not sure if norb should be set to the number of cartesian gaussians
+clmm..or number of orbitals used in the calculation
+      norb = nbf 
 clmm..
 clmm..allocate the arrays holding the basis information
 clmm..
@@ -311,14 +282,9 @@ c
         write(6,'(''   kpens = '',i4)')kpens
         write(6,'(''   dqmax = '',f4.2)')dqmax
       endif
-      if (isao.gt.0) then
-        write(6,'(''  Symmetry adaptation     :'',i3)')isao
-      endif
       if (isks.gt.0) then
         write(6,'(''  Storage of KS orbitals  :'',i3)')isks
       endif
-      iednum=ied(iint)
-      write(6,'(/'' Integrals on file  '',a4)')iednum
 c
       open(99,file='points',status='old',err=444)
       rewind(99)
@@ -341,8 +307,8 @@ c      else
       nmos=2
 clm      call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
 clm     + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
-clm     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,idmp,ismo,isno,isao,
-clm     + isoe,isks,lsym,lintsm,lrdocc,lrfun,atmol4) 
+clm     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
+clm     + isks,lsym,lintsm,lrdocc,lrfun,gdictnfile,gintegfile,nele) 
 c      endif
 
 clmm      call revind

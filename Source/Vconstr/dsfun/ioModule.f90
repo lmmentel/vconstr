@@ -13,9 +13,9 @@ module ioModule
     module procedure print_triangular_matrix_as_square
  end interface 
 
- interface write_gamess_vecs
-    module procedure print_gamess_vec
- end interface
+! interface write_gamess_vecs
+!    module procedure print_gamess_vec
+! end interface
 
  interface header
      module procedure print_header
@@ -24,13 +24,14 @@ module ioModule
      module procedure adjust_string_to_length
  end interface
 
- public :: matprint, write_gamess_vecs, header, fmt_to_len
+ public :: matprint, header, fmt_to_len
+!write_gamess_vecs, 
 
- interface EnergySummary
-     module procedure print_final_energies
- end interface
+! interface EnergySummary
+!     module procedure print_final_energies
+! end interface
 
- public :: EnergySummary
+! public :: EnergySummary
 
  contains 
  

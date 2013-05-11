@@ -7,7 +7,8 @@ c
       parameter(eps = 1.d-8)
 c
       dimension vmopao(norb*norb),vmoao(norb*norb),
-     + pmomo(norb*(norb+1)/2),pnomo(norb*(norb+1)/2),
+     + pmomo(norb*(norb+1)/2),
+     + pnomo(norb*(norb+1)/2),
      + pnono(norb*(norb+1)/2)
       dimension occ(norb),scrtc(norb*norb),vaopao(norb*norb),
      + vnomo(norb*norb),vnoao(norb*norb)

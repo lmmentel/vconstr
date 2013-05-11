@@ -1,5 +1,4 @@
 &input
-    norb=2
     nmos=1
     occ=2
     itrx=1
@@ -10,7 +9,9 @@
     beta=2.0
     gamma=2.0
     title='h2'
-    basisfile='h2_cc-pvtz.basinfo'
+    gbasisfile='h2_cc-pvtz.basinfo'
+    gdictnfile='h2_cc-pvtz.basinfo'
+    gintegfile='h2_cc-pvtz.basinfo'
     df=1.1234d0
     nppr=3  
     scfdmp=0.5d0
@@ -18,4 +19,6 @@
     dvdmp=0.3d0
     lfield=.true.
     fxyz(1)=1.1,2.2,3.3
+    lsym=.true.
+    lintsm=.true.
 /

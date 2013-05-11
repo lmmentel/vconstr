@@ -1,4 +1,4 @@
-module gamessusIntegralsModule
+module IntegralsModule
   use varModule
   use dictionaryModule
   implicit none 
@@ -464,4 +464,4 @@ module gamessusIntegralsModule
   end subroutine 
 
 
-end module gamessusIntegralsModule
+end module IntegralsModule

@@ -1,7 +1,9 @@
       subroutine dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,
      + crrmx,thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
-     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,idmp,ismo,isno,isao,
-     + isoe,isks,lsym,lintsm,lrdocc,lrfun,atmol4)
+     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
+     + isks,lsym,lintsm,lrdocc,lrfun,atmol4,gdictfile,gintegfile,
+     + nele)
+      use integralsModule
 c
 c-----------------------------------------------------------------------
 c
@@ -10,6 +12,7 @@ c
       parameter(fparin = 1.01d0)
 c
       logical lsym,lintsm,lrdocc,lrfun,lincpr,atmol4
+      character(*) gdictfile, gintegfile
       dimension info(nppr)
       dimension occmo(nmomx)
 c
@@ -51,6 +54,7 @@ c
      + bm(:,:),cm(:,:),dsrho(:),vhartr(:),vcond(:),
      +pkd(:,:),apkd(:,:)
 c
+clmm..
       ltrian = .false.
       lcens  = .false.
       lvhart = .false.
@@ -89,7 +93,10 @@ c
 c
 c** get one electron matrix (on mo basis) from dumpfile
 c
-      call hmatmo(idmp,isoe,hmatx,norb)
+clmm..call hmatmo(idmp,isoe,hmatx,norb)
+clmm..added a call for reading gamess-us core hamiltonian matrix in MO basis (need transfomation)
+clmm..      call new(dictionary, gdictnfile)
+clmm..      call readH(hmatx, dictionary)
       if (lsym) then
 c
 c** determine symmetry of the orbitals, using the orbitals itself if
@@ -126,16 +133,24 @@ c
 c** read kinetic and electron-nuclear attraction integrals from dumpfile,
 c** section 192, and store in the vector vnmat
 c
-      call rdmat(idmp,norb,tsmat,vnmat,enuc)
-      write(6,'(/''  nuclear repulsion energy : '',f16.8,/)')enuc
+clmm..call rdmat(idmp,norb,tsmat,vnmat,enuc)
+clmm..write(6,'(/''  nuclear repulsion energy : '',f16.8,/)')enuc
+clmm..
+clmm..read kinetic energy electron-nucleus attarction integrals 
+clmm..and nuclear repulsion energy from gamess-us dictionary
+      call readOneEintegrals(tsmat, vnmat, enuc, dictionary)
 c
 c** read dumpfile : vmopao - molecular orbitals in primitive ao basis
 c**                 vmoao  - molecular orbitals in ao basis
 c**                 pmo    - mo density matrix in mo basis
 c**                 pnomo  - ci density matrix in mo basis
 c
-      call rddmp(vmopao,vmoao,pmo,pnomo,norb,nvpr,rnel,idmp,ismo,isao,
-     + isno)
+clmm..call rddmp(vmopao,vmoao,pmo,pnomo,norb,nvpr,rnel,idmp,ismo,isao,
+clmm..+ isno)
+clmm..
+clmm..now read the orbitals
+      call getOrbitalsAndDensities(vmopao, vmoao, pmo, pnomo, rnel, 
+     & nele ,gDictFile)
 c
 c      call clcvhr(pnomo,norb,iint,vhrmat)
 c
@@ -489,7 +504,7 @@ c
             smerr=1.d0-xnorm
             if (smerr.gt.smermx) smermx=smerr
             if (smerr.gt.1.d-6) then
-              write(6,'(''WARNING Orbital '',i3,'' has '',g8.2,
+              write(6,'(''WARNING Orbital '',i3,'' has '',g9.2,
      + ''% admixture of wrong symmetry'')')i,100*abs(xnorm-1.d0)
             endif
             if (xnorm.lt.1.d-2) then
@@ -572,7 +587,7 @@ c
           tester=tester+abs(dns(ipnt)-rho(ipnt))*weight(ipnt)
         enddo
 c
-        write(6,'(/''  error :'',f14.8,'' ('',g14.8,'')'')')tester,tstr
+        write(6,'(/''  error :'',f16.8,'' ('',g16.8,'')'')')tester,tstr
         write(6,'(''  ts    : '',f12.6)')etsks
         write(6,'(''  en    : '',f12.6)')evnks
         write(6,'(''  eh    : '',f12.6)')ehks
