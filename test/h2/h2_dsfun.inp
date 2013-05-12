@@ -19,6 +19,7 @@
     dvdmp=0.3d0
     lfield=.true.
     fxyz(1)=1.1,2.2,3.3
-    lsym=.true.
-    lintsm=.true.
+    lsym=.false.
+    lintsm=.false.
+    iprint=2
 /

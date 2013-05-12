@@ -12,4 +12,4 @@ syntax: glob
 *.fdb_latexmk
 *.fls
 # ignore all the build stuff
-./Source/Vconstr/dsfun_build/**
+./Source/dsfun_build/**

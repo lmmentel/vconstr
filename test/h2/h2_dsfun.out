@@ -1,0 +1,110 @@
+  Selfconsistent Kohn-Sham calculation 
+
+     ========================
+     Gamess-US job parameters
+     ========================
+
+Gamess-US job title                          =  Hydrogen molecule at equlibium in cc-pVTZ basis                                
+Number of atoms                              =     2
+Total charge                                 =     0
+Multiplicity                                 =     1
+Number of basis functions                    =    30
+Number of orbitals (spherical)               =    30
+Total number of electrons                    =     2
+Number of alpha electrons                    =     1
+Number of beta electrons                     =     1
+Number of basis set shells                   =    12
+Number of cartesian gaussian basis functions =     8
+
+     ========
+     Geometry
+     ========
+
+           1.00        0.00000   0.00000  -0.72437
+           1.00        0.00000   0.00000   0.72437
+
+     =========
+     Basis set
+     =========
+
+  Shell   Type   Primitive       Exponent     Contraction Coefficient(s)
+
+     Atom    1     Charge =  1.00
+
+      7      S      1            33.8700000    0.025494863235
+      7      S      2             5.0950000    0.190362765893
+      7      S      3             1.1590000    0.852162022245
+      8      S      4             0.3258000    1.000000000000
+      9      S      5             0.1027000    1.000000000000
+     10      P      6             1.4070000    1.000000000000
+     11      P      7             0.3880000    1.000000000000
+     12      D      8             1.0570000    1.000000000000
+
+     Atom    2     Charge =  1.00
+
+      7      S      1            33.8700000    0.025494863235
+      7      S      2             5.0950000    0.190362765893
+      7      S      3             1.1590000    0.852162022245
+      8      S      4             0.3258000    1.000000000000
+      9      S      5             0.1027000    1.000000000000
+     10      P      6             1.4070000    1.000000000000
+     11      P      7             0.3880000    1.000000000000
+     12      D      8             1.0570000    1.000000000000
+
+WARNING; symmetry determination not properly specified
+
+
+***** title : h2      
+
+  norb =  30
+  nmos =  1
+  orbitals   :  1   
+  occupation :  2.00
+
+ Initial potential Vxc =  1.373 X-alpha +  2.000 Vosko-Wilk-Nusair +  2.000 Becke 
+
+ Convergence
+  itrx =    1
+  threshold = 0.10E-09
+  shift   =  1.12
+  bounds  =  0.95, 1.05
+  density damping :  0.50
+  Storage of KS orbitals  :  3
+
+ Number of gridpoints in numerical integration : 8800
+ Number of dummy points : 1000
+
+ Electric field : 1.1000x + 2.2000y + 3.3000z
+ .....inside daread start
+ idaf   =                    10
+ len    =                   465
+ nrec   =                    11
+ idtyp  =                     0
+      /daioln/
+ ir     =                     5
+ iw     =                     6
+ ip     =                     7
+      /par   /
+ me     =                     0
+ master =                     0
+ nproc  =                     1
+ ibtyp  =                     0
+ iptim  =                     0
+ goparr =  F
+ dskwrk =  T
+ maswrk =  T
+ .....inside daread end
+
+ ERROR *** ATTEMPTING A BOGUS READ OF A DAF RECORD.
+ ATTEMPTING TO READ       465 WORDS FROM RECORD NUMBER   11
+ BUT THIS RECORD WAS PREVIOUSLY WRITTEN WITH ONLY         0 WORDS.
+
+ THIS ERROR IS LIKELY TO BE A BUG IN THE PROGRAM, BUT
+ PLEASE CONSIDER INPUT ERRORS AS A POSSIBLE CAUSE, TOO.
+ MANUAL CHAPTER -PROG.DOC- HAS A LIST OF ALL DIRECT ACCESS FILE RECORD NUMBERS,
+ WHICH WILL HELP YOU UNDERSTAND WHAT THE INCORRECT DATA IS SUPPOSED TO BE.
+
+ EXECUTION OF GAMESS TERMINATED -ABNORMALLY- AT Mon May 13 00:11:38 2013
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS 100.00%
+ DDI Process 0: error code 911

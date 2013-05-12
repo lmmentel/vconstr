@@ -46,7 +46,7 @@ c.....lmm stuff for input processing
       namelist /input/ title,nmos,occ,lsym,lintsm, 
      & itrx, tstthr, smtype, thresh, alpha, beta, gamma,
      & df, nppr, scfdmp, dvdmp, lrfun, lfield, fxyz,
-     & gbasisfile, gdictnfile, gintegfile
+     & gbasisfile, gdictnfile, gintegfile, iprint 
 clmm      call prep99
 clmm      call tidajt(date,time,accno,anam,idum)
 clmm      write(6,666)anam,date,time,accno
@@ -308,7 +308,8 @@ c      else
       call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
      + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
      + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
-     + isks,lsym,lintsm,lrdocc,lrfun,gdictnfile,gintegfile,nele) 
+     + isks,lsym,lintsm,lrdocc,lrfun,gdictnfile,gintegfile,nele,
+     + iprint) 
 c      endif
 
 clmm      call revind

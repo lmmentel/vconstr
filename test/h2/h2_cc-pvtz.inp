@@ -1,5 +1,28 @@
- $CONTRL SCFTYP=RHF RUNTYP=ENERGY UNITS=BOHR ISPHER=1 $END
- $SYSTEM TIMLIM=1 $END
+ $CONTRL 
+    SCFTYP=RHF 
+    RUNTYP=ENERGY 
+    cityp=guga
+    UNITS=BOHR 
+    ISPHER=-1 
+    nprint=3
+ $END
+ $SYSTEM 
+    TIMLIM=1000000
+    mwords=100 
+ $END
+ $SCF dirscf=.false. $END
+ $CIDRT
+    iexcit=2
+    ndoc=1
+    nval=29
+    group=d2h
+ $END
+ $CIINP
+    npflg(2)=2
+ $END
+ $GUGDM
+    nflgdm=1
+ $END
  $DATA
 Hydrogen molecule at equlibium in cc-pVTZ basis
 dnh      2

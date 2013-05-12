@@ -2,8 +2,9 @@
      + crrmx,thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
      + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
      + isks,lsym,lintsm,lrdocc,lrfun,atmol4,gdictfile,gintegfile,
-     + nele)
+     + nele,iprint)
       use integralsModule
+      use ioModule
 c
 c-----------------------------------------------------------------------
 c
@@ -151,6 +152,10 @@ clmm..now read the orbitals
       call getOrbitalsAndDensities(vmopao, 
      & vmoao, pmo, pnomo, norb, 
      & rnel, nele, gDictFile)
+      if (iprint >= 2) then 
+        call matPrint(reshape(vmopao, (/nb, nb/)), 
+     & 'Vmo in primitive ao, vmopao')
+      endif
 c
 c      call clcvhr(pnomo,norb,iint,vhrmat)
 c
