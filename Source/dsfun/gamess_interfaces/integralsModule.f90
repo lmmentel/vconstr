@@ -115,9 +115,13 @@ module IntegralsModule
   real(DP), allocatable :: Mpaomo(:,:), Maomo(:,:)
   integer :: i, j, ij
 
+  write(*,*) 'in -reshapeOrbitals-, nb = ', nb
   allocate(Mpaomo(nb, nb), Maomo(nb, nb))
   Mpaomo = reshape(Vpaomo, (/nb, nb/))
   Maomo  = reshape(Vaomo,  (/nb, nb/))
+  
+  write(*,*) 'shape of Mpaomo = ', shape(Mpaomo) 
+  write(*,*) 'shape of Maomo = ', shape(Maomo) 
 
   call readOrbitalsAndComposeDensities(Mpaomo, Maomo, Pmomo, Pnomo, nb, rnel, nele, dictionaryFile)
   ij = 0
@@ -144,8 +148,6 @@ module IntegralsModule
   integer  :: i, ier
   real(DP) :: rhfnel, det
 
-!  Vpaomo = reshape(Vpaomo, (/nb, nb/))
-!  Vaomo  = reshape(Vaomo,  (/nb, nb/))
   call new(dictionary, dictionaryfile)
   allocate(VaomoInv(nb, nb), Vaono(nb, nb), Occ(nb), Vmono(nb, nb), Pnono(nb*(nb+1)/2))
   
@@ -186,15 +188,15 @@ module IntegralsModule
   Vmono = matmul(VaomoInv, Vaono)
 !  call minvr(VaomoInv, 1.0d-7, det, ier, nb)
 !  call matml(Vaono, VaomoInv, Vmono, nb)
-  call matPrint(Vmono, "NO's in MO basis")
+  call matPrint(Vmono, "NO's in MO basis ")
 
 ! transform the natural orbital occupation numbers from NO to MO basis
 ! store the resulting Pnomo in pnono
 !  call matTrans(Vmono, Pnono, Vmono)
 
   call tmtdag(Pnono, nb, Pnomo, nb, Vmono, 0.5_DP)
-  call matPrint(Pnono, 'CI-density in MO basis')
-  call matPrint(Pmomo, 'HF MO-density in MO basis')
+  call matPrint(Pnono, nb, 'CI-density in MO basis')
+  call matPrint(Pmomo, nb, 'HF MO-density in MO basis')
   deallocate(VaomoInv, Vaono, Occ, Vmono,  Pnono)
   call delete(dictionary)
  end subroutine readOrbitalsAndComposeDensities

@@ -177,7 +177,7 @@ clmm..
 clmm..get the gaussian basis information from the basis file
 clmm..
       call read_job_info(trim(gbasisfile), gamtitle, natoms, icharge, 
-     & mult, nbf, nx, ne, na, nb, nshell, nprimi) 
+     & mult, nbf, nx, nele, na, nb, nshell, nprimi) 
 clmm..not sure if norb should be set to the number of cartesian gaussians
 clmm..or number of orbitals used in the calculation
       norb = nbf 

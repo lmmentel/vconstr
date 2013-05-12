@@ -140,11 +140,10 @@ clmm..read kinetic energy electron-nucleus attarction integrals
 clmm..and nuclear repulsion energy from gamess-us dictionary
       call readOneEintegrals(tsmat, vnmat, enuc, gDictFile)
       if (iprint >= 2) then 
-        call matPrint(tsmat, norb,'Kinetic energy integrals')
-        call matPrint(vnmat, norb,'Potential energy integrals')
-        write(*,'("Nuclear repulsion energy = ",f10.4)') enuc
+        call matPrint(tsmat, norb,'Kinetic energy integrals in AO')
+        call matPrint(vnmat, norb,'Potential energy integrals in AO')
+        write(*,'(/"Nuclear repulsion energy = ",f14.10/)') enuc
       endif
-      stop 
 c
 c** read dumpfile : vmopao - molecular orbitals in primitive ao basis
 c**                 vmoao  - molecular orbitals in ao basis
@@ -158,10 +157,12 @@ clmm..now read the orbitals
       call getOrbitalsAndDensities(vmopao, 
      & vmoao, pmo, pnomo, norb, 
      & rnel, nele, gDictFile)
+      stop
       if (iprint >= 2) then 
         call matPrint(reshape(vmopao, (/norb, norb/)), 
      & 'Vmo in primitive ao, vmopao')
       endif
+      stop
 c
 c      call clcvhr(pnomo,norb,iint,vhrmat)
 c
