@@ -25,12 +25,12 @@ c***********************************************************************
       parameter(infmx  = 10)
       parameter(eps = 1.d-6)
 c
-      character*4 ied,iednum 
+      character*4 ied 
       character*44 fname
       common/discc/ied(16),fname(16)
 c
       character*8 smtype,hmat,int2e,title
-      logical lsym,lintsm,lrdocc,lrfun,lfield,atmol4
+      logical lsym,lintsm,lrdocc,lrfun,lfield
       dimension occmo(nmomx),info(infmx)
       dimension fxyz(3)
 clmm..data structures  for handling gamess-us basis set stuff
@@ -176,7 +176,7 @@ c.....lmm end of input reading
 clmm..
 clmm..get the gaussian basis information from the basis file
 clmm..
-      call read_job_info(trim(basisfile), gamtitle, natoms, icharge, 
+      call read_job_info(trim(gbasisfile), gamtitle, natoms, icharge, 
      & mult, nbf, nx, ne, na, nb, nshell, nprimi) 
 clmm..not sure if norb should be set to the number of cartesian gaussians
 clmm..or number of orbitals used in the calculation
@@ -192,7 +192,7 @@ clmm..
 clmm..
 clmm..read the basis set information
 clmm..
-      call read_basis_info(trim(basisfile), natoms, nshell, nprimi, 
+      call read_basis_info(trim(gbasisfile), natoms, nshell, nprimi, 
      & znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom,
      & intyp, ish, ityp)
 clmm..
@@ -344,8 +344,8 @@ clmm      end
 c
 c***********************************************************************
 c
-      block data prg
-      implicit real *8   (a-h,p-w), integer (i-n), logical (o)
-      common /prgnam/prgtit
-      data prgtit/'dsfun'/
-      end
+clmm      block data prg
+clmm      implicit real *8   (a-h,p-w), integer (i-n), logical (o)
+clmm      common /prgnam/prgtit
+clmm      data prgtit/'dsfun'/
+clmm      end

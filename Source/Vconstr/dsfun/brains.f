@@ -141,8 +141,8 @@ c
 c** read kinetic and electron-nuclear attraction integrals from dumpfile,
 c** section 192, and store in the vector vnmat
 c
-      call rdmat(idmp,norb,tsmat,vnmat,enuc)
-      write(6,'(/''  nuclear repulsion energy : '',f16.8,/)')enuc
+clmm      call rdmat(idmp,norb,tsmat,vnmat,enuc)
+clmm      write(6,'(/''  nuclear repulsion energy : '',f16.8,/)')enuc
 c
 c** read dumpfile : vmopao - molecular orbitals in primitive ao basis
 c**                 vmoao  - molecular orbitals in ao basis
@@ -150,10 +150,10 @@ c**                 pmo    - mo density matrix in mo basis
 c**                 pnomo  - ci density matrix in mo basis
 c
       psnomo(1:norbtr)=0.d0
-      call rddmp(vmopao,vmoao,pmo,psnomo,norb,nvpr,rnel1,idmp,ismo,
-     + isao,4)
-      call rddmp(vmopao,vmoao,pmo,pnomo,norb,nvpr,rnel,idmp,ismo,isao,
-     + isno)
+clmm      call rddmp(vmopao,vmoao,pmo,psnomo,norb,nvpr,rnel1,idmp,ismo,
+clmm     + isao,4)
+clmm      call rddmp(vmopao,vmoao,pmo,pnomo,norb,nvpr,rnel,idmp,ismo,isao,
+clmm     + isno)
 c      call getdmp(idmp,isno,vmoao,occno,norb)
 c            do i=1,norb
 c      write(6,'(''MO numbers   : '',i5,(1x,f11.5))') i,occno(i)

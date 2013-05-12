@@ -17,7 +17,7 @@ c
      + nbasis,newbas,ncol,ivalue,iocc,idumm
       common/titel/title(10)
       common/prgnam/prgtit
-      data akso/'  kso'/
+c      data akso/'  kso'/
 c
       iftran = .true.
 c
@@ -38,7 +38,7 @@ c
       com(2) = date
       com(3) = time
       com(4) = prgtit
-      com(5) = akso
+c      com(5) = akso
       com(6) = accno
 c
 c** write to dumpfile 
@@ -52,11 +52,11 @@ c
       write(6,'(/,i6,''  vectors stored in section'',i4,
      *'' of dumpfile starting at block'',i6,'' of '',a4)')
      *norb,isec,iblkk,iednum 
-      write(6,'(//'' header block information:''/
-     *a7,''vectors created by '',a8,'' program at '',a8,
-     *'' on '',a8,'' in the job '',a8,'' under acct. '',a8/
-     *'' with the title '',10a8)')com(5),com(4),com(3),com(2),
-     *com(1),com(6),tit
+clm      write(6,'(//'' header block information:''/
+clm     *a7,''vectors created by '',a8,'' program at '',a8,
+clm     *'' on '',a8,'' in the job '',a8,'' under acct. '',a8/
+clm     *'' with the title '',10a8)')com(5),com(4),com(3),com(2),
+clm     *com(1),com(6),tit
 c
       call revind
 c
