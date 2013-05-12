@@ -46,11 +46,11 @@ c
       ecoul = 0.d0
       eexch = 0.d0
 c
-      call search(1,iunit)
-  100 call find(iunit)
-      call get(gin,nw)
+clmm      call search(1,iunit)
+clmm  100 call find(iunit)
+clmm      call get(gin,nw)
       if (nw.eq.0) goto 200
-      call unpack(gijkl,8,ijkl,4*nword)
+clmm      call unpack(gijkl,8,ijkl,4*nword)
       do m = 1,nword
         if (abs(gin(m)).gt.tol) then
           ii(1) = ijkl(1,m)
@@ -70,7 +70,7 @@ c     +*vksmo(norb+kk(iperm))*vksmo(3*norb+ll(iperm))*gin(m)
           enddo
         endif
       enddo
-      goto 100
+clmm      goto 100
 c
   200 ecoul = 0.5d0*ecoul
       eexch = -0.25d0*eexch

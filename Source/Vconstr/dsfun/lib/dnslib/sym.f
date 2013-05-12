@@ -26,37 +26,37 @@ c
      +'' determined from two electron integrals'',
      +/,'' threshold = '',g8.2,/)')thresh
 c
-      call search(1,iunit)
+clmm      call search(1,iunit)
 c
 c** read block with integrals ***
 c
-   10 call find(iunit)
-      call get(gin,nw)
+clmm   10 call find(iunit)
+clmm      call get(gin,nw)
 c
 c** End-file block reached when nw=0 ***
 c
-      if (nw.eq.0) goto 70
+clmm      if (nw.eq.0) goto 70
 c
 c** unpack ijkl indices ***
 c
-      call unpack(gijkl,8,ijkl,4*nword)
+clmm      call unpack(gijkl,8,ijkl,4*nword)
 c
 c** loop over integrals
 c
-      do 30 m = 1,nword
-        if (abs(gin(m)).gt.thresh) then
-          i = ijkl(1,m)
-          j = ijkl(2,m)
-          k = ijkl(3,m)
-          l = ijkl(4,m)
-          if ((i.lt.1).or.(j.lt.1).or.(k.lt.1).or.(l.lt.1).or.
-     + (i.gt.norb).or.(j.gt.norb).or.(k.gt.norb).or.
-     + (l.gt.norb)) then
-            write(6,'(/,
-     + '' ERROR; nonexistent determinant '',i3,1x,i3,1x,i3,1x,i3,
-     + '' encountered'')')i,j,k,l
-            stop
-          endif
+clmm      do 30 m = 1,nword
+clmm        if (abs(gin(m)).gt.thresh) then
+clmm          i = ijkl(1,m)
+clmm          j = ijkl(2,m)
+clmm          k = ijkl(3,m)
+clmm          l = ijkl(4,m)
+clmm          if ((i.lt.1).or.(j.lt.1).or.(k.lt.1).or.(l.lt.1).or.
+clmm     + (i.gt.norb).or.(j.gt.norb).or.(k.gt.norb).or.
+clmm     + (l.gt.norb)) then
+clmm            write(6,'(/,
+clmm     + '' ERROR; nonexistent determinant '',i3,1x,i3,1x,i3,1x,i3,
+clmm     + '' encountered'')')i,j,k,l
+clmm            stop
+clmm          endif
 c
 c* search for two identical orbitals. the two remaining orbitals (ia
 c* and ib) then belong to the same symmetry group
@@ -136,18 +136,18 @@ c
               ismgrp(ib) = ngrp
             endif
           endif
-        endif
+clmm        endif
    30 continue
-      goto 10
+clmm      goto 10
 c
-   70 if (nhigh.ne.norb) then
-        write(6,'(/,'' ERROR; number of orbitals assigned '',i4,
-     + '' is not equal to the total number of orbitals '',i4)')
-     + nhigh,norb
-      else
-        write(6,'(/,'' number of orbitals on integral file :'',i4)')
-     + norb
-      endif
+clmm   70 if (nhigh.ne.norb) then
+clmm        write(6,'(/,'' ERROR; number of orbitals assigned '',i4,
+clmm     + '' is not equal to the total number of orbitals '',i4)')
+clmm     + nhigh,norb
+clmm      else
+clmm        write(6,'(/,'' number of orbitals on integral file :'',i4)')
+clmm     + norb
+clmm      endif
 c
 c** check if a symmetry is assigned to all orbitals ***
 c
@@ -228,9 +228,9 @@ c
 c
       x = 0.d0
       lchk = .false.
-      call search(1,iunit)
-  100 call find(iunit)
-      call get(gin,nw)
+clmm      call search(1,iunit)
+clmm  100 call find(iunit)
+clmm      call get(gin,nw)
       if (nw.eq.0) goto 200
       call unpack(gijkl,8,ijkl,4*nword)
       do m = 1,nword
@@ -302,7 +302,7 @@ c
         endif
 c
       enddo
-      goto 100
+clmm      goto 100
 c
   200 do i = 1,ngrp
         do j = 1,ngrp

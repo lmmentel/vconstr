@@ -38,7 +38,7 @@ c
       return
       end
 c
-      function vwn(dnsty)
+      function vwnpotential(dnsty)
 c
 c     This function calculates the VWN-potential
 c

@@ -29,16 +29,16 @@ defaultconfig = {
     'ranlibcommand'      : 'ranlib -s',
     'f77compiler'        : 'gfortran',
     'f90compiler'        : 'gfortran',
-    'f77flags'           : '-c -D_FILE_OFFSET_BITS=64', # -fdefault-integer-8',
-    'f90flags'           : '-c -D_FILE_OFFSET_BITS=64', # -fdefault-integer-8',
+    'f77flags'           : '-c -D_FILE_OFFSET_BITS=64 -fdefault-integer-8 -std=legacy',
+    'f90flags'           : '-c -D_FILE_OFFSET_BITS=64 -fdefault-integer-8',
     'modpathoption'      : '-I',
     'ccompiler'          : 'gcc',
     'cflags'             : '-c -m64 -D_FILE_OFFSET_BITS=64 -Dpentium_linux_ifc -O3 -funroll-loops',
     'link'               : 'gfortran',
     'linkflags'          : '',
     'prioritylibs'       : '',
-    'otherlibs'          : '',  #-L$FORAY_PROJECT_ROOT/lib -lgamess -lddi \
-                            #-L/usr/lib/atlas-base/atlas -llapack -lblas -lpthread ',
+    'otherlibs'          : '-L$FORAY_PROJECT_ROOT/libgamess -lgamess -lddi \
+                            -L/usr/lib/atlas-base/atlas -llapack -lblas -lpthread ',
 #                            -Wl,--start-group  
 #                            $MKLROOT/lib/intel64/libmkl_gf_ilp64.a \
 #                            $MKLROOT/lib/intel64/libmkl_sequential.a \
@@ -76,8 +76,8 @@ debugconfig = {
   'buildsubdir'     : 'debug',
   'installdir'      : '$FORAY_PROJECT_ROOT/bin/'+target['exename'],
   'compileroptions' : {
-    'f90flags' : '-g -Wall -fbacktrace -c -D_FILE_OFFSET_BITS=64',
-    'f77flags' : '-g -Wall -fbacktrace -c -D_FILE_OFFSET_BITS=64',
+    'f90flags' : '-g -Wall -fbacktrace -c -fno-whole-file',
+    'f77flags' : '-g -Wall -fbacktrace -c -fno-whole-file',
     'compilegroupflags' : {
       'default' : '-O2',
       'safe'    : '-O1'

@@ -1088,9 +1088,9 @@ c
         nfinl=nvpr*norb
         hksmat(nstrt+1:nfinl)=vksmo(nstrt+1:nfinl)
       endif
-      call prvec(hksmat,norb,nvpr,'Kohn-Sham orbitals in mo basis')
-      call wmtrx('####  ks-density matrix in mo basis  ####',
-     + pvksmo,norb,1.d-2)
+clmm      call prvec(hksmat,norb,nvpr,'Kohn-Sham orbitals in mo basis')
+clmm      call wmtrx('####  ks-density matrix in mo basis  ####',
+clmm     + pvksmo,norb,1.d-2)
 c
 c** calculate one electron energy, kinetic energy and electron nuclear 
 c** contribution to one electron energy

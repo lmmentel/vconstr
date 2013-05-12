@@ -24,7 +24,7 @@ c
           enddo
         enddo
       enddo
-      call dmpvec(idmp,isks,scrtch,eorb,occ,norb)
+clmm      call dmpvec(idmp,isks,scrtch,eorb,occ,norb)
 c
       return
       end

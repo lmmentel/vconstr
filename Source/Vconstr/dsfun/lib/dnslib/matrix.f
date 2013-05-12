@@ -186,7 +186,7 @@ c
 c
 c-----------------------------------------------------------------------
 c
-      subroutine eigsrt(v,d,ism,n)
+      subroutine eigsort(v,d,ism,n)
 c
 c** sort eigenvectors v, eigenvalues d, and orbital symmetry ism  ***
 c
@@ -221,6 +221,7 @@ c
 c-----------------------------------------------------------------------
 c
       subroutine minvr(a,tol,det,ier,n)
+       use matrixModule
 c
 c in-place inversion of a square matrix by means of Gauss-Jordan 
 c elimination with partial pivoting
@@ -281,23 +282,24 @@ c
 c
 c** multiply column k with pivot and store in w
 c
-        call scaler(n,pivot,w,a(1,k))
+        w = pivot* a(:,k)
 c
 c** move column j to k
 c
-        call fmove(a(1,j),a(1,k),n)
+        a(:,k) = a(:,j)
 c
 c** elimination of row j
 c
         do k=1,n
           rowj=-a(j,k)
-          call gtriad(n,rowj,a(1,k),a(1,k),w)
+clmm          call gtriad(n,rowj,a(1,k),a(1,k),w)
+          a(:,k) = a(:,k) + rowj*w
           a(j,k)=pivot*rowj
         enddo
 c
 c** restore column j 
 c
-        call fmove(w,a(1,j),n)
+        a(:,j) = w
         a(j,j)=pivot
       enddo
 c
@@ -318,12 +320,12 @@ c
 c** copy and shift columns
 c
       do j=1,n-1
-        call fmove(a(1,j+1),a(1,j),n)
+        a(:,j) = a(:,j+1)
       enddo
 c
 c** restore last column
 c
-      call fmove(w,a(1,n),n)
+      a(:,n) = w 
 c
       return
       end

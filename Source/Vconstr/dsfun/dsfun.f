@@ -305,10 +305,10 @@ c     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,idmp,ismo,isno,isao,
 c     + isoe,isks,lsym,lintsm,lrdocc,lrfun,nmosa,nmosb,atmol4)
 c      else
       nmos=2
-clm      call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
-clm     + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
-clm     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
-clm     + isks,lsym,lintsm,lrdocc,lrfun,gdictnfile,gintegfile,nele) 
+      call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
+     + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
+     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
+     + isks,lsym,lintsm,lrdocc,lrfun,gdictnfile,gintegfile,nele) 
 c      endif
 
 clmm      call revind

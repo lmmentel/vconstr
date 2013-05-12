@@ -54,7 +54,6 @@ c
      + bm(:,:),cm(:,:),dsrho(:),vhartr(:),vcond(:),
      +pkd(:,:),apkd(:,:)
 c
-clmm..
       ltrian = .false.
       lcens  = .false.
       lvhart = .false.
@@ -209,10 +208,10 @@ c
 c** dipole : transform KS-density matrix from mo to ao basis
 c     
       call tmtdag(pksmo,norb,pksao,norb,vmoao,5.d-1)
-      call clcdip(dxyz,pksao,idmp,norb)
-      write(6,'(/'' initial dipole moment'')')
-      write(6,'(''  dx = '',f14.10,''    dy = '',f14.10, 
-     + ''    dz = '',f14.10)')dxyz(1),dxyz(2),dxyz(3)
+clmm      call clcdip(dxyz,pksao,idmp,norb)
+clmm      write(6,'(/'' initial dipole moment'')')
+clmm      write(6,'(''  dx = '',f14.10,''    dy = '',f14.10, 
+clmm     + ''    dz = '',f14.10)')dxyz(1),dxyz(2),dxyz(3)
 c    
 c      if (lrfun) then
         allocate(drho(npnt,3),stat=ialloc)
@@ -598,9 +597,9 @@ c
 c
 c** dipole
 c
-        call clcdip(dxyz,pksao,idmp,norb)
-        write(6,'(/''  dx = '',f14.10,''    dy = '',f14.10,
-     + ''    dz = '',f14.10)')dxyz(1),dxyz(2),dxyz(3)
+clmm        call clcdip(dxyz,pksao,idmp,norb)
+clmm        write(6,'(/''  dx = '',f14.10,''    dy = '',f14.10,
+clmm     + ''    dz = '',f14.10)')dxyz(1),dxyz(2),dxyz(3)
 c
         it=1
         ityp(1:nmos)=0
@@ -977,9 +976,9 @@ c
         nfinl=nvpr*norb
         hksmat(nstrt+1:nfinl)=vksmo(nstrt+1:nfinl)
       endif
-      call prvec(hksmat,norb,nvpr,'Kohn-Sham orbitals in mo basis')
-      call wmtrx('####  ks-density matrix in mo basis  ####',
-     + pvksmo,norb,1.d-2)
+clmm      call prvec(hksmat,norb,nvpr,'Kohn-Sham orbitals in mo basis')
+clmm      call wmtrx('####  ks-density matrix in mo basis  ####',
+clmm     + pvksmo,norb,1.d-2)
 c
 c** calculate one electron energy, kinetic energy and electron nuclear 
 c** contribution to one electron energy
@@ -1237,7 +1236,7 @@ c
       pnono(1:norbtr)=0.d0
       scrtc(1:norb*norb)=0.d0
       occno(1:norb)=0.d0
-      call getdmp(idmp,isno,vnoao,occno,norb)
+clmm      call getdmp(idmp,isno,vnoao,occno,norb)
       open(123,file='vnoao')
       do i=1,norb
       ii=(i-1)*norb
@@ -1399,48 +1398,48 @@ c      call erep(pnomov,norb,iint,ehdum,exph)
       iz(46)=47
       iz(47)=46
       iz(48)=48  
-      call search(1,iint)
-  508 call find(iint)
-      call get(gin,nw)
+clmm      call search(1,iint)
+clmm  508 call find(iint)
+clmm      call get(gin,nw)
 c      write(6,'(/,"nw:",i5)') nw
-      if (nw.eq.0) goto 509
-      call unpack(gijkl,8,ijkl,4*nword)
-      do m=1,nword
-      if (abs(gin(m)).gt.1.d-12) then
-      ii1(1)=ijkl(1,m)
-      jj1(1)=ijkl(2,m)
-      kk1(1)=ijkl(3,m)
-      ll1(1)=ijkl(4,m)
+clmm      if (nw.eq.0) goto 509
+clmm      call unpack(gijkl,8,ijkl,4*nword)
+clmm      do m=1,nword
+clmm      if (abs(gin(m)).gt.1.d-12) then
+clmm      ii1(1)=ijkl(1,m)
+clmm      jj1(1)=ijkl(2,m)
+clmm      kk1(1)=ijkl(3,m)
+clmm      ll1(1)=ijkl(4,m)
 c      write(6,'(/,"unperm numbers:",5i5)') m,ii1(1),jj1(1)
 c     +,kk1(1),ll1(1)
-      call nrperm(ii1(1),jj1(1),kk1(1),ll1(1),np)
-      do iperm=1,np
-      k=0
-      do i=1,8
-      ii=(iz(i)-1)*norb
+clmm      call nrperm(ii1(1),jj1(1),kk1(1),ll1(1),np)
+clmm      do iperm=1,np
+clmm      k=0
+clmm      do i=1,8
+clmm      ii=(iz(i)-1)*norb
 c      ii=(i-1)*norb
-      if(k.eq.0) then
-      iin=(iz(i+1)-1)*norb
-      else
-      iin=(iz(i-1)-1)*norb
-      endif
-      do j=1,8,2
+clmm      if(k.eq.0) then
+clmm      iin=(iz(i+1)-1)*norb
+clmm      else
+clmm      iin=(iz(i-1)-1)*norb
+clmm      endif
+clmm      do j=1,8,2
 c      do j=1,8
-      jj=(iz(j)-1)*norb
+clmm      jj=(iz(j)-1)*norb
 c      jj=(j-1)*norb
-      jjn=(iz(j+1)-1)*norb
-      fij(ii+iz(j))=fij(ii+iz(j))+vnomo(ii+ii1(iperm))*vnomo(jj+
-     +jj1(iperm))*vnomo(iin+kk1(iperm))*vnomo(jjn
-     ++ll1(iperm))*gin(m)
+clmm      jjn=(iz(j+1)-1)*norb
+clmm      fij(ii+iz(j))=fij(ii+iz(j))+vnomo(ii+ii1(iperm))*vnomo(jj+
+clmm     +jj1(iperm))*vnomo(iin+kk1(iperm))*vnomo(jjn
+clmm     ++ll1(iperm))*gin(m)
 c      fij(ii+j)=fij(ii+j)+vnomo(ii+ii1(iperm))*vnomo(jj+jj1(iperm))
 c     +*vnomo(ii+kk1(iperm))*vnomo(jj+ll1(iperm))*gin(m) 
-      enddo
-      if(k.eq.0) then
-      k=k+1
-      else
-      k=k-1
-      endif
-      enddo
+clmm      enddo
+clmm      if(k.eq.0) then
+clmm      k=k+1
+clmm      else
+clmm      k=k-1
+clmm      endif
+clmm      enddo
 c      write(6,'(/,"iperm:",5i5)') iperm,ii1(iperm),jj1(iperm)
 c     +,kk1(iperm),ll1(iperm)
 c      do i=1,norb
@@ -1464,10 +1463,10 @@ c     +*gin(m)
 c  510 continue
 c      enddo
 c      enddo
-      enddo
-      endif
-      enddo
-      goto 508
+clmm      enddo
+clmm      endif
+clmm      enddo
+clmm      goto 508
   509 eetot=0.d0
       eetot1=0.d0
       k=0
