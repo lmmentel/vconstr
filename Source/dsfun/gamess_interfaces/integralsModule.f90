@@ -209,7 +209,7 @@ module IntegralsModule
   type(dictionaryType)  :: dictionary
   type(energyType)      :: energy
   real(DP), allocatable :: Htemp(:)
-
+   
   call new(dictionary, dictionaryfile)
 
   allocate(Htemp(size(T)))

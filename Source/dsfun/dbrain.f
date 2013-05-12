@@ -1,7 +1,7 @@
       subroutine dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,
      + crrmx,thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
      + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
-     + isks,lsym,lintsm,lrdocc,lrfun,atmol4,gdictfile,gintegfile,
+     + isks,lsym,lintsm,lrdocc,lrfun,gdictfile,gintegfile,
      + nele,iprint)
       use integralsModule
       use ioModule
@@ -139,6 +139,12 @@ clmm..
 clmm..read kinetic energy electron-nucleus attarction integrals 
 clmm..and nuclear repulsion energy from gamess-us dictionary
       call readOneEintegrals(tsmat, vnmat, enuc, gDictFile)
+      if (iprint >= 2) then 
+        call matPrint(tsmat, norb,'Kinetic energy integrals')
+        call matPrint(vnmat, norb,'Potential energy integrals')
+        write(*,'("Nuclear repulsion energy = ",f10.4)') enuc
+      endif
+      stop 
 c
 c** read dumpfile : vmopao - molecular orbitals in primitive ao basis
 c**                 vmoao  - molecular orbitals in ao basis
@@ -153,7 +159,7 @@ clmm..now read the orbitals
      & vmoao, pmo, pnomo, norb, 
      & rnel, nele, gDictFile)
       if (iprint >= 2) then 
-        call matPrint(reshape(vmopao, (/nb, nb/)), 
+        call matPrint(reshape(vmopao, (/norb, norb/)), 
      & 'Vmo in primitive ao, vmopao')
       endif
 c
