@@ -98,6 +98,9 @@ clmm..added a call for reading gamess-us core hamiltonian matrix in MO basis (ne
 clmm..      call new(dictionary, gdictnfile)
 clmm..      call readH(hmatx, dictionary)
       if (lsym) then
+clmm..write an information about features that are not implemented yet
+        write(*,*) 'Option lsym=.true. not implemented yet'
+        stop 'bye bye from -dbrain-'
 c
 c** determine symmetry of the orbitals, using the orbitals itself if
 c** lintsm, else using the hamiltonian matrix
@@ -408,7 +411,7 @@ c
         endif
 c
 c        if (.not.lvhart) then
-          call clcvhr(pksmo,norb,iint,vhrmat)
+          call clcvhr(pksmo,norb,vhrmat, gintegfile)
 c        endif
 c
 c** add elements to h-matrix

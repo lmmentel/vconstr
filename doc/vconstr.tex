@@ -1,0 +1,256 @@
+\documentclass[onecolumn,preprintnumbers,amsmath,amssymb]{revtex4}
+
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\du}{\partial}
+\newcommand{\Energy}{\mathcal{E}}
+\newcommand{\Acal}{\mathcal{A}}
+\newcommand{\Bcal}{\mathcal{B}}
+\newcommand{\Ccal}{\mathcal{C}}
+\newcommand{\Ecal}{\mathcal{E}}
+\newcommand{\Kcal}{\mathcal{K}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Wcal}{\mathcal{W}}
+\newcommand{\eqspace}{\phantom{=}\,\,\,\:\!}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\thalf}{\tfrac{1}{2}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\expo}[1]{\mathrm{e}^{#1}}
+
+%bold symbols
+\newcommand{\mb}[1]{\boldsymbol{#1}}
+\newcommand{\br}{\mb{r}}
+\newcommand{\bx}{\mb{x}}
+
+%creation and annihilation operators
+\newcommand{\crea}[1]{\hat{#1}^{\dagger}}
+\newcommand{\anni}[1]{\hat{#1}^{\vphantom{\dagger}}}
+
+%Extra operators
+\DeclareMathOperator{\Fourier}{\mathcal{F}}
+\DeclareMathOperator{\Imag}{Im}
+\DeclareMathOperator{\Real}{Re}
+\DeclareMathOperator*{\Residual}{\mathrm{Res}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Time}{\mathcal{T}}
+\DeclareMathOperator{\Trace}{\mathrm{Tr}}
+
+%Integral operators
+\newcommand{\integ}[1]{\int\!\!\!\:\ud{#1}\:}
+\newcommand{\iinteg}[2]{\integ{#1}\!\!\!\integ{#2}}
+\newcommand{\iiinteg}[3]{\integ{#1}\!\!\!\integ{#2}\!\!\!\integ{#3}}
+
+%Brakets
+\newcommand{\bra}[1]{\langle{#1}|}
+\newcommand{\ket}[1]{|{#1}\rangle}
+
+\newcommand{\abraket}[2]{\left\langle{#1}\middle|{#2}\right\rangle}
+\newcommand{\braket}[2]{\langle{#1}|{#2}\rangle}
+\newcommand{\bigbraket}[2]{\bigl\langle{#1}\big|{#2}\bigr\rangle}
+\newcommand{\abrakket}[3]{\left\langle {#1}\middle|{#2}\middle|{#3} \right\rangle}
+\newcommand{\brakket}[3]{\langle{#1}|{#2}|{#3}\rangle}
+\newcommand{\bigbrakket}[3]{\bigl\langle{#1}\big|{#2}\big|{#3}\bigr\rangle}
+
+%sqrt not scaling with the superscript
+\newlength{\back}
+\newcommand{\tsqrt}[2]{%
+\settowidth{\back}{${#1}^{#2}$}%
+\sqrt{\vphantom{#1}\hphantom{{#1}^{#2}}}\hskip-\back{#1}^{#2}%
+}
+
+%temporary counters
+\newcounter{saveCounter1}
+\newcounter{saveCounter2}
+\newcounter{backupCounter}
+
+%allow page breaks for equations (\\* prevents them at that line)
+\allowdisplaybreaks[2]
+
+%figure directory
+\def\figdir{figures}
+
+\begin{document}
+
+\preprint{Version 1.0}
+
+\title{ATMOL based sub-modules in the module VCONSTR calculating the conditional potential (VCOND by M.A. Buijse), the KS xc potential (DSFUN by R. van Leeuwen), and performing the GGA/LDA self-consistent calculations (SCF by P.R.T. Schipper)}
+\author{Oleg}
+
+\date{\today}  
+
+\maketitle
+
+\textbf{Where ATMOL and the sub-modules work?} Currently, VCOND works nowhere, while ATMOL, DSFUN and SCF work on the old IBM-SCM machine (which, however, cannot be reached from another computer) and on the WCU02 cluster (Pohang, Korea). 
+
+\textbf{How the sub-modules work?} Run ATMOL first, then run VCOND or DSFUN, or SCF. In the case of VCOND run first ATMOL with the additional Buijse's directive P2MTRX in the job specification of the ATMOL CI program DIRECT. 
+
+\textbf{Input from ATMOL:} 
+
+\textbf{VCOND} reads \textbf{a})the parameters of the Gaussian basis set functions, \textbf{b})the MO-AO transformation matrix from the ATMOL dump file ED3. It also reads \textbf{c})the 2RDM in the HF-MO basis from the ATMOL-Buijse dump file ED5.
+
+\textbf{DSFUN} reads \textbf{a})the parameters of the Gaussian basis set functions, \textbf{b})the one-electron integrals in the HF-MO basis, \textbf{c})the MO-AO transformation matrix, \textbf{d})the correlated NO-AO transformation matrix from the ATMOL dump file ED3. It also reads \textbf{e})two-electron integrals in the HF-MO basis from the ATMOL dump file ED6. 
+
+\textbf{SCF} reads \textbf{a})the parameters of the Gaussian basis set functions, \textbf{b})the one-electron integrals in the HF-MO basis, \textbf{c})the MO-AO transformation matrix from the ATMOL dump file ED3. It also reads \textbf{e})two-electron integrals in the HF-MO basis from the ATMOL dump file ED6.
+
+\textbf{Additional input: VCOND, DSFUN, and SCF} all read the grid points and weights from the additional file $points$. 
+
+\section{Structure of the sub-module DSFUN}
+DSFUN consists of the main program DSFUN, the main subroutine DBRAIN and a number of the auxiliary subroutines.
+
+\textbf{How the main program DSFUN works?} DSFUN reads from the job file the initial parameters, such as the number of occupied MOs and the parameters of the initial GGA-LB potential and it calls the main subroutine DBRAIN. 
+
+\textbf{How the main subroutine DBRAIN works?} DBRAIN constructs the KS xc potential $v_{xc}(\br_1)$, the occupied KS MOs of which would give the correlated ATMOL-CI electron density $\rho^{CI}(\br_1)$, the latter is assembled in DBRAIN from the ATMOL one-electron quantities.  $v_{xc}(\br_1)$ is constructed numerically in the grid points $\br_1$ with the LB procedure. This procedure starts with the initial guess $v_{xc}^0(\br_1)$, which is updated at each iteration $i$ according to the relation
+\begin{align}
+\label{eq:vxc}
+v_{xc}^i(\br_1) = \frac{\rho^{CI}(\br_1)+d}{\rho^{(i-1)}(\br_1)+d}v_{xc}^{(i-1)}(\br_1)
+\end{align}      
+until the self-consistency. In Eq.(\ref{eq:vxc}) $\rho^{(i-1)}$ and $v_{xc}^{(i-1)}$ are the KS density and xc potential from the previous iteration, while $d$ is the damping parameter.  
+
+\textbf{Flowchart of the main subroutine DBRAIN}
+
+Read the grid points and weights from the additional file $points$. 
+
+Read the matrix of the one-electron integrals $\mathbf{V_{oe}}$ in the HF-MO basis as well as MO-AO and NO-AO transformation matrices from the ATMOL dump file ED3. 
+
+Call the subroutine CLCVLS to calculate the correlated electron density, its gradient, and Laplacian in the grid points.
+
+Call the subroutine VNTIAL to calculate the initial approximate GGA-LB xc potential in the grid points.
+
+Loop over the iterations with the parameter $itr$.
+
+Call the subroutine VLCHXC, which updates $v_{xc}(\br_1)$ in the grid points.
+
+Call the subroutine VKSMAT, which calculates the KS xc potential matrix $\mathbf{V_{xc}}$ in the HF-MO basis.
+
+Call the subroutine CLCVHR, which calculates the matrix $\mathbf{V_{H}}$ in the HF-MO basis of the Hartree potential of the current KS electron density. 
+
+Call the subroutine DIAGLZ, which diagonalizes the sum $(\mathbf{V_{oe}}+\mathbf{V_{H}}+\mathbf{V_{xc}})$, thus producing the KS orbitals with the orbital energies.
+
+Calculate the KS 1RDM in the HF-MO basis.
+
+Calculate the KS electron density in the grid points.
+
+Calculate kinetic and electron-nuclear attraction KS energy using the ATMOL one-electron matrices and KS-MO transformation matrices.
+
+Call the subroutine EREP to calculate the KS Hartree and exchange energies. 
+
+End of loop over the iterations.
+
+Calculate kinetic and electron-nuclear attraction HF and CI energies using the ATMOL one-electron quantities.
+
+Call the subroutine EREP to calculate the HF and CI Hartree and the HF exchange energies.
+
+\textbf{Output of DBRAIN}:
+
+Xc KS potential in the grid points - to a specified file (vxc.dat).
+
+The KS-HF MO transformation matrix - to a specified section of the dump file ED3.
+
+The energies of the KS MOs.
+
+KS and HF energy expectation values and their components.
+
+CI kinetic, electron-nuclear attraction, and Hartree energy values.
+
+\section{Structure of the sub-module SCF}
+SCF consists of the main program SCF, the main subroutine SBRAIN and a number of the auxiliary subroutines.
+
+\textbf{How the main program SCF works?} SCF reads from the job file the initial parameters, such as the number of occupied MOs and the specification of the LDA/GGA functional. Options for the exchange functionals: LDA, B88, PW91. Options for the correlation functionals: LDA (WVN), LYP, P86, PW91. Then, it calls the main subroutine DBRAIN. 
+
+\textbf{How the main subroutine SBRAIN works?} SBRAIN performs the self-consistent calculation of the specified LDA/GGA functional using one- and two-electron integrals from the preceding ATMOL calculation.
+
+\textbf{Flowchart of the main subroutine SBRAIN}
+
+Read the grid points and weights from the additional file $points$. 
+
+Read the matrix of the one-electron integrals $\mathbf{V_{oe}}$ in the HF-MO basis and MO-AO transformation matrix from the ATMOL dump file ED3. 
+
+Call the subroutine CLRHOD to calculate the HF electron density, its gradient, and Laplacian in the grid points.
+
+Call the subroutine CLCVXC to calculate the initial LDA/GGA xc potential in the grid points from the HF electron density.
+
+Loop over the iterations with the parameter $itr$.
+
+Call the subroutine CLCVXC to calculate the LDA/GGA xc potential in the grid points.
+
+Call the subroutine VKSMAT, which calculates the LDA/GGA xc potential matrix $\mathbf{V_{xc}}$ in the HF-MO basis.
+
+Call the subroutine CLCVHR, which calculates the matrix $\mathbf{V_{H}}$ in the HF-MO basis of the Hartree potential of the current LDA/GGA electron density. 
+
+Call the subroutine DIAGLZ, which diagonalizes the sum $(\mathbf{V_{oe}}+\mathbf{V_{H}}+\mathbf{V_{xc}})$, thus producing the LDA/GGA orbitals with the orbital energies.
+
+Calculate the LDA/GGA 1RDM in the HF-MO basis.
+
+Calculate the LDA/GGA electron density in the grid points.
+
+Calculate kinetic and electron-nuclear attraction LDA/GGA energy using the ATMOL one-electron matrices and KS-MO transformation matrices.
+
+Call the subroutine EREP to calculate the Hartree energy with the LDA/GGA electron density. 
+
+End of loop over the iterations.
+
+Call the subroutine CLCEXC to calculate the LDA/GGA xc energies.
+
+Calculate the total LDA/GGA energy.
+
+\textbf{Output of SBRAIN}:
+
+The KS-HF MO transformation matrix - to a specified section of the dump file ED3.
+
+The energies of the KS MOs.
+
+The total LDA/GGA energies and its components.
+
+LDA/GGA xc potential in the grid points - to a specified file (vxc.dat).
+
+LDA/GGA electron density in the grid points - to a specified file (dnst.dat)
+
+\section{Structure of the sub-module VCOND:} 
+VCOND consists of the main program VCNDEX, the main subroutine VBRAIN and a number of the auxiliary subroutines.
+
+\textbf{How the main program VCNDEX works?} VCNDEX reads from the job file the number of electrons with the directive RNEL and it sets the adresses of the dump files  and their sections with one-electron quantities and 2RDM. Then, it calls the main subroutine VBRAIN.
+
+\textbf{How the main subroutine VBRAIN works?} VBRAIN calculates the conditional potential $v^{cond}(\br_1)$, which is defined through the pair density $\Gamma(\br_1,\br_2)$ and the density $\rho(\br_1)$ as follows
+\begin{align}
+\label{eq:vcond}
+v^{cond}(\br_1) = \frac{1}{\rho(\br_1)}\int \frac{\Gamma(\br_1,\br_2)}{r_{12}}.
+\end{align}      
+In a particular basis, for instance, in the basis of the HF MOs $\{\phi_i\}$ Eq.(\ref{eq:vcond}) assumes the following form
+\begin{align}
+\label{eq:vcondao}
+v^{cond}(\br_1) = \sum_{ij}\biggl(\sum_{kl} \frac{\Gamma_{klij}\phi_k(\br_1)\phi_l^*(\br_1)}{\rho(\br_1)}\biggr)\int \frac{\phi_i(\br_2)\phi_j^*(\br_2)}{r_{12}}d\br_2.
+\end{align}      
+
+\textbf{Flowchart of the main subroutine VBRAIN}
+
+Loop over the grid points $\br_i$.
+
+Call the subroutine CCINTW, which calculates the one-electron integrals of the "nuclear attraction" type $\int \frac{f_i(\br_2)f_j^*(\br_2)}{|\br_i - \br_2|}d\br_2$ in the AO basis.
+
+Loop over the index $i$. 
+
+Loop over the index $j$.
+
+Call the subroutine COND, which calculates the function $c^{\phi}(i,j;r_i) = \sum_{kl} \frac{\Gamma_{klij}\phi_k(\br_i)\phi_l^*(\br_i)}{\rho(\br_i)}$ in the HF MO basis.
+
+Call the subroutine TMTDAG, which transforms $c^{\phi}(i,j;\br_i)$ to the function $c^f(i,j;\br_i)$ in the AO basis.
+
+Construct $v^{cond}(\br_i)$ at the point $\br_i$ by adding for each pair of the indices $i,j$: 
+
+$v^{cond}(\br_i) = v^{cond}(\br_i) + c^f(i,j;\br_i) \int \frac{f_i(\br_2)f_j^*(\br_2)}{|\br_i - \br_2|}d\br_2$. 
+
+End of the loop over the index $j$.
+
+End of the loop over the index $i$.
+
+End of the loop over the grid points $\br_i$.
+
+End of the subroutine vbrain.
+
+\end{document}
+

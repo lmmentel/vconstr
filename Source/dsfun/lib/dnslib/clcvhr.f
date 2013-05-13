@@ -1,4 +1,6 @@
-      subroutine clcvhr(pmo,norb,iunit,vhrmat)
+      subroutine clcvhr(pmo,norb,iunit,vhrmat, gintegfile)
+       use integralsModule
+       use varModule
 c***********************************************************************
 c
 c Calculate the Hartree potential associated with the one-particle 
@@ -14,21 +16,25 @@ c***********************************************************************
       implicit real*8(a-h,o-z),integer(i-n)
 c
       dimension pmo(norb*(norb+1)/2),vhrmat(norb*(norb+1)/2)
-      dimension ij(norb,norb),ii(8),jj(8),ll(8),kk(8)
+clmm      dimension ij(norb,norb),ii(8),jj(8),ll(8),kk(8)
 c
       common/atbuf/gin(340),gijkl(170),nword,ndum
       common/scijkl/ijkl(4,340)
+clmm..matrix for storing two electron integrals
+      real(dp), allocatable :: twoEint(:)
+clmm..name of the gamess-us tow electron integral file
+      character(*) gintegfile 
 c
       vhrmat(1:norb*(norb+1)/2)=0.d0
 c
 c*** array ij is used for storage of i*(i-1)/2+j ***
 c
-      do i = 1,norb
-        do j = 1,i
-          ij(i,j) = i*(i-1)/2+j
-          ij(j,i) = ij(i,j)
-        enddo
-      enddo
+clmm      do i = 1,norb
+clmm        do j = 1,i
+clmm          ij(i,j) = i*(i-1)/2+j
+clmm          ij(j,i) = ij(i,j)
+clmm        enddo
+clmm      enddo
 c
 c* multiply off-diagonal elements of pmo with 0.5
 c* (multiply again with 2.0 before leaving routine)
@@ -60,8 +66,42 @@ clmm          enddo
 clmm        endif
 clmm      enddo
 clmm      goto 100
-c
-  200 continue
+clmcc
+clmm  200 continue
+clmm
+clmm..calculate the dimnsion for the two electron integral vector
+clmm..and allocate the vector 
+
+      n1 = norb*(norb+1)/2
+      n2 = n1*(n1+1)/2
+      allocate(twoEint(n2))
+
+clmm..read the two electron integrals
+
+      call readTwoIntMO(twoEint)
+
+clmm..calculate the  hartree potential and store it in 'vhrmat'
+
+      do i = 1, norb
+        do j = 1, i
+          ij = ij + 1
+          kl = 0
+          cumul = 0.0d0
+          do k = 1, norb
+            do l = 1, k
+              kl = kl + 1
+              if (ij >= kl .and. abs(twoEint(addr(i,j,k,l))) > 1.0d-10) then
+                cumul = cumul + pmo(kl)*twoEint(addr(i,j,k,l))
+              endif
+            enddo
+          enddo
+          vhrmat(ij) = cumul
+        enddo
+      enddo   
+
+clmm..two electron integrals are no longer needed
+     
+      deallocate(twoEint)
 c
 c** multiply off-diagonal elements of pmo with 2.0
 c

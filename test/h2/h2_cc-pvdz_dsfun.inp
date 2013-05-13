@@ -1,0 +1,25 @@
+&input
+    nmos=1
+    occ=2
+    itrx=1
+    tstthr=1.0d-10
+    smtype='h-matrix'
+    thresh=1.0d-6
+    alpha=1.373
+    beta=2.0
+    gamma=2.0
+    title='h2'
+    gbasisfile='h2_cc-pvdz.basinfo'
+    gdictnfile='h2_cc-pvdz.F10'
+    gintegfile='h2_cc-pvdz.F09'
+    df=1.1234d0
+    nppr=3  
+    scfdmp=0.5d0
+    lrfun=.false.
+    dvdmp=0.3d0
+    lfield=.true.
+    fxyz(1)=1.1,2.2,3.3
+    lsym=.false.
+    lintsm=.false.
+    iprint=2
+/
