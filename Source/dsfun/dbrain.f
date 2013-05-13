@@ -160,12 +160,10 @@ clmm..now read the orbitals
       call getOrbitalsAndDensities(vmopao, 
      & vmoao, pmo, pnomo, norb, 
      & rnel, nele, gDictFile)
-      stop
       if (iprint >= 2) then 
         call matPrint(reshape(vmopao, (/norb, norb/)), 
      & 'Vmo in primitive ao, vmopao')
       endif
-      stop
 c
 c      call clcvhr(pnomo,norb,iint,vhrmat)
 c
@@ -250,72 +248,72 @@ c
         write(76,*) vnuc(ip)
       enddo
 c
-      nroot=28
-      na1=10
-      ma1=28
-      i=1
-      open(88,file='dag.dat')
-      do id=1,nroot
-      do irow=1,na1
-      if(irow.eq.10) then
-      read(88,*) dymo(i)
-      i=i+1
-      else
-      read (88,*) dymo(i),dymo(i+1),dymo(i+2)
-      i=i+3
-      endif
-      enddo
-      enddo
-      close(88)
-      open(77,file='dymo.dat')
-      rewind(77)
-      do id=1,nroot
-      do irow=1,28
-      i=(id-1)*ma1+irow
-      write(77,*) dymo(i)
-      enddo
-      enddo
-      close(77)
-      open(66,file='iag.dat')
-      rewind(66)
-      do i=1,ma1
-      read(66,*) ia(i)
-      enddo
-      close(66) 
-      open(89,file='ocag.dat')
-      rewind(89)
-      do i=1,nroot
-      read(89,*) oc(i)
-      enddo
-      close(89)
-      do i=1,npnt
-      do j=1,nroot
-      ij=(i-1)*nroot+j
-      valdo(ij)=0.0d0
-      enddo
-      enddo
-      do ipnt=1,npnt
-      k=(ipnt-1)*nroot
-      j=(ipnt-1)*norb
-      do id=1,nroot
-      ic=(id-1)*ma1
-      do im=1,ma1
-      imo=ia(im)
-      valdo(k+id)=valdo(k+id)+valmo(j+imo)*dymo(ic+im)
-      enddo
-      enddo
-      enddo
-      do i=1,nroot
-      anorm(i)=0.0d0
-      enddo
-      do ipnt=1,npnt
-      k=(ipnt-1)*nroot
-      do id=1,nroot
-      anorm(id)=anorm(id)+valdo(k+id)*valdo(k+id)*weight(ipnt)
-      enddo
-      enddo
-      write(6,'(/"Dyson norm :",10(1x,f11.6))')
-     +(anorm(i),i=1,nroot) 
+clmm      nroot=28
+clmm      na1=10
+clmm      ma1=28
+clmm      i=1
+clmm      open(88,file='dag.dat')
+clmm      do id=1,nroot
+clmm      do irow=1,na1
+clmm      if(irow.eq.10) then
+clmm      read(88,*) dymo(i)
+clmm      i=i+1
+clmm      else
+clmm      read (88,*) dymo(i),dymo(i+1),dymo(i+2)
+clmm      i=i+3
+clmm      endif
+clmm      enddo
+clmm      enddo
+clmm      close(88)
+clmm      open(77,file='dymo.dat')
+clmm      rewind(77)
+clmm      do id=1,nroot
+clmm      do irow=1,28
+clmm      i=(id-1)*ma1+irow
+clmm      write(77,*) dymo(i)
+clmm      enddo
+clmm      enddo
+clmm      close(77)
+clmm      open(66,file='iag.dat')
+clmm      rewind(66)
+clmm      do i=1,ma1
+clmm      read(66,*) ia(i)
+clmm      enddo
+clmm      close(66) 
+clmm      open(89,file='ocag.dat')
+clmm      rewind(89)
+clmm      do i=1,nroot
+clmm      read(89,*) oc(i)
+clmm      enddo
+clmm      close(89)
+clmm      do i=1,npnt
+clmm      do j=1,nroot
+clmm      ij=(i-1)*nroot+j
+clmm      valdo(ij)=0.0d0
+clmm      enddo
+clmm      enddo
+clmm      do ipnt=1,npnt
+clmm      k=(ipnt-1)*nroot
+clmm      j=(ipnt-1)*norb
+clmm      do id=1,nroot
+clmm      ic=(id-1)*ma1
+clmm      do im=1,ma1
+clmm      imo=ia(im)
+clmm      valdo(k+id)=valdo(k+id)+valmo(j+imo)*dymo(ic+im)
+clmm      enddo
+clmm      enddo
+clmm      enddo
+clmm      do i=1,nroot
+clmm      anorm(i)=0.0d0
+clmm      enddo
+clmm      do ipnt=1,npnt
+clmm      k=(ipnt-1)*nroot
+clmm      do id=1,nroot
+clmm      anorm(id)=anorm(id)+valdo(k+id)*valdo(k+id)*weight(ipnt)
+clmm      enddo
+clmm      enddo
+clmm      write(6,'(/"Dyson norm :",10(1x,f11.6))')
+clmm     +(anorm(i),i=1,nroot) 
 c
       open(11,file='rhcc.dat')
       rewind(11)
@@ -412,6 +410,8 @@ c
 c
 c        if (.not.lvhart) then
           call clcvhr(pksmo,norb,vhrmat, gintegfile)
+          call matPrint(vhrmat, norb, 'Hartree potential matrix') 
+      stop 'just after -clcvhr-'
 c        endif
 c
 c** add elements to h-matrix

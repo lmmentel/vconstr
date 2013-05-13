@@ -58,7 +58,7 @@ module IntegralsModule
   end interface
 
   interface ReadTwoIntMO
-    module procedure ReadTwoIntMO
+    module procedure readTwoEintegralsInMO
   end interface
 
   interface addr
@@ -362,6 +362,16 @@ module IntegralsModule
                                                                         
   end function
 
+  subroutine readTwoEintegralsInMO(twoEint, twoEintegralsFile)
+    real(dp),         intent(out) :: twoEint(:)
+    character(len=*), intent(in)  :: twoEintegralsFile
+
+    open(unit=twoein, file=twoEintegralsFile, status='old', form='unformatted')
+    call readTwoEintegralsMOfile(twoEint)
+    close(twoein)
+  end subroutine readTwoEintegralsInMO
+
+
   subroutine ReadTwoIntAO(TwoIntAO)
     use VarModule
 ! read two-electron integrals over AO's
@@ -470,7 +480,7 @@ module IntegralsModule
     deallocate(indexBuffer)
   end subroutine
 
-  subroutine ReadTwoIntMO(TwoIntMO)
+  subroutine readTwoEintegralsMOfile(TwoIntMO)
     use VarModule
     real(DP),         intent(inout)   :: TwoIntMO(:)
 
@@ -577,7 +587,7 @@ module IntegralsModule
    
     deallocate(buffer)
     deallocate(indexBuffer)
-  end subroutine
+  end subroutine readTwoEintegralsMOfile
 
   subroutine print4indexVec(fi, nb)
  !  use dmftHelpModule

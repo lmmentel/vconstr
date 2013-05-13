@@ -1,4 +1,4 @@
-      subroutine clcvhr(pmo,norb,iunit,vhrmat, gintegfile)
+      subroutine clcvhr(pmo, norb, vhrmat, gintegfile)
        use integralsModule
        use varModule
 c***********************************************************************
@@ -75,13 +75,15 @@ clmm..and allocate the vector
       n1 = norb*(norb+1)/2
       n2 = n1*(n1+1)/2
       allocate(twoEint(n2))
+      twoEint = 0.0d0
 
 clmm..read the two electron integrals
 
-      call readTwoIntMO(twoEint)
+      call readTwoIntMO(twoEint, trim(gintegfile))
 
 clmm..calculate the  hartree potential and store it in 'vhrmat'
 
+      ij = 0
       do i = 1, norb
         do j = 1, i
           ij = ij + 1
@@ -90,15 +92,18 @@ clmm..calculate the  hartree potential and store it in 'vhrmat'
           do k = 1, norb
             do l = 1, k
               kl = kl + 1
-              if (ij >= kl .and. abs(twoEint(addr(i,j,k,l))) > 1.0d-10) then
-                cumul = cumul + pmo(kl)*twoEint(addr(i,j,k,l))
+              if (ij >= kl .and. abs(twoEint(addr(i,j,k,l))) > 1.0d-10)
+     &  then
+                factor = 1.0d0
+                if (k /= l) factor = 2.0d0
+                  cumul = cumul + pmo(kl)*twoEint(addr(i,j,k,l))*factor
               endif
             enddo
           enddo
           vhrmat(ij) = cumul
         enddo
       enddo   
-
+      call print4i(twoEint, norb)
 clmm..two electron integrals are no longer needed
      
       deallocate(twoEint)
