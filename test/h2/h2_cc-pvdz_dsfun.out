@@ -1,50 +1,5 @@
   Selfconsistent Kohn-Sham calculation 
 
-     ========================
-     Gamess-US job parameters
-     ========================
-
-Gamess-US job title                          =  Hydrogen molecule at equlibium in cc-pVDZ basis                                
-Number of atoms                              =     2
-Total charge                                 =     0
-Multiplicity                                 =     1
-Number of basis functions                    =    10
-Number of orbitals (spherical)               =    10
-Total number of electrons                    =     0
-Number of alpha electrons                    =     1
-Number of beta electrons                     =     1
-Number of basis set shells                   =     6
-Number of cartesian gaussian basis functions =     5
-
-     ========
-     Geometry
-     ========
-
-           1.00        0.00000   0.00000  -0.72437
-           1.00        0.00000   0.00000   0.72437
-
-     =========
-     Basis set
-     =========
-
-  Shell   Type   Primitive       Exponent     Contraction Coefficient(s)
-
-     Atom    1     Charge =  1.00
-
-      4      S      1            13.0100000    0.033498726390
-      4      S      2             1.9620000    0.234800801174
-      4      S      3             0.4446000    0.813682957883
-      5      S      4             0.1220000    1.000000000000
-      6      P      5             0.7270000    1.000000000000
-
-     Atom    2     Charge =  1.00
-
-      4      S      1            13.0100000    0.033498726390
-      4      S      2             1.9620000    0.234800801174
-      4      S      3             0.4446000    0.813682957883
-      5      S      4             0.1220000    1.000000000000
-      6      P      5             0.7270000    1.000000000000
-
 WARNING; symmetry determination not properly specified
 
 
@@ -259,22 +214,24 @@ Sum of NO occupation numbers =  2.000
    9      0.00000   0.00000   0.96791   0.00000   0.00000
   10      0.00000   0.71084   0.00000   0.00000  -1.95279
 
+ before -clcvls-
 
- density :  2.000     integration errors -2.000    -2.000    0.6465E+07 0.000    
+ density :  2.000     integration errors  828.4    -2.000    0.3245E+08 126.6    
 WARNING; seems like the basis orbitals are symmetry adapted
- Von Weizacker kinetic energy :  0.00000    
+ Von Weizacker kinetic energy :  52740.2    
  Orbital Errors upon Integration
 
-  1  1.0     0.50     0.50     0.50     0.98E+07
-  2  1.0     0.50     0.50     0.50     0.11E+10
-  3  1.0     0.50     0.50     0.50     0.16E+09
-  4  1.0     0.50     0.50     0.50     0.77E+09
-  5  1.0     0.50     0.50     0.50     0.14E+08
-  6  1.0     0.50     0.50     0.50     0.14E+06
-  7  1.0     0.50     0.50     0.50     0.14E+08
-  8  1.0     0.50     0.50     0.50     0.39E+08
-  9  1.0     0.50     0.50     0.50     0.39E+06
- 10  1.0     0.50     0.50     0.50     0.29E+07
+  1 0.30E+03 0.50     0.50     0.50     0.45E+08
+  2  20.     0.50     0.50     0.50     0.24E+08
+  3 0.16E+03 0.50     0.50     0.50     0.12E+09
+  4 0.18E+05 0.50     0.50     0.50     0.30E+07
+  5 0.23E+05 0.50     0.50     0.50     0.93E+07
+  6  20.     0.50     0.50     0.50     0.38E+06
+  7 0.31E+06 0.50     0.50     0.50     0.13E+09
+  8 0.26E+05 0.50     0.50     0.50     0.16E+08
+  9  1.0     0.50     0.50     0.50      3.0    
+ 10 0.46E+06 0.50     0.50     0.50     0.81E+10
+ after -clcvls-
 
 
  ----- itr    0 -----
@@ -563,7 +520,6 @@ WARNING; seems like the basis orbitals are symmetry adapted
      10   10    4    4      0.62673466643118
      10   10    5    5      0.62219142717170
      10   10    6    6      0.62219142717170
-STOP just after -clcvhr-
      10   10    7    1      0.00534286075499
      10   10    7    3     -0.05555501951512
      10   10    7    7      0.67277654208968
@@ -599,6 +555,7 @@ STOP just after -clcvhr-
    6      1.28536   0.00000   0.00000   0.00000   0.00000
    7      0.00000   1.24276   0.00000   0.00000   0.00000
    8      0.00000   0.00000   1.18766   0.00000   0.00000
+STOP just after -clcvhr-
    9      0.00000   0.00000   0.00000   1.18766   0.00000
   10      0.00000   0.00000   0.00000   0.00000   1.31173
 

@@ -1,4 +1,6 @@
 module basisModule
+  use varModule
+  implicit none
 
 contains
 
@@ -14,7 +16,7 @@ subroutine read_job_info(filename, title, natoms, charge, mult, nbf, nx, ne, na,
  implicit none 
   character(len=*),  intent(in)  :: filename
   character(len=80), intent(out) :: title
-  integer,           intent(out) :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
+  integer, intent(out) :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
 
   open(unit=300, file=filename, form='formatted', status='old')
   read(300,'(a80)') title
@@ -36,10 +38,10 @@ subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,
                            expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
  implicit none 
   character(len=*),  intent(in)  :: filename
-  integer,           intent(in)  :: natoms, nshell, nprimi
-  real(kind(1.0d0)), intent(out) :: znuc(:), coords(:,:), evec(:)
-  real(kind(1.0d0)), intent(out) :: expon(:), contrc1(:), contrc2(:) 
-  integer,           intent(out) :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:)
+  integer, intent(in)  :: natoms, nshell, nprimi
+  real(dp),          intent(out) :: znuc(:), coords(:,:), evec(:)
+  real(dp),          intent(out) :: expon(:), contrc1(:), contrc2(:) 
+  integer, intent(out) :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:)
 
   integer :: i, j 
 
@@ -68,10 +70,10 @@ subroutine write_basis_info(title, natoms, charge, mult, nbf, nx, ne, na, nb, ns
        znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
  implicit none 
   character(len=80), intent(in) :: title
-  integer           :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
-  real(kind(1.0d0)), intent(in) :: znuc(:), coords(:,:), evec(:)
-  real(kind(1.0d0)), intent(in) :: expon(:), contrc1(:), contrc2(:) 
-  integer,           intent(in) :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:) 
+  integer, intent(in) :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
+  real(dp),          intent(in) :: znuc(:), coords(:,:), evec(:)
+  real(dp),          intent(in) :: expon(:), contrc1(:), contrc2(:) 
+  integer, intent(in) :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:) 
 
   character(len=1), dimension(8) :: label=(/'S','P','D','F','G','H','I','L'/)
   integer :: i, j
@@ -89,6 +91,7 @@ subroutine write_basis_info(title, natoms, charge, mult, nbf, nx, ne, na, nb, ns
   write(*,'(a47,i5)') 'Number of basis set shells                   = ', nshell
   write(*,'(a47,i5)') 'Number of cartesian gaussian basis functions = ', nprimi
   call print_header('Geometry')
+  write(*,'(5x,a10,5x,3a10)') 'Charge', 'X', 'Y', 'Z' 
   do i = 1, natoms
     write(*,'(5x,f10.2,5x,3f10.5)') znuc(i), coords(1, i), coords(2, i), coords(3, i)
   enddo

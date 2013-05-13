@@ -1,5 +1,6 @@
       program dsfun
        use basisModule 
+       use commonsModule
 c***********************************************************************
 c Calculate Kohn-Sham density functional
 c energy and wavefunction in basis of HF-orbitals.
@@ -35,9 +36,6 @@ c
       dimension fxyz(3)
 clmm..data structures  for handling gamess-us basis set stuff
       character*80 gamtitle
-      allocatable znuc(:),coords(:,:), evec(:), expon(:),contrc1(:),
-     &            contrc2(:), imin(:), imax(:), katom(:), intyp(:),
-     &            ish(:), ityp(:)
 c
 clmm      common /titel/title(10)
 c
@@ -172,6 +170,11 @@ c.....lmm contents and close
      &     delim='apostrophe', iostat=ios)
       read(11, nml=input)
       close(11)
+clmm..rewrite some information to commons
+      basisInfoFile  = gbasisfile
+      dictionaryFile = gdictnfile
+      integralsFile  = gintegfile
+      print_level    = iprint
 c.....lmm end of input reading 
 clmm..
 clmm..get the gaussian basis information from the basis file
@@ -184,23 +187,23 @@ clmm..or number of orbitals used in the calculation
 clmm..
 clmm..allocate the arrays holding the basis information
 clmm..
-      allocate(znuc(natoms), coords(3,natoms), imin(natoms), 
-     &         imax(natoms), evec(3))
-      allocate(katom(nshell), intyp(nshell))
-      allocate(ish(nprimi), ityp(nprimi), expon(nprimi), 
-     &         contrc1(nprimi), contrc2(nprimi)) 
+clmm..      allocate(znuc(natoms), coords(3,natoms), imin(natoms), 
+clmm..     &         imax(natoms), evec(3))
+clmm..      allocate(katom(nshell), intyp(nshell))
+clmm..      allocate(ish(nprimi), ityp(nprimi), expon(nprimi), 
+clmm..     &         contrc1(nprimi), contrc2(nprimi)) 
 clmm..
 clmm..read the basis set information
 clmm..
-      call read_basis_info(trim(gbasisfile), natoms, nshell, nprimi, 
-     & znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom,
-     & intyp, ish, ityp)
+clmm..      call read_basis_info(trim(gbasisfile), natoms, nshell, nprimi, 
+clmm..     & znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom,
+clmm..     & intyp, ish, ityp)
 clmm..
 clmm..print the basis set information
 clmm..
-      call write_basis_info(gamtitle, natoms, icharge, mult, nbf, nx, 
-     & ne, na, nb, nshell, nprimi, znuc, coords, evec, expon, contrc1,
-     &  contrc2, imin, imax, katom, intyp, ish, ityp)
+clmm..      call write_basis_info(gamtitle, natoms, icharge, mult, nbf, nx, 
+clmm..     & ne, na, nb, nshell, nprimi, znuc, coords, evec, expon, contrc1,
+clmm..     &  contrc2, imin, imax, katom, intyp, ish, ityp)
 c.....lmm check for input consistency 
 c.....nmos
       if (nmos.gt.-1) then

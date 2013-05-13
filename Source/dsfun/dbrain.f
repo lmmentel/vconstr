@@ -240,8 +240,10 @@ c      if (lrfun) then
         endif
 c      endif
 c
+      write(*,*) 'before -clcvls-'
       call clcvls(dns,ddns,dsdns,vnuc,valmo,grdmo,npnt,npntmx,
      + norb,pnomo,vmopao,grid,weight,rnel,atmol4)
+      write(*,*) 'after -clcvls-'
       open(76,file='vnuc.dat')
       rewind(76)
       do ip=1,npnt

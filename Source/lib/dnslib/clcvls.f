@@ -33,6 +33,8 @@ c
       chkgz(1:norb) = 0.d0
       chknb(1:norb) = 0.d0
 c
+clmm..
+      write(*,*) 
       do 100 ipnt=1,npnt
         k=(ipnt-1)*norb
         m=k+1
@@ -41,11 +43,14 @@ c
         z=grid(ipnt,3)
         rs=x*x+y*y+z*z
         w=weight(ipnt)
-        if (atmol4) then
-          call aovlsw(x,y,z,valao,gradx,grady,gradz,grads,vn)
-        else
-          call aovlsv(x,y,z,valao,gradx,grady,gradz,grads,vn)
-        endif
+clmm        if (atmol4) then
+clmm          call aovlsw(x,y,z,valao,gradx,grady,gradz,grads,vn)
+clmm        else
+clmm          call aovlsv(x,y,z,valao,gradx,grady,gradz,grads,vn)
+clmm        endif
+clmm..new routine calculating value, gradients and laplacian using 
+clmm..gamess-us basis set format 
+        call getAOvaluesAtPoint(x,y,z,valao,gradx,grady,gradz,vn)
         vnuc(ipnt)=vn
         call vecmat(valao,vmopao,norb,valmo(m))
         call vecmat(gradx,vmopao,norb,grdmo(m,1))
