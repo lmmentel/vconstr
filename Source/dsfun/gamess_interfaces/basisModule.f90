@@ -1,6 +1,37 @@
 module basisModule
   use varModule
+  use commonsModule
   implicit none
+
+  type systemType
+    character(len=80) :: title
+    integer :: natoms
+    integer :: charge
+    integer :: mult
+    integer :: nbf
+    integer :: nx
+    integer :: ne
+    integer :: na 
+    integer :: nb
+    integer :: nshell
+    integer :: nprimi
+  end type systemType
+
+  type basisType
+    real(dp), allocatable :: znuc(:) 
+    real(dp), allocatable :: coords(:,:)
+    real(dp), allocatable :: evec(:)
+    real(dp), allocatable :: expon(:)
+    real(dp), allocatable :: contrc1(:)
+    real(dp), allocatable :: contrc2(:) 
+    integer, allocatable  :: imin(:)
+    integer, allocatable  :: imax(:)
+    integer, allocatable  :: katom(:)
+    integer, allocatable  :: intyp(:)
+    integer, allocatable  :: ish(:)
+    integer, allocatable  :: ityp(:) 
+  end type basisType
+
 
 contains
 
@@ -12,7 +43,65 @@ contains
   write(*,'(5x,a/)') repeat('=',len(header))
  end subroutine print_header
 
-subroutine read_job_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
+  subroutine newSystem(self)
+    use commonsModule
+    type(systemType), intent(out) :: self
+
+    call read_system_info(trim(basisInfoFile), self%title, self%natoms, self%charge, self%mult,       &
+                       self%nbf, self%nx, self%ne, self%na, self%nb, self%nshell, self%nprimi)
+! if debugging on print the information
+    if (printLevel > 1) call print_system_info(self)
+  end subroutine newSystem
+
+  subroutine newBasis(self, sys)
+    type(basisType),  intent(out) :: self
+    type(systemType), intent(out) :: sys
+
+! first get information about the system
+    call newSystem(sys)
+
+! allocate the arrays
+    
+    allocate(self%znuc(sys%natoms))
+    allocate(self%coords(3, sys%natoms))
+    allocate(self%imin(sys%natoms))
+    allocate(self%imax(sys%natoms))
+    allocate(self%evec(3))
+    allocate(self%katom(sys%nshell))
+    allocate(self%intyp(sys%nshell))
+    allocate(self%ish(sys%nprimi))
+    allocate(self%ityp(sys%nprimi))
+    allocate(self%expon(sys%nprimi))
+    allocate(self%contrc1(sys%nprimi))
+    allocate(self%contrc2(sys%nprimi))
+
+    call read_basis_info(trim(basisInfoFile), sys%natoms, sys%nshell, sys%nprimi,                  &
+                         self%znuc, self%coords, self%evec, self%expon, self%contrc1,         &
+                         self%contrc2, self%imin, self%imax, self%katom, self%intyp,          &
+                         self%ish, self%ityp)
+
+    if (printLevel > 1) call print_basis_info(self, sys) 
+  end subroutine newBasis
+
+  subroutine deleteBasis(self)
+    type(basisType) :: self
+
+    
+    if (allocated(self%ish))     deallocate(self%ish)
+    if (allocated(self%ityp))    deallocate(self%ityp) 
+    if (allocated(self%expon))   deallocate(self%expon) 
+    if (allocated(self%contrc1)) deallocate(self%contrc1)
+    if (allocated(self%contrc2)) deallocate(self%contrc2)
+    if (allocated(self%katom))   deallocate(self%katom)
+    if (allocated(self%intyp))   deallocate(self%intyp)
+    if (allocated(self%znuc))    deallocate(self%znuc)
+    if (allocated(self%coords))  deallocate(self%coords)
+    if (allocated(self%imin))    deallocate(self%imin)
+    if (allocated(self%imax))    deallocate(self%imax)
+    if (allocated(self%evec))    deallocate(self%evec)
+  end subroutine deleteBasis
+
+subroutine read_system_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
  implicit none 
   character(len=*),  intent(in)  :: filename
   character(len=80), intent(out) :: title
@@ -32,7 +121,7 @@ subroutine read_job_info(filename, title, natoms, charge, mult, nbf, nx, ne, na,
   read(300,*) nprimi
   close(300)
   return 
-end subroutine read_job_info
+end subroutine read_system_info
 
 subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,                   &
                            expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
@@ -66,6 +155,51 @@ subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,
   return 
 end subroutine read_basis_info
 
+  subroutine print_system_info(self)
+    type(systemType), intent(in) :: self
+
+    call print_header('Gamess-US job parameters')
+    write(*,'(a47,a80)') 'Gamess-US job title                          = ', self%title
+    write(*,'(a47,i5)') 'Number of atoms                              = ', self%natoms
+    write(*,'(a47,i5)') 'Total charge                                 = ', self%charge
+    write(*,'(a47,i5)') 'Multiplicity                                 = ', self%mult
+    write(*,'(a47,i5)') 'Number of basis functions                    = ', self%nbf
+    write(*,'(a47,i5)') 'Number of orbitals (spherical)               = ', self%nx
+    write(*,'(a47,i5)') 'Total number of electrons                    = ', self%ne
+    write(*,'(a47,i5)') 'Number of alpha electrons                    = ', self%na
+    write(*,'(a47,i5)') 'Number of beta electrons                     = ', self%nb
+    write(*,'(a47,i5)') 'Number of basis set shells                   = ', self%nshell
+    write(*,'(a47,i5)') 'Number of cartesian gaussian basis functions = ', self%nprimi
+  end subroutine print_system_info
+
+  subroutine print_basis_info(self, system)
+    type(basisType),  intent(in) :: self
+    type(systemType), intent(in) :: system
+
+    character(len=1), dimension(8) :: label=(/'S','P','D','F','G','H','I','L'/)
+    integer :: i, j
+    call print_header('Geometry')
+    write(*,'(5x,a10,5x,3a10)') 'Charge', 'X', 'Y', 'Z' 
+    write(*,'(5x,a10,5x,a30)') repeat('-', 10), repeat('-', 30) 
+    do i = 1, system%natoms
+        write(*,'(5x,f10.2,5x,3f10.5)') self%znuc(i), self%coords(1, i), self%coords(2, i), self%coords(3, i)
+    enddo
+    call print_header('Basis set')
+    write(*,'(2x,"Shell",3x,"Type",3x,"Primitive",7x,"Exponent",5x,"Contraction Coefficient(s)")')
+    do i = 1, system%natoms
+        write(*,'(/5x,a4,i5,5x,a9,f5.2/)') 'Atom', i, 'Charge = ', self%znuc(i)
+            do j = self%imin(i), self%imax(i)
+                if (self%ityp(j) < 8) then
+                    write(*,'(1x,i6,3x,a4,i7,f22.7,2f18.12)') & 
+                        self%ish(j), label(self%ityp(j)), j, self%expon(j), self%contrc1(j)
+                else
+                    write(*,'(1x,i6,3x,a4,i7,f22.7,2f18.12)') & 
+                        self%ish(j), label(self%ityp(j)), j, self%expon(j), self%contrc1(j), self%contrc2(j)
+                endif
+            enddo
+    enddo
+  end subroutine print_basis_info
+
 subroutine write_basis_info(title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi,      &
        znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
  implicit none 
@@ -92,6 +226,7 @@ subroutine write_basis_info(title, natoms, charge, mult, nbf, nx, ne, na, nb, ns
   write(*,'(a47,i5)') 'Number of cartesian gaussian basis functions = ', nprimi
   call print_header('Geometry')
   write(*,'(5x,a10,5x,3a10)') 'Charge', 'X', 'Y', 'Z' 
+  write(*,'(5x,a10,5x,a30)') repeat('-', 10), repeat('-', 30) 
   do i = 1, natoms
     write(*,'(5x,f10.2,5x,3f10.5)') znuc(i), coords(1, i), coords(2, i), coords(3, i)
   enddo

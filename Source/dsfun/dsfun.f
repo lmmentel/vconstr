@@ -174,12 +174,12 @@ clmm..rewrite some information to commons
       basisInfoFile  = gbasisfile
       dictionaryFile = gdictnfile
       integralsFile  = gintegfile
-      print_level    = iprint
+      printLevel    = iprint
 c.....lmm end of input reading 
 clmm..
 clmm..get the gaussian basis information from the basis file
 clmm..
-      call read_job_info(trim(gbasisfile), gamtitle, natoms, icharge, 
+      call read_system_info(trim(gbasisfile), gamtitle, natoms, icharge, 
      & mult, nbf, nx, nele, na, nb, nshell, nprimi) 
 clmm..not sure if norb should be set to the number of cartesian gaussians
 clmm..or number of orbitals used in the calculation

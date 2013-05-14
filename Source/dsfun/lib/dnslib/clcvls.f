@@ -1,5 +1,7 @@
       subroutine clcvls(dns,ddns,dsdns,vnuc,valmo,grdmo,npnt,npntmx,
-     + norb,pnomo,vmopao,grid,weight,rnel,atmol4)
+     + norb,pnomo,vmopao,grid,weight,rnel)
+      use basisModule
+      use gridAOvaluesModule
 c
 c-----------------------------------------------------------------------
 c
@@ -10,7 +12,7 @@ c
       parameter(half   = 0.5d0)
       parameter(three  = 3.0d0)
 c
-      logical ltrian,lorb,atmol4
+      logical ltrian,lorb
       dimension dns(npnt),ddns(npntmx,3),dsdns(npnt),
      + vnuc(npnt),valmo(npnt*norb),grdmo(npntmx*norb,4)
       dimension pnomo(norb*(norb+1)/2),vmopao(norb*norb),
@@ -19,6 +21,12 @@ c
      + chkgz(norb),chknb(norb)
       dimension valao(norb),gradx(norb),grady(norb),
      +  gradz(norb),grads(norb)
+clmm..add system type to hold system information
+      type(systemType) :: system 
+      type(basisType)  :: basis
+
+clmm..read basis set information
+      call newBasis(basis, system)
 c
       ltrian = .false.
 c
@@ -33,6 +41,8 @@ c
       chkgz(1:norb) = 0.d0
       chknb(1:norb) = 0.d0
 c
+      write(*,*) 'before the loop in -clcvls-' 
+      write(*,*) 'number of points = ', npnt
       do 100 ipnt=1,npnt
         k=(ipnt-1)*norb
         m=k+1
@@ -41,11 +51,15 @@ c
         z=grid(ipnt,3)
         rs=x*x+y*y+z*z
         w=weight(ipnt)
-        if (atmol4) then
-          call aovlsw(x,y,z,valao,gradx,grady,gradz,grads,vn)
-        else
-          call aovlsv(x,y,z,valao,gradx,grady,gradz,grads,vn)
-        endif
+clmm        if (atmol4) then
+clmm          call aovlsw(x,y,z,valao,gradx,grady,gradz,grads,vn)
+clmm        else
+clmm          call aovlsv(x,y,z,valao,gradx,grady,gradz,grads,vn)
+clmm        endif
+clmm..call new routine for calculating values, gradients and laplacian
+clmm..using gamess-us basis set format
+        call AOvalueAtPoint(system,basis,x,y,z,valao,gradx,grady,gradz,
+     & grads,vn)
         vnuc(ipnt)=vn
         call vecmat(valao,vmopao,norb,valmo(m))
         call vecmat(gradx,vmopao,norb,grdmo(m,1))
@@ -77,6 +91,8 @@ c
         ddns(ipnt,3)=dz
         dsdns(ipnt)=ds
   100 continue
+      
+      write(*,*) 'after the loop in -clcvls-' 
 c
       write(6,'(/'' density : '',g10.4,'' integration errors '',
      + 4(g10.4))')rnel,tmp-rnel,-tmpr/3-rnel,tmps/6-rnel,tmpf
@@ -100,5 +116,7 @@ c
    30 continue
       if (lorb) write(6,'('' No errors greater than '',g12.2)')eps
 c
+clmm..deallocate arrays with basis set information
+      call deleteBasis(basis)
       return
       end

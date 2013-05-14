@@ -5,15 +5,26 @@ module gridAOvaluesModule
   implicit none
 
   private
+ 
+  interface AOvalueAtPoint
+    module procedure getAOvaluesAtPoint
+  end interface
+
+  public :: AOvalueAtPoint
+
 
 contains
 
-  subroutine getAOvaluesAtPoint(x, y, z, AOvalues, gradX, gradY, gradZ, gradS, nuclearPotential)
+  subroutine getAOvaluesAtPoint(system, basis, x, y, z, AOvalues, gradX, gradY, gradZ, gradS, nuclearPotential)
 !===============================================================================
 ! subroutine to calculate values, gradients and Laplacian of all AO's at grid 
 ! point (x, y, z)
 !
 ! input  :
+!   system           : system information read from gamess-us $JOB.basinfo file
+!                      see basisModule for details
+!   basis            : basis information read from gamess-us $JOB.basinfo file
+!                      see basisModule for details
 !   x, y, z          : real, coordianted of the point
 !
 ! output :
@@ -24,47 +35,14 @@ contains
 !   gradS            :
 !   nuclearPotential :
 !===============================================================================
+    type(systemType), intent(in) :: system
+    type(basisType),  intent(in) :: basis    
 
     real(dp), intent(in)  :: x, y, z
     real(dp), intent(out) :: nuclearPotential
     real(dp), intent(out) :: AOvalues(:), gradX(:), gradY(:), gradZ(:), gradS(:)
 
-! variables holding basis set information form gamess-us $JOB.basinfo file
-   
-    character(len=80) :: title
-    integer :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
-
-    real(dp),          allocatable :: znuc(:), coords(:,:), evec(:)
-    real(dp),          allocatable :: expon(:), contrc1(:), contrc2(:) 
-    integer, allocatable :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:)
-
-! local variables 
-
     integer(ik) :: i
-
-    write(*,*) 'entering -getAOvaluesAtPoint-', print_level
-
-
-! get scalar variables from gamess-us $JOB.basinfo file
-
-    call read_job_info(trim(basisInfoFile), title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi) 
-
-! allocate the arrays storing system and absis set information
-
-    allocate(znuc(natoms), coords(3, natoms), imin(natoms), imax(natoms), evec(3))
-    allocate(katom(nshell), intyp(nshell)) 
-    allocate(ish(nprimi), ityp(nprimi), expon(nprimi), contrc1(nprimi), contrc2(nprimi)) 
-
-! read the remaining basis set information
-
-    call read_basis_info(trim(basisInfoFile), natoms, nshell, nprimi, znuc, coords, evec,          &
-                         expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
-
-! print the data read from $JOB.basinfo file
-!    if (print_level > 1) then 
-        call write_basis_info(title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi,    &
-             znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp)
-!    endif 
 
     AOvalues = 0.0_dp
     gradX    = 0.0_dp
@@ -76,11 +54,7 @@ contains
 
 ! calculate nuclear potential
 
-    nuclearPotential = getNuclearPotential(x, y, z, coords, znuc)
-
-  deallocate(ish, ityp, expon, contrc1, contrc2)
-  deallocate(katom, intyp)
-  deallocate(znuc, coords, imin, imax, evec)
+    nuclearPotential = getNuclearPotential(x, y, z, basis%coords, basis%znuc)
 
   end subroutine getAOvaluesAtPoint
 
@@ -122,5 +96,4 @@ contains
     endif
   end function getNuclearPotential
           
-
 end module gridAOvaluesMOdule

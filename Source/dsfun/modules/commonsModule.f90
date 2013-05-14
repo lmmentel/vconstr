@@ -9,6 +9,6 @@ module commonsModule
   character(len=100) :: dictionaryFile
   character(len=100) :: integralsFile
 
-  integer :: print_level
+  integer :: printLevel
 
 end module commonsModule
