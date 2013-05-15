@@ -30,21 +30,21 @@ c
       character*44 fname
       common/discc/ied(16),fname(16)
 c
-      character*8 smtype,hmat,int2e,title
+      character*8 smtype,hmat,int2e
       logical lsym,lintsm,lrdocc,lrfun,lfield
       dimension occmo(nmomx),info(infmx)
       dimension fxyz(3)
 clmm..data structures  for handling gamess-us basis set stuff
       character*80 gamtitle
 c
-clmm      common /titel/title(10)
-c
 c.....lmm stuff for input processing 
       character*100 buffer, inptf, gbasisfile, gdictnfile, gintegfile
-      namelist /input/ title,nmos,occ,lsym,lintsm, 
+      character*50  title
+      namelist /input/ title,nmos,lsym,lintsm, 
      & itrx, tstthr, smtype, thresh, alpha, beta, gamma,
      & df, nppr, scfdmp, dvdmp, lrfun, lfield, fxyz,
      & gbasisfile, gdictnfile, gintegfile, iprint 
+      namelist /occupations/ occmo
 clmm      call prep99
 clmm      call tidajt(date,time,accno,anam,idum)
 clmm      write(6,666)anam,date,time,accno
@@ -56,6 +56,7 @@ clmm     *24x,'time       ',a8//
 clmm     *24x,'acct       ',a8//
 clmm     *24x,44('*')///)
 c
+      title = 'default '
       nmos = -1
       nppr = 0
       nvpr = 0
@@ -91,28 +92,8 @@ c
       fxyz(1:3)=0.d0
 c
       write(6,'(''  Selfconsistent Kohn-Sham calculation '')')
-clmm      call givtim(top,bot)
-clmm      write(6,'(/''****input read at'',f13.3,'' wall'',f13.3,
-clmm     + '' secs''/)')top,bot
-c      goto 55
 c
 c.....lmm start.....commented this horrible input processing 
-c
-c*** occ
-c    3 if (nmos.le.0) then
-c        write(6,'(''ERROR; nmos not yet defined'')')
-c        stop
-c      endif
-c      do i=1,nmos
-c        call inpf(occmo(i))
-c        rnel=rnel+occmo(i)
-c      enddo
-c      if (abs(modulo(rnel,1.d0)).gt.eps) then
-c        write(6,'(''ERROR; Number of electrons incorrect'')')
-c        write(6,'('' rnel = '',f6.2)')rnel
-c        stop
-c      endif
-c      goto 50
 c
 c*** vcrrmx
 c    6 call inpf(crrmn)
@@ -159,22 +140,20 @@ c        dqmax=1.d-1
 c      endif
 c      goto 50
 c
-c   19 call getgss(idmp,norb,atmol4)
-c.....lmm have to get norb somehow, numbe rof contracted gaussians
-c.....for the time being get it from the input       
-c.....lmm get input file name form command line open it, read the 
-c.....lmm contents and close
+clmm..get input file name form command line open it, read the 
+clmm..contents and close
       call getarg(1, buffer)
       read(buffer, *) inptf
       open(unit=11, file=trim(inptf), status='old',form='formatted',
      &     delim='apostrophe', iostat=ios)
       read(11, nml=input)
+      read(11, nml=occupations)
       close(11)
 clmm..rewrite some information to commons
       basisInfoFile  = gbasisfile
       dictionaryFile = gdictnfile
       integralsFile  = gintegfile
-      printLevel    = iprint
+      printLevel     = iprint
 c.....lmm end of input reading 
 clmm..
 clmm..get the gaussian basis information from the basis file
@@ -184,27 +163,6 @@ clmm..
 clmm..not sure if norb should be set to the number of cartesian gaussians
 clmm..or number of orbitals used in the calculation
       norb = nbf 
-clmm..
-clmm..allocate the arrays holding the basis information
-clmm..
-clmm..      allocate(znuc(natoms), coords(3,natoms), imin(natoms), 
-clmm..     &         imax(natoms), evec(3))
-clmm..      allocate(katom(nshell), intyp(nshell))
-clmm..      allocate(ish(nprimi), ityp(nprimi), expon(nprimi), 
-clmm..     &         contrc1(nprimi), contrc2(nprimi)) 
-clmm..
-clmm..read the basis set information
-clmm..
-clmm..      call read_basis_info(trim(gbasisfile), natoms, nshell, nprimi, 
-clmm..     & znuc, coords, evec, expon, contrc1, contrc2, imin, imax, katom,
-clmm..     & intyp, ish, ityp)
-clmm..
-clmm..print the basis set information
-clmm..
-clmm..      call write_basis_info(gamtitle, natoms, icharge, mult, nbf, nx, 
-clmm..     & ne, na, nb, nshell, nprimi, znuc, coords, evec, expon, contrc1,
-clmm..     &  contrc2, imin, imax, katom, intyp, ish, ityp)
-c.....lmm check for input consistency 
 c.....nmos
       if (nmos.gt.-1) then
         if (nmos.gt.nmomx) then
@@ -225,7 +183,7 @@ c.....symdet
      + ''properly specified'')')
       endif
 c.....lmm end of check for input consistency 
-      write(6,'(//''***** title : '',10a8,''*****'')')title
+      write(6,'(//''***** title : '',a50,''*****'')')title
       write(6,'(/''  norb = '',i3)')norb
       if (nmos.gt.0) then
         if (nmos.gt.nmomx) then
@@ -327,29 +285,3 @@ c
       stop
 c
       end
-c
-c***********************************************************************
-c
-clmm      subroutine passdf(ip)
-c     get data field of a card and see what it is
-c     ip =  0  : not recognised
-c     ip >  0  : it was item ip of the list
-clmm      implicit real*8(a-h,o-z)
-clmm      parameter (ncnt=19)
-clmm      character*8 cnt(ncnt),word
-clmm      data cnt/ 'title','nmos','occ','conv','shift','vcrrmx','symdet',
-clmm     * 'vxalph','pprint','vprint','dmpfile','intfile','ksdmp','adapt',
-clmm     * 'ensdet','dipole','lrfun','damping','enter' /
-c
-clmm      call reada(word)
-clmm      ip=locatc(cnt,ncnt,word)
-clmm      return
-clmm      end
-c
-c***********************************************************************
-c
-clmm      block data prg
-clmm      implicit real *8   (a-h,p-w), integer (i-n), logical (o)
-clmm      common /prgnam/prgtit
-clmm      data prgtit/'dsfun'/
-clmm      end

@@ -8,7 +8,7 @@
     alpha=1.373
     beta=2.0
     gamma=2.0
-    title='h2'
+    !title='h2'
     gbasisfile='h2_cc-pvdz.basinfo'
     gdictnfile='h2_cc-pvdz.F10'
     gintegfile='h2_cc-pvdz.F09'

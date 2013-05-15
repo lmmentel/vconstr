@@ -47,8 +47,7 @@ module basisModule
   integer, dimension(8) :: KMIN = (/1,2, 5,11,21,34,57,1/)
   integer, dimension(8) :: KMAX = (/1,4,10,20,35,56,84,4/)
 
-
-  type systemType
+  type basisType
     character(len=80) :: title
     integer :: natoms
     integer :: charge
@@ -60,9 +59,7 @@ module basisModule
     integer :: nb
     integer :: nshell
     integer :: nprimi
-  end type systemType
-
-  type basisType
+    integer :: nPrimitives
     real(dp), allocatable :: znuc(:) 
     real(dp), allocatable :: coords(:,:)
     real(dp), allocatable :: evec(:)
@@ -70,82 +67,81 @@ module basisModule
     integer, allocatable  :: imax(:)
     integer, allocatable  :: katom(:)
     integer, allocatable  :: intyp(:)
-    integer, allocatable  :: ityp(:) 
+    integer, allocatable  :: shellType(:) 
     integer, allocatable  :: kng(:) 
+    integer, allocatable  :: AOlocation(:) 
     real(dp), allocatable :: exponent(:)
     real(dp), allocatable :: coefficient(:)
   end type basisType
 
 contains
 
- subroutine print_header(header)
-  character(len=*), intent(in) :: header
+  subroutine print_header(header)
+    character(len=*), intent(in) :: header
 
-  write(*,'(/5x,a)') repeat('=',len(header))
-  write(*,'(5x,a)') header
-  write(*,'(5x,a/)') repeat('=',len(header))
- end subroutine print_header
+    write(*,'(/5x,a)') repeat('=',len(header))
+    write(*,'(5x,a)') header
+    write(*,'(5x,a/)') repeat('=',len(header))
+  end subroutine print_header
 
-  subroutine newSystem(self)
-    use commonsModule
-    type(systemType), intent(out) :: self
-
-    call read_system_info(trim(basisInfoFile), self%title, self%natoms, self%charge, self%mult,    &
-                       self%nbf, self%nx, self%ne, self%na, self%nb, self%nshell, self%nprimi)
-  end subroutine newSystem
-
-  subroutine newBasis(self, sys)
+  subroutine newBasis(self)
     type(basisType),  intent(out) :: self
-    type(systemType), intent(out) :: sys
 
-    integer :: i, j, AOindex, nprimitives
-
-    integer, allocatable :: ish(:)
+    integer :: i, j, AOindex
+! local arrays
+    integer,  allocatable :: ish(:), ityp(:)
     real(dp), allocatable :: expon(:), contrc1(:), contrc2(:)
 
 ! first get information about the system
-    call newSystem(sys)
+
+    call read_system_info(trim(basisInfoFile), self%title, self%natoms, self%charge, self%mult,    &
+                       self%nbf, self%nx, self%ne, self%na, self%nb, self%nshell, self%nprimi)
 
 ! allocate first batch of arrays 
     
-    allocate(self%znuc(sys%natoms))
-    allocate(self%coords(3, sys%natoms))
-    allocate(self%imin(sys%natoms))
-    allocate(self%imax(sys%natoms))
+    allocate(self%znuc(self%natoms))
+    allocate(self%coords(3, self%natoms))
+    allocate(self%imin(self%natoms))
+    allocate(self%imax(self%natoms))
     allocate(self%evec(3))
-    allocate(self%katom(sys%nshell))
-    allocate(self%intyp(sys%nshell))
-    allocate(self%ityp(sys%nprimi))
-    allocate(self%kng(sys%nshell))
+    allocate(self%katom(self%nshell))
+    allocate(self%intyp(self%nshell))
+    allocate(self%kng(self%nshell))
+    allocate(self%AOlocation(self%nshell))
 ! allocate temporary arrays 
-    allocate(ish(sys%nprimi))
-    allocate(expon(sys%nprimi))
-    allocate(contrc1(sys%nprimi))
-    allocate(contrc2(sys%nprimi))
+    allocate(ityp(self%nprimi))
+    allocate(ish(self%nprimi))
+    allocate(expon(self%nprimi))
+    allocate(contrc1(self%nprimi))
+    allocate(contrc2(self%nprimi))
 
-    call read_basis_info(trim(basisInfoFile), sys%natoms, sys%nshell, sys%nprimi,                  &
+    call read_basis_info(trim(basisInfoFile), self%natoms, self%nshell, self%nprimi,                  &
                          self%znuc, self%coords, self%evec, expon, contrc1,              &
                          contrc2, self%imin, self%imax, self%katom, & 
-                         self%intyp, ish, self%ityp, self%kng)
+                         self%intyp, ish, ityp, self%kng, self%AOlocation)
+
 ! calculate the total number of primitives (non-unique)
-    nprimitives = 0
-    do i = 1, sys%nshell
-            nPrimitives = nPrimitives + self%kng(i)
+    self%nprimitives = 0
+    do i = 1, self%nshell
+            self%nPrimitives = self%nPrimitives + self%kng(i)
     enddo
     
-    allocate(self%exponent(nPrimitives), self%coefficient(nPrimitives))
+    allocate(self%exponent(self%nPrimitives))
+    allocate(self%coefficient(self%nPrimitives)) 
+    allocate(self%shellType(self%nPrimitives))
     AOindex = 0
-    do i = 1, sys%natoms
+    do i = 1, self%natoms
         do j = self%imin(i), self%imax(i)
             AOindex = AOindex + 1 
             self%exponent(AOindex)    = expon(j)
             self%coefficient(AOindex) = contrc1(j)
+            self%shellType(AOindex)   = ityp(j)
         enddo 
     enddo
 
-    if (printLevel > 1) call print_basis_info(self, sys)
+    if (printLevel > 1) call print_basis_info(self)
 ! deallocate temporary arrays
-    deallocate(ish, expon, contrc1, contrc2) 
+    deallocate(ish, ityp, expon, contrc1, contrc2) 
   end subroutine newBasis
 
 subroutine read_system_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
@@ -171,13 +167,13 @@ subroutine read_system_info(filename, title, natoms, charge, mult, nbf, nx, ne, 
 end subroutine read_system_info
 
 subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,                   &
-                           expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp, kng)
+                           expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp, kng, kloc)
  implicit none 
   character(len=*),  intent(in)  :: filename
   integer, intent(in)  :: natoms, nshell, nprimi
   real(dp),          intent(out) :: znuc(:), coords(:,:), evec(:)
   real(dp),          intent(out) :: expon(:), contrc1(:), contrc2(:) 
-  integer, intent(out) :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:), kng(:)
+  integer, intent(out) :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:), kng(:), kloc(:)
 
   integer :: i, j 
 
@@ -199,12 +195,17 @@ subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,
       read(300,*) (contrc1(i),i=1,nprimi) 
       read(300,*) (contrc2(i),i=1,nprimi)
       read(300,*) (kng(i),i=1,nshell)
+      read(300,*) (kloc(i),i=1,nshell)
   close(300)
   return 
 end subroutine read_basis_info
 
-  subroutine print_system_info(self)
-    type(systemType), intent(in) :: self
+  subroutine print_basis_info(self)
+    type(basisType),  intent(in) :: self
+
+    integer :: i, j, ij, k, ioshell, atom, styp, AOindex
+    character(len=4) :: alab
+    character(len=2) :: otyp
 
     call print_header('Gamess-US job parameters')
     write(*,'(a47,a80)') 'Gamess-US job title                          = ', self%title
@@ -217,54 +218,50 @@ end subroutine read_basis_info
     write(*,'(a47,i5)') 'Number of alpha electrons                    = ', self%na
     write(*,'(a47,i5)') 'Number of beta electrons                     = ', self%nb
     write(*,'(a47,i5)') 'Number of basis set shells                   = ', self%nshell
-    write(*,'(a47,i5)') 'Number of cartesian gaussian basis functions = ', self%nprimi
-  end subroutine print_system_info
-
-  subroutine print_basis_info(self, system)
-    type(basisType),  intent(in) :: self
-    type(systemType), intent(in) :: system
-
-    integer :: i, j, ij, k, atom, styp, jmin, jmax
-    character(len=4) :: alab
-    character(len=2) :: otyp
+    write(*,'(a47,i5)') 'Number of cartesian gaussian basis functions = ', self%nPrimitives
 
     call print_header('Geometry in a.u.')
     write(*,'(5x,a4,3x,a10,5x,3a15)') 'Atom','Charge  ', 'X     ', 'Y     ', 'Z     ' 
     write(*,'(5x,a4,3x,a10,5x,a45)') repeat('-',4), repeat('-', 10), repeat('-', 45) 
-    do i = 1, system%natoms
+    do i = 1, self%natoms
         write(*,'(5x,a4,3x,f10.2,5x,3f15.8)') atomLabel(int(self%znuc(i))), self%znuc(i),         &
                                         self%coords(1, i), self%coords(2, i), self%coords(3, i)
     enddo
     call print_header('Basis set')
     write(*,'(2x,"Shell",3x,"Type",3x,"Primitive",7x,"Exponent",5x,"Contraction Coefficient(s)")')
     ij = 0
-    do i = 1, system%natoms
+    do i = 1, self%natoms
         write(*,'(/a4,a10,i5,5x,a9,f5.2/)') atomLabel(int(self%znuc(i))), 'Atom No.', i, 'Charge = ', self%znuc(i)
         do j = self%imin(i), self%imax(i)
             ij = ij + 1
-            if (self%ityp(j) < 8) then
+            if (self%shellType(j) < 8) then
                 write(*,'(1x,i6,3x,a4,i7,f22.7,f18.12,3x,i3)') & 
-                    i, label(self%ityp(j)), j, self%exponent(j), self%coefficient(j), ij
+                    i, label(self%shellType(j)), j, self%exponent(j), self%coefficient(j), ij
             else
                 write(*,'(1x,i6,3x,a4,i7,f22.7,2f18.12)') & 
-                    i, label(self%ityp(j)), j, self%exponent(j), self%coefficient(j)
+                    i, label(self%shellType(j)), j, self%exponent(j), self%coefficient(j)
             endif
         enddo
     enddo
 
-    write(*,'("atom",3x,"No. ",2x,"shell",3x,"type")') 
-    write(*,'(a)') repeat('-', 30)
+    call print_header('Basis set in detail')
+    write(*,'(" AO ",2x,"atom",3x,"atom",2x,"shell",3x,"shell",2x,"subshell",12x,"         ",14x,"contraction")') 
+    write(*,'("indx",2x,"name",3x,"No. ",2x,"No.  ",3x,"type ",2x,"  type  ",12x,"exponents",14x,"coefficients")') 
+    write(*,'(a)') repeat('-', 83)
     ij = 0
-    do i = 1, system%nshell
-                atom = self%katom(i)
+    do i = 1, self%nshell
+        atom = self%katom(i)
         do j = 1, self%kng(i)
-               ij  = ij + 1 
+                ij  = ij + 1
+                ioshell = 0 
             do k = kmin(self%intyp(i)), kmax(self%intyp(i))
+                ioshell = ioshell + 1
                 alab = atomlabel(int(self%znuc(self%katom(i))))
                 styp = self%intyp(i)
                 otyp = label(self%intyp(i)) 
-                write(*,'(a4,3x,i4,3x,i4,5x,a2,3x,a4,3x,2f24.10)') &
-                    alab, atom, i, otyp, bfnam1(k), self%exponent(ij), self%coefficient(ij)
+                AOindex = self%AOlocation(i) + ioshell - 1
+                write(*,'(i4,2x,a4,3x,i4,3x,i4,5x,a2,3x,a4,3x,2f24.10,3x,i3)') &
+                    AOindex, alab, atom, i, otyp, bfnam1(k), self%exponent(ij), self%coefficient(ij)
             enddo
         enddo
     enddo
@@ -274,9 +271,10 @@ end subroutine read_basis_info
   subroutine deleteBasis(self)
     type(basisType) :: self
 
-    if (allocated(self%ityp))        deallocate(self%ityp) 
     if (allocated(self%exponent))    deallocate(self%exponent) 
     if (allocated(self%coefficient)) deallocate(self%coefficient)
+    if (allocated(self%shellType))   deallocate(self%shellType)
+    if (allocated(self%AOlocation))  deallocate(self%AOlocation)
     if (allocated(self%katom))       deallocate(self%katom)
     if (allocated(self%intyp))       deallocate(self%intyp)
     if (allocated(self%znuc))        deallocate(self%znuc)

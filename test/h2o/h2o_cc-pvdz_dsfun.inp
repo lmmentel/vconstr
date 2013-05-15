@@ -1,0 +1,24 @@
+&input
+	title='h2o_cc-pvdz'
+	alpha=1.373
+	beta=2.0
+	df=1.234d0
+	dvdmp=0.4d0
+	gamma=2.0
+	gbasisfile='h2o_cc-pvdz.basinfo'
+	gdictnfile='h2o_cc-pvdz.F10'
+	gintegfile='h2o_cc-pvdz.F09'
+	iprint=2
+	itrx=1
+	lintsm=.false.
+	lrfun=.false.
+	lsym=.false.
+	nmos=5
+	nppr=3
+	scfdmp=0.5d0
+	thresh=1.0d-6
+	tstthr=1.0d-10
+/
+&occupations
+    occmo(1) = 2.0, 2.0, 2.0, 2.0, 2.0
+/

@@ -15,7 +15,7 @@ module gridAOvaluesModule
 
 contains
 
-  subroutine getAOvaluesAtPoint(system, basis, x, y, z, AOvalues, gradX, gradY, gradZ, gradS, nuclearPotential)
+  subroutine getAOvaluesAtPoint(basis, x, y, z, AOvalues, gradX, gradY, gradZ, gradS, nuclearPotential)
 !===============================================================================
 ! subroutine to calculate values, gradients and Laplacian of all AO's at grid 
 ! point (x, y, z)
@@ -35,7 +35,6 @@ contains
 !   gradS            :
 !   nuclearPotential :
 !===============================================================================
-    type(systemType), intent(in) :: system
     type(basisType),  intent(in) :: basis    
 
     real(dp), intent(in)  :: x, y, z

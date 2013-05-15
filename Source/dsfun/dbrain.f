@@ -142,7 +142,7 @@ clmm..
 clmm..read kinetic energy electron-nucleus attarction integrals 
 clmm..and nuclear repulsion energy from gamess-us dictionary
       call readOneEintegrals(tsmat, vnmat, enuc, gDictFile)
-      if (iprint >= 2) then 
+      if (iprint >= 3) then 
         call matPrint(tsmat, norb,'Kinetic energy integrals in AO')
         call matPrint(vnmat, norb,'Potential energy integrals in AO')
         write(*,'(/"Nuclear repulsion energy = ",f14.10/)') enuc

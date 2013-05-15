@@ -22,11 +22,10 @@ c
       dimension valao(norb),gradx(norb),grady(norb),
      +  gradz(norb),grads(norb)
 clmm..add system type to hold system information
-      type(systemType) :: system 
       type(basisType)  :: basis
 
 clmm..read basis set information
-      call newBasis(basis, system)
+      call newBasis(basis)
 c
       ltrian = .false.
 c
@@ -58,7 +57,7 @@ clmm          call aovlsv(x,y,z,valao,gradx,grady,gradz,grads,vn)
 clmm        endif
 clmm..call new routine for calculating values, gradients and laplacian
 clmm..using gamess-us basis set format
-        call AOvalueAtPoint(system, basis,x,y,z,valao,gradx,grady,gradz,
+        call AOvalueAtPoint(basis,x,y,z,valao,gradx,grady,gradz,
      & grads,vn)
         vnuc(ipnt)=vn
         call vecmat(valao,vmopao,norb,valmo(m))
