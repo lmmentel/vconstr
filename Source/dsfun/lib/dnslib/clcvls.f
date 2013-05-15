@@ -58,7 +58,7 @@ clmm          call aovlsv(x,y,z,valao,gradx,grady,gradz,grads,vn)
 clmm        endif
 clmm..call new routine for calculating values, gradients and laplacian
 clmm..using gamess-us basis set format
-        call AOvalueAtPoint(system,basis,x,y,z,valao,gradx,grady,gradz,
+        call AOvalueAtPoint(system, basis,x,y,z,valao,gradx,grady,gradz,
      & grads,vn)
         vnuc(ipnt)=vn
         call vecmat(valao,vmopao,norb,valmo(m))

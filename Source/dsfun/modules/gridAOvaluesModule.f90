@@ -54,7 +54,7 @@ contains
 
 ! calculate nuclear potential
 
-    nuclearPotential = getNuclearPotential(x, y, z, basis%coords, basis%znuc)
+!    nuclearPotential = getNuclearPotential(x, y, z, basis%coords, basis%znuc)
 
   end subroutine getAOvaluesAtPoint
 
