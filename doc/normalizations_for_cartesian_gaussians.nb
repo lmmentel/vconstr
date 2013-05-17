@@ -1,0 +1,668 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     22511,        659]
+NotebookOptionsPosition[     21051,        604]
+NotebookOutlinePosition[     21389,        619]
+CellTagsIndexPosition[     21346,        616]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"fS", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"Exp", "[", 
+     RowBox[{
+      RowBox[{"-", "zeta"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox["x", "2"], "+", 
+        SuperscriptBox["y", "2"], "+", 
+        SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fPx", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fDxy", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "y", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fDxx", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "x", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fFxxx", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "x", " ", "x", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fFxxy", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "x", " ", "y", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fFxyz", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "y", " ", "z", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fGxxxx", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "x", " ", "x", " ", "x", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fGxxxy", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "x", " ", "x", " ", "y", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fGxxyy", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "x", " ", "y", " ", "y", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fGxxyz", "[", 
+     RowBox[{"zeta_", ",", " ", "x_", ",", "y_", ",", "z_"}], "]"}], ":=", 
+    RowBox[{"x", " ", "x", " ", "y", " ", "z", " ", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "zeta"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["x", "2"], "+", 
+         SuperscriptBox["y", "2"], "+", 
+         SuperscriptBox["z", "2"]}], ")"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nS", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fS", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nPx", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fPx", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nDxy", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fDxy", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nDxx", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fDxx", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nFxxx", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fFxxx", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nFxxy", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fFxxy", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nFxyz", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fFxyz", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nGxxxx", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fGxxxx", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nGxxxy", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fGxxxy", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nGxxyy", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fGxxyy", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nGxxyz", "[", "zeta_", "]"}], ":=", 
+    RowBox[{"1", "/", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"fGxxyz", "[", 
+          RowBox[{"zeta", ",", "x", ",", "y", ",", "z"}], "]"}], "2"], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "Infinity"}], ",", "Infinity"}], "}"}], ",", 
+        RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Re", "[", "zeta", "]"}], ">", "0"}], "}"}]}]}], "]"}], 
+      "]"}]}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"FortranForm", "[", 
+    RowBox[{"nS", "[", "zeta", "]"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{
+  3.577766298209323*^9, {3.577766412370708*^9, 3.577766463156979*^9}, {
+   3.577766616275931*^9, 3.577766801056817*^9}, {3.577767550836196*^9, 
+   3.577767565276704*^9}, {3.5777676014571247`*^9, 3.577767628710033*^9}, {
+   3.5777676796881523`*^9, 3.577767714447935*^9}, {3.577768439348942*^9, 
+   3.5777684590500593`*^9}, {3.5777687380937147`*^9, 3.577768742625525*^9}, {
+   3.577768791802477*^9, 3.57776881573838*^9}, {3.577768890650784*^9, 
+   3.5777689275917177`*^9}, {3.5777689606905823`*^9, 3.577769085419942*^9}, {
+   3.5777691355078573`*^9, 3.577769244154295*^9}, {3.577769277413582*^9, 
+   3.577769312830605*^9}, {3.5777742162678127`*^9, 3.577774222112154*^9}, {
+   3.577774590244135*^9, 3.577774635763671*^9}, {3.577774767290494*^9, 
+   3.577774846468775*^9}, {3.577775212427453*^9, 3.577775245463669*^9}, {
+   3.57777535945172*^9, 3.577775379807662*^9}, {3.577775507880196*^9, 
+   3.5777755531709337`*^9}}],
+
+Cell["(2/Pi)**0.75/Sqrt(zeta**(-1.5))", "Output",
+ CellChangeTimes->{{3.577767707732835*^9, 3.577767717772662*^9}, {
+   3.5777684472966337`*^9, 3.57776846001483*^9}, 3.577768743951055*^9, {
+   3.577768807606577*^9, 3.5777688200816507`*^9}, 3.577768900030649*^9, 
+   3.577769030209489*^9, {3.577769074426791*^9, 3.577769100474988*^9}, {
+   3.577769137917288*^9, 3.5777691491577053`*^9}, {3.577769184563292*^9, 
+   3.577769245720649*^9}, {3.577769278530013*^9, 3.577769314454558*^9}, 
+   3.5777742230381193`*^9, {3.577774594222135*^9, 3.577774637118396*^9}, 
+   3.5777747899736137`*^9, 3.577774848111308*^9, 3.5777752464600277`*^9, 
+   3.577775380713002*^9, 3.5777755550287857`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nPx", "[", "zeta", "]"}], "]"}], "\[IndentingNewLine]"}]], "Input",\
+
+ CellChangeTimes->{{3.577769078021591*^9, 3.577769117280114*^9}, {
+  3.577774243503903*^9, 3.5777742488957853`*^9}}],
+
+Cell["(2*(2/Pi)**0.75)/Sqrt(zeta**(-2.5))", "Output",
+ CellChangeTimes->{{3.577769107377369*^9, 3.577769153270585*^9}, 
+   3.5777742503931828`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nDxy", "[", "zeta", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5777692060662327`*^9, 3.577769211583831*^9}, {
+  3.577774381532339*^9, 3.5777743873270483`*^9}}],
+
+Cell["(4*(2/Pi)**0.75)/Sqrt(zeta**(-3.5))", "Output",
+ CellChangeTimes->{{3.577769213646391*^9, 3.577769248663026*^9}, 
+   3.57776928180352*^9, 3.57777438849507*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"nDxx", "[", "zeta", "]"}]}]], "Input",
+ CellChangeTimes->{{3.577769317283049*^9, 3.577769320926915*^9}, {
+  3.577774444912263*^9, 3.577774450590858*^9}, {3.577774640133073*^9, 
+  3.577774644387314*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"4", " ", 
+   SuperscriptBox[
+    RowBox[{"(", 
+     FractionBox["2", "\[Pi]"], ")"}], 
+    RowBox[{"3", "/", "4"}]]}], 
+  RowBox[{
+   SqrtBox["3"], " ", 
+   SqrtBox[
+    FractionBox["1", 
+     SuperscriptBox["zeta", 
+      RowBox[{"7", "/", "2"}]]]]}]]], "Output",
+ CellChangeTimes->{3.577774645740337*^9}]
+}, Open  ]],
+
+Cell["\<\
+(4*(2/Pi)**0.75)/(Sqrt(3)*Sqrt(zeta**(-3.5)))\
+\>", "Input",
+ CellChangeTimes->{{3.577774624834052*^9, 3.5777746264578953`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"nFxxx", "[", "zeta", "]"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.577774627614854*^9, 3.577774673606099*^9}, {
+  3.577774755869166*^9, 3.5777747610354424`*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"8", " ", 
+   SuperscriptBox[
+    RowBox[{"(", 
+     FractionBox["2", "\[Pi]"], ")"}], 
+    RowBox[{"3", "/", "4"}]]}], 
+  RowBox[{
+   SqrtBox["15"], " ", 
+   SqrtBox[
+    FractionBox["1", 
+     SuperscriptBox["zeta", 
+      RowBox[{"9", "/", "2"}]]]]}]]], "Output",
+ CellChangeTimes->{{3.577774657855382*^9, 3.577774674837558*^9}, 
+   3.577774762431176*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nFxxy", "[", "zeta", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.577774796765868*^9, 3.5777747991301622`*^9}, {
+  3.577774870011441*^9, 3.5777748760037518`*^9}}],
+
+Cell["(8*(2/Pi)**0.75)/(Sqrt(3)*Sqrt(zeta**(-4.5)))", "Output",
+ CellChangeTimes->{3.57777480080681*^9, 3.577774877319345*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nFxyz", "[", "zeta", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.57777485238266*^9, 3.577774884995104*^9}}],
+
+Cell["\<\
+(8*(2/Pi)**0.75)/Sqrt(zeta**(-4.5))\
+\>", "Input",
+ CellChangeTimes->{{3.577775250948346*^9, 3.5777752516770678`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nGxxxx", "[", "zeta", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.577775252803109*^9, 3.577775277587688*^9}}],
+
+Cell["(16*(2/Pi)**0.75)/(Sqrt(105)*Sqrt(zeta**(-5.5)))", "Output",
+ CellChangeTimes->{{3.577775260341131*^9, 3.577775279141067*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nGxxxy", "[", "zeta", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5777753857280607`*^9, 3.577775388167053*^9}}],
+
+Cell["(16*(2/Pi)**0.75)/(Sqrt(15)*Sqrt(zeta**(-5.5)))", "Output",
+ CellChangeTimes->{3.5777753902651243`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nGxxyy", "[", "zeta", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5777755626568203`*^9, 3.5777755666457787`*^9}}],
+
+Cell["(16*(2/Pi)**0.75)/(3.*Sqrt(zeta**(-5.5)))", "Output",
+ CellChangeTimes->{3.577775568443857*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"FortranForm", "[", 
+   RowBox[{"nGxxyz", "[", "zeta", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.577775583764283*^9, 3.577775600584929*^9}}],
+
+Cell["(16*(2/Pi)**0.75)/(Sqrt(3)*Sqrt(zeta**(-5.5)))", "Output",
+ CellChangeTimes->{3.5777756021316233`*^9}]
+}, Open  ]]
+},
+WindowSize->{1274, 867},
+WindowMargins->{{Automatic, 132}, {40, Automatic}},
+FrontEndVersion->"8.0 for Linux x86 (64-bit) (October 10, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 15254, 412, 1049, "Input"],
+Cell[15836, 436, 680, 9, 43, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16553, 450, 253, 6, 50, "Input"],
+Cell[16809, 458, 147, 2, 43, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16993, 465, 254, 5, 50, "Input"],
+Cell[17250, 472, 165, 2, 43, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17452, 479, 260, 5, 50, "Input"],
+Cell[17715, 486, 345, 13, 89, "Output"]
+}, Open  ]],
+Cell[18075, 502, 138, 3, 30, InheritFromParent],
+Cell[CellGroupData[{
+Cell[18238, 509, 214, 4, 50, "Input"],
+Cell[18455, 515, 396, 14, 89, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[18888, 534, 255, 5, 50, "Input"],
+Cell[19146, 541, 126, 1, 43, "Output"]
+}, Open  ]],
+Cell[19287, 545, 201, 4, 50, "Input"],
+Cell[19491, 551, 128, 3, 30, InheritFromParent],
+Cell[CellGroupData[{
+Cell[19644, 558, 203, 4, 50, "Input"],
+Cell[19850, 564, 132, 1, 43, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20019, 570, 205, 4, 50, "Input"],
+Cell[20227, 576, 109, 1, 43, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20373, 582, 207, 4, 50, "Input"],
+Cell[20583, 588, 101, 1, 43, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20721, 594, 203, 4, 50, "Input"],
+Cell[20927, 600, 108, 1, 43, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

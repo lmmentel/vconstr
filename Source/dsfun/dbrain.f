@@ -411,6 +411,7 @@ c
         endif
 c
 c        if (.not.lvhart) then
+      stop 'just before -clcvhr-'
           call clcvhr(pksmo,norb,vhrmat, gintegfile)
           call matPrint(vhrmat, norb, 'Hartree potential matrix') 
       stop 'just after -clcvhr-'

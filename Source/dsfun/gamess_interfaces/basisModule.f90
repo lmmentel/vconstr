@@ -46,7 +46,7 @@ module basisModule
 
   integer, dimension(8) :: KMIN = (/1,2, 5,11,21,34,57,1/)
   integer, dimension(8) :: KMAX = (/1,4,10,20,35,56,84,4/)
-
+    
   type basisType
     character(len=80) :: title
     integer :: natoms
@@ -260,13 +260,78 @@ end subroutine read_basis_info
                 styp = self%intyp(i)
                 otyp = label(self%intyp(i)) 
                 AOindex = self%AOlocation(i) + ioshell - 1
-                write(*,'(i4,2x,a4,3x,i4,3x,i4,5x,a2,3x,a4,3x,2f24.10,3x,i3)') &
-                    AOindex, alab, atom, i, otyp, bfnam1(k), self%exponent(ij), self%coefficient(ij)
+                write(*,'(i4,2x,a4,3x,i4,3x,i4,5x,a2,3x,a4,3x,2f24.10,3x,i3,3x,i3)') &
+                    AOindex, alab, atom, i, otyp, bfnam1(k), self%exponent(ij), self%coefficient(ij),ioshell
             enddo
         enddo
     enddo
 
   end subroutine print_basis_info
+
+  real(dp) function normalizeGaussian(ltype, mtype, zeta)
+!===============================================================================
+! calculate normalization constant fo a given cartesian primitive AO
+!
+!   input  :
+!       ltype : l quantum number + 1, meaning 1, 2, 3, 4, 5, 6, 7, 8
+!                                         for S, P, D, F, G, H, I, L
+!               where L is the SP shell, ceses with ltype > 5 are not handled
+!       mtype : number for the component of the primitive as stored in bfnam1
+!               (see preamble for this module 
+!   output :
+!       normalization cosntant for a given AO
+!===============================================================================
+    integer,  intent(in) :: ltype, mtype
+    real(dp), intent(in) :: zeta
+    
+    real(dp) :: norm
+
+  select case (ltype)
+    case (1)       ! S
+        norm = (2.0_dp/Pi)**0.75_dp/dSqrt(zeta**(-1.5_dp))
+        write(*,*) 's type in normalization'
+    case (2)       ! P
+        norm = (2.0_dp*(2.0_dp/Pi)**0.75_dp)/dSqrt(zeta**(-2.5_dp))
+    case (3)       ! D
+        select case (mtype)
+            case (5:7)         ! D xx, yy, zz
+                norm = (4.0_dp*(2.0_dp/Pi)**0.75_dp)/(Sqrt(3.0_dp)*dSqrt(zeta**(-3.5_dp)))
+            case (8:10)        ! D xy, yz, zx
+                norm = (4.0_dp*(2.0_dp/Pi)**0.75_dp)/dSqrt(zeta**(-3.5_dp))
+            case default 
+                write(*,*) "something wrong with mtype for D shell: ", mtype
+        end select
+    case (4)       ! F
+        select case (mtype)
+            case (11:13)       ! F xxx, yyy, zzz
+                norm = (8.0_dp*(2.0_dp/Pi)**0.75_dp)/(dSqrt(15.0_dp)*dSqrt(zeta**(-4.5_dp)))
+            case (14:19)       ! F xxy, xxz, yyx, yyz, zzx, zzy
+                norm = (8.0_dp*(2.0_dp/Pi)**0.75_dp)/(dSqrt(3.0_dp)*dSqrt(zeta**(-4.5_dp)))
+            case (20)          ! F xyz
+                norm = (8.0_dp*(2.0_dp/Pi)**0.75_dp)/dSqrt(zeta**(-4.5_dp))
+            case default 
+                write(*,*) "something wrong with mtype for F shell: ", mtype
+        end select
+    case (5)       ! G
+        select case (mtype)
+            case (21:23)       ! G xxxx, yyyy, zzzz
+                norm = (16.0_dp*(2.0_dp/Pi)**0.75_dp)/(dSqrt(105.0_dp)*dSqrt(zeta**(-5.5_dp)))
+            case (24:29)       ! G xxxy, xxxz, yyyx, yyyz, zzzx, zzzy
+                norm = (16.0_dp*(2.0_dp/Pi)**0.75_dp)/(dSqrt(15.0_dp)*dSqrt(zeta**(-5.5_dp)))
+            case (30:32)       ! G xxyy, xxzz, yyzz
+                norm = (16.0_dp*(2.0_dp/Pi)**0.75_dp)/(3.0_dp*dSqrt(zeta**(-5.5_dp)))
+            case (33:35)       ! G xxyz, yyxz, zzxy
+                norm = (16.0_dp*(2.0_dp/Pi)**0.75_dp)/(dSqrt(3.0_dp)*dSqrt(zeta**(-5.5_dp)))
+            case default 
+                write(*,*) "something wrong with mtype for G shell: ", mtype
+        end select
+    case default 
+        write(*,*) 'Something wrong with the ltype in -normalizeGaussian-: ', ltype
+    end select
+
+    normalizeGaussian = norm
+
+  end function normalizeGaussian
 
   subroutine deleteBasis(self)
     type(basisType) :: self

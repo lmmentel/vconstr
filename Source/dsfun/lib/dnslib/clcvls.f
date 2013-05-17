@@ -40,6 +40,8 @@ c
       chkgz(1:norb) = 0.d0
       chknb(1:norb) = 0.d0
 c
+clmm..temrorary set number of points to 1
+      npnt = 1 
       write(*,*) 'before the loop in -clcvls-' 
       write(*,*) 'number of points = ', npnt
       do 100 ipnt=1,npnt
