@@ -247,7 +247,7 @@ end subroutine read_basis_info
     call print_header('Basis set in detail')
     write(*,'(" AO ",2x,"atom",3x,"atom",2x,"shell",3x,"shell",2x,"subshell",12x,"         ",14x,"contraction")') 
     write(*,'("indx",2x,"name",3x,"No. ",2x,"No.  ",3x,"type ",2x,"  type  ",12x,"exponents",14x,"coefficients")') 
-    write(*,'(a)') repeat('-', 83)
+    write(*,'(a)') repeat('-', 89)
     ij = 0
     do i = 1, self%nshell
         atom = self%katom(i)
@@ -260,8 +260,8 @@ end subroutine read_basis_info
                 styp = self%intyp(i)
                 otyp = label(self%intyp(i)) 
                 AOindex = self%AOlocation(i) + ioshell - 1
-                write(*,'(i4,2x,a4,3x,i4,3x,i4,5x,a2,3x,a4,3x,2f24.10,3x,i3,3x,i3)') &
-                    AOindex, alab, atom, i, otyp, bfnam1(k), self%exponent(ij), self%coefficient(ij),ioshell
+                write(*,'(i4,2x,a4,3x,i4,3x,i4,5x,a2,3x,a4,3x,2f24.10,3x,i3)') &
+                    AOindex, alab, atom, i, otyp, bfnam1(k), self%exponent(ij), self%coefficient(ij)
             enddo
         enddo
     enddo
@@ -284,12 +284,11 @@ end subroutine read_basis_info
     integer,  intent(in) :: ltype, mtype
     real(dp), intent(in) :: zeta
     
-    real(dp) :: norm
+    real(dp) :: norm = 0.0_dp
 
   select case (ltype)
     case (1)       ! S
         norm = (2.0_dp/Pi)**0.75_dp/dSqrt(zeta**(-1.5_dp))
-        write(*,*) 's type in normalization'
     case (2)       ! P
         norm = (2.0_dp*(2.0_dp/Pi)**0.75_dp)/dSqrt(zeta**(-2.5_dp))
     case (3)       ! D

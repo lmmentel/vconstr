@@ -52,7 +52,6 @@ def get_input_data(logfile):
             "gintegfile"     : "'"+os.path.splitext(logfile)[0]+".F09'",
             "gbasisfile"     : "'"+os.path.splitext(logfile)[0]+".basinfo'",
             "nmos"           : (na+nb)/2,
-            "occ"            : 2,
             "itrx"           : 1,
             "tstthr"         : '1.0d-10',
             "thresh"         : '1.0d-6',
