@@ -4,6 +4,7 @@
      + isks,lsym,lintsm,lrdocc,lrfun,gdictfile,gintegfile,
      + nele,iprint)
       use integralsModule
+      use hartreePotentialModule
       use ioModule
 c
 c-----------------------------------------------------------------------
@@ -411,8 +412,10 @@ c
         endif
 c
 c        if (.not.lvhart) then
-      stop 'just before -clcvhr-'
-          call clcvhr(pksmo,norb,vhrmat, gintegfile)
+clmm      stop 'just before -clcvhr-'
+clmm..          call clcvhr(pksmo,norb,vhrmat, gintegfile)
+clmmm.. replacement for clcvhr is getHartreePot
+          call getHartreepot(vhrmat, pksmo, norb) 
           call matPrint(vhrmat, norb, 'Hartree potential matrix') 
       stop 'just after -clcvhr-'
 c        endif

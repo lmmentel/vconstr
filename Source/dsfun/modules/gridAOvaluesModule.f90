@@ -75,10 +75,10 @@ contains
 
     do j = 1, basis%kng(i)
         ioshell = 0
+        ii = ii + 1
         do k = kmin(basis%intyp(i)), kmax(basis%intyp(i))
             ioshell = ioshell + 1
             AOindex = basis%AOlocation(i) + ioshell - 1
-            ii = ii + 1
             
             zeta = basis%exponent(ii)
             exponent = zeta*r2
@@ -107,15 +107,15 @@ contains
                         grads(AOindex)   = grads(AOindex)   + gaus*2.0_dp*x*zeta*(drg-5.0_dp) 
                     case (3)    ! P Y
                         AOvalue(AOindex) = AOvalue(AOindex) + gaus*y
-                        gradx(AOindex)   = gradx(AOindex)   + gaus+dxg*y 
+                        gradx(AOindex)   = gradx(AOindex)   + gaus*dxg*y 
                         grady(AOindex)   = grady(AOindex)   + gaus*dyg*y + gaus 
                         gradz(AOindex)   = gradz(AOindex)   + gaus*dzg*y 
                         grads(AOindex)   = grads(AOindex)   + gaus*2.0_dp*y*zeta*(drg-5.0_dp) 
                     case (4)    ! P Z
                         AOvalue(AOindex) = AOvalue(AOindex) + gaus*z
-                        gradx(AOindex)   = gradx(AOindex)   + gaus+dxg*z 
-                        grady(AOindex)   = grady(AOindex)   + gaus*dyg*z + gaus 
-                        gradz(AOindex)   = gradz(AOindex)   + gaus*dzg*z 
+                        gradx(AOindex)   = gradx(AOindex)   + gaus*dxg*z 
+                        grady(AOindex)   = grady(AOindex)   + gaus*dyg*z 
+                        gradz(AOindex)   = gradz(AOindex)   + gaus*dzg*z + gaus
                         grads(AOindex)   = grads(AOindex)   + gaus*2.0_dp*z*zeta*(drg-5.0_dp) 
                     case default 
                         write(*,*) 'wrong subshell for P shell in -grid-: ', k
@@ -176,8 +176,9 @@ contains
         enddo 
     enddo
   enddo
-
-  call printAOvaluesAtPoint(basis, xp, yp, zp, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)
+    if (printLevel > 3) then
+    call printAOvaluesAtPoint(basis, xp, yp, zp, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)
+    endif
   stop 'in grid'
   end subroutine getAOvaluesAtPoint
 
