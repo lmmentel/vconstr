@@ -1,0 +1,22 @@
+&input
+	alpha=1.373
+	beta=2.0
+	gamma=2.0
+	gbasisfile='h2_cc-pvdz.basinfo'
+	gdictnfile='h2_cc-pvdz.F10'
+	gintegfile='h2_cc-pvdz.F09'
+	iprint=3
+	lintsm=.false.
+	lrfun=.false.
+	lsym=.false.
+	maxiters=100
+	nmos=1
+	nppr=3
+	scfdamp=0.5d0
+	thresh=1.0d-6
+	title='h2_cc-pvdz'
+	tstthr=1.0d-10
+/
+&occupations
+	occmo(1) = 2.0
+/

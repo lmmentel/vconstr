@@ -15,7 +15,7 @@ module gridAOvaluesModule
 
 contains
 
-  subroutine getAOvaluesAtPoint(basis, xp1, yp1, zp1, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)
+  subroutine getAOvaluesAtPoint(basis, xp, yp, zp, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)
 !===============================================================================
 ! subroutine to calculate values, gradients and Laplacian of all AO's at grid 
 ! point (x, y, z)
@@ -23,36 +23,31 @@ contains
 ! input  :
 !   basis            : basis set and system information read from gamess-us 
 !                      $JOB.basinfo file see basisModule for details
-!   x, y, z          : real, coordianted of the point
+!   xp, yp, zp       : real, coordiantes of the grid point
 !
 ! output :
-!   AOvalues         : value of the AO at the point (x, y, z)
-!   gradX            : x gradient component of AO at the point (x, y, z) 
-!   gradY            : y gradient component of AO at the point (x, y, z)
-!   gradZ            : x gradient component of AO at the point (x, y, z)
-!   gradS            : laplacian of the AO at the point (x, y, z)
-!   nuclearPotential : nucelearPotential at th point (x, y, z)
+!   AOvalues         : value of the AO at the point (xp, yp, zp)
+!   gradX            : x gradient component of AO at the point (xp, yp, zp) 
+!   gradY            : y gradient component of AO at the point (xp, yp, zp)
+!   gradZ            : x gradient component of AO at the point (xp, yp, zp)
+!   gradS            : laplacian of the AO at the point (xp, yp, zp)
+!   nuclearPotential : nucelearPotential at th point (xp, yp, zp)
 !===============================================================================
     type(basisType),  intent(in) :: basis    
 
-    real(dp), intent(in)  :: xp1, yp1, zp1
+    real(dp), intent(in)  :: xp, yp, zp
     real(dp), intent(out) :: nuclearPotential
     real(dp), intent(out) :: AOvalue(:), gradX(:), gradY(:), gradZ(:), gradS(:)
 
     integer(ik) :: i, j, k, ii, ioshell, AOindex
     real(dp)    :: x, y, z, r2, norm, gaus, exponent, zeta, drg, dxg, dyg, dzg
-    real(dp)    :: mtx, mty, mtz, xp, yp, zp
+    real(dp)    :: mtx, mty, mtz
 
     AOvalue = 0.0_dp
     gradX   = 0.0_dp
     gradY   = 0.0_dp
     gradZ   = 0.0_dp
     gradS   = 0.0_dp
-! just as a test set point to 0.0, 0.0, 0.0
-    xp = 0.0_dp
-    yp = 0.0_dp
-    zp = 0.0_dp
-
 
     nuclearPotential = 0.0_dp
 
@@ -179,7 +174,6 @@ contains
     if (printLevel > 3) then
     call printAOvaluesAtPoint(basis, xp, yp, zp, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)
     endif
-  stop 'in grid'
   end subroutine getAOvaluesAtPoint
 
   subroutine printAOvaluesAtPoint(basis, x, y, z, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)

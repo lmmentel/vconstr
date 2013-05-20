@@ -40,27 +40,35 @@ c
 c.....lmm stuff for input processing 
       character*100 buffer, inptf, gbasisfile, gdictnfile, gintegfile
       character*50  title
-      namelist /input/ title,nmos,lsym,lintsm, 
-     & itrx, tstthr, smtype, thresh, alpha, beta, gamma,
-     & df, nppr, scfdmp, dvdmp, lrfun, lfield, fxyz,
-     & gbasisfile, gdictnfile, gintegfile, iprint 
+      namelist /input/ 
+     & alpha, 
+     & beta, 
+     & fxyz,
+     & gamma,
+     & gbasisfile, 
+     & gdictnfile, 
+     & gintegfile, 
+     & iprint, 
+     & lfield, 
+     & lintsm, 
+     & lrfun, 
+     & lsym,
+     & maxiters, 
+     & nmos,
+     & nppr, 
+     & scfdamp, 
+     & smtype, 
+     & thresh, 
+     & title,
+     & tstthr 
       namelist /occupations/ occmo
-clmm      call prep99
-clmm      call tidajt(date,time,accno,anam,idum)
-clmm      write(6,666)anam,date,time,accno
-clmm  666 format(1h1//
-clmm     *24x,18('*'),' dsfun ',18('*') //
-clmm     *24x,'job name   ',a8//
-clmm     *24x,'date       ',a8//
-clmm     *24x,'time       ',a8//
-clmm     *24x,'acct       ',a8//
-clmm     *24x,44('*')///)
+      namelist /linresp/ df, dvdamp, crrmin, crrmax 
 c
       title = 'default '
       nmos = -1
       nppr = 0
       nvpr = 0
-      itrx  = 75
+      maxiters  = 75
       kpens = 0
 c
       idmp = 2
@@ -78,13 +86,12 @@ c
       lfield = .false.
 c
       df     = 0.25d0
-c      df=0.5d0
-      dvdmp  = 0.7d0
-      scfdmp = 3.d-1
+      dvdamp  = 0.7d0
+      scfdamp = 3.d-1
       tstthr = eps
       thresh = eps
-      crrmn  = 0.95d0
-      crrmx  = 1.05d0
+      crrmin  = 0.95d0
+      crrmax  = 1.05d0
       rnel   = 0.d0
 c
       info(1:infmx)=-1
@@ -148,6 +155,8 @@ clmm..contents and close
      &     delim='apostrophe', iostat=ios)
       read(11, nml=input)
       read(11, nml=occupations)
+clmm..get linear response input if linear reponse is being done
+      if (lrfun) read(11, nml=linresp)
       close(11)
 clmm..rewrite some information to commons
       basisInfoFile  = gbasisfile
@@ -226,17 +235,17 @@ c
      + ''h-matrix'')')
         endif
       endif
-      write(6,'(/'' Convergence'',/,''  itrx = '',i4,/,
-     + ''  threshold = '',g8.2)')itrx,tstthr
+      write(6,'(/'' Convergence'',/,''  maxiters = '',i4,/,
+     + ''  threshold = '',g8.2)')maxiters,tstthr
       if (lrfun) then
         write(6,'(/'' Linear response procedure''/)')
-        write(6,'(''  damping = '',f5.2)')dvdmp
+        write(6,'(''  damping = '',f5.2)')dvdamp
       else
         write(6,'(''  shift   = '',f5.2)')df
         write(6,'(''  bounds  = '',f5.2,'','',f5.2)')crrmn,crrmx
       endif
-      if (scfdmp.lt.1.d0) write(6,'(''  density damping : '',f5.2)')
-     + scfdmp
+      if (scfdamp.lt.1.d0) write(6,'(''  density damping : '',f5.2)')
+     + scfdamp
       if (kpens.ne.0) then
         write(6,'(/'' Calculate ensemble from itr = '',i4,
      + ''   once every  '',i4,'' iterations'')')ibcens,iscens
@@ -261,14 +270,14 @@ c      if (ispi.gt.0) then
 c      nmosa=2
 c      nmosb=0
 c     call brains(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
-c     + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
-c     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,idmp,ismo,isno,isao,
+c     + thresh,dqmax,dvdamp,scfdamp,kpens,info,nppr,nvpr,npnt,npold,
+c     + norb,nmos,nmomx,maxiters,ibcens,iscens,iint,idmp,ismo,isno,isao,
 c     + isoe,isks,lsym,lintsm,lrdocc,lrfun,nmosa,nmosb,atmol4)
 c      else
-      nmos=2
+c      nmos=2
       call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
-     + thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
-     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
+     + thresh,dqmax,dvdamp,scfdamp,kpens,info,nppr,nvpr,npnt,npold,
+     + norb,nmos,nmomx,maxiters,ibcens,iscens,iint,
      + isks,lsym,lintsm,lrdocc,lrfun,gdictnfile,gintegfile,nele,
      + iprint) 
 c      endif

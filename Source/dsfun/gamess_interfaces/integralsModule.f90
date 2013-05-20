@@ -115,14 +115,10 @@ module IntegralsModule
   real(DP), allocatable :: Mpaomo(:,:), Maomo(:,:)
   integer :: i, j, ij
 
-  write(*,*) 'in -reshapeOrbitals-, nb = ', nb
   allocate(Mpaomo(nb, nb), Maomo(nb, nb))
   Mpaomo = reshape(Vpaomo, (/nb, nb/))
   Maomo  = reshape(Vaomo,  (/nb, nb/))
   
-  write(*,*) 'shape of Mpaomo = ', shape(Mpaomo) 
-  write(*,*) 'shape of Maomo = ', shape(Maomo) 
-
   call readOrbitalsAndComposeDensities(Mpaomo, Maomo, Pmomo, Pnomo, nb, rnel, nele, dictionaryFile)
   ij = 0
   do j = 1, nb
@@ -145,8 +141,8 @@ module IntegralsModule
 
   type(dictionaryType)  :: dictionary
   real(DP), allocatable :: VaomoInv(:,:), Vaono(:,:), Occ(:), Vmono(:,:), Pnono(:)
-  integer  :: i, ier
-  real(DP) :: rhfnel, det
+  integer  :: i
+  real(DP) :: rhfnel
 
   call new(dictionary, dictionaryfile)
   allocate(VaomoInv(nb, nb), Vaono(nb, nb), Occ(nb), Vmono(nb, nb), Pnono(nb*(nb+1)/2))
@@ -154,6 +150,7 @@ module IntegralsModule
 ! read HF MO's over AO's
 
   call readMOs(Vaomo, dictionary)
+  call matPrint(Vaomo, "MO's in AO basis ")
 
   Pmomo = 0.0_DP
   forall (i = 1:nele/2) 
@@ -170,7 +167,9 @@ module IntegralsModule
 ! get NO's over AO's and Occupation numbers
 
   call readNOs(Vaono, dictionary)
+  call matPrint(Vaono, "NO's in AO basis ")
   call readOcc(Occ, dictionary)
+  call matPrint(Occ, "NO Occupation Numbers ")
 
   forall (i=1:size(Occ))
     Pnono(i*(i+1)/2) = Occ(i) 

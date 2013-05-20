@@ -40,10 +40,6 @@ c
       chkgz(1:norb) = 0.d0
       chknb(1:norb) = 0.d0
 c
-clmm..temrorary set number of points to 1
-      npnt = 1 
-      write(*,*) 'before the loop in -clcvls-' 
-      write(*,*) 'number of points = ', npnt
       do 100 ipnt=1,npnt
         k=(ipnt-1)*norb
         m=k+1
@@ -92,11 +88,9 @@ clmm..using gamess-us basis set format
         ddns(ipnt,3)=dz
         dsdns(ipnt)=ds
   100 continue
-      
-      write(*,*) 'after the loop in -clcvls-' 
 c
-      write(6,'(/'' density : '',g10.4,'' integration errors '',
-     + 4(g10.4))')rnel,tmp-rnel,-tmpr/3-rnel,tmps/6-rnel,tmpf
+      write(6,'(/'' density : '',g14.4,'' integration errors '',
+     + 4(g14.4))')rnel,tmp-rnel,-tmpr/3-rnel,tmps/6-rnel,tmpf
       if (abs(tmp-rnel).gt.1.d-3) write(6,'(''WARNING; '',
      + ''seems like the basis orbitals are symmetry adapted'')')
       write(6,'('' Von Weizacker kinetic energy : '',g12.6)')

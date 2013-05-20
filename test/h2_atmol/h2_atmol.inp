@@ -1,0 +1,50 @@
+ $CONTRL 
+    SCFTYP=RHF 
+    RUNTYP=ENERGY 
+    cityp=guga
+    UNITS=BOHR 
+    ISPHER=-1 
+    nprint=3
+ $END
+ $SYSTEM 
+    TIMLIM=1000000
+    mwords=100 
+ $END
+ $SCF dirscf=.false. $END
+ $CIDRT
+    iexcit=2
+    ndoc=1
+    nval=25
+    group=d2h
+ $END
+ $CIINP
+    npflg(2)=2
+ $END
+ $GUGDM
+    nflgdm=1
+ $END
+ $DATA
+Hydrogen molecule at equlibium in cc-pVDZ basis
+dnh      2
+ 
+H     1.0      0.000000    0.000000   0.7005593
+S   5
+  1       1776.77556000     0.00004400  
+  2        254.01771200     0.00037200  
+  3         54.69803900     0.00209400  
+  4         15.01834400     0.00886300  
+  5          4.91507800     0.03054000  
+S   1                                   
+  1          1.79492400     1.00000000  
+S   1                                   
+  1          0.71071600     1.00000000  
+S   1                                   
+  1          0.30480200     1.00000000  
+P   1                                   
+  1          1.36000000     1.00000000  
+P   1                                   
+  1          0.53900000     1.00000000  
+P   1                                   
+  1          0.21400000     1.00000000  
+
+ $END
