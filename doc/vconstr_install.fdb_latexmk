@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex vconstr_install"] 1368428003 "vconstr_install.aux" "vconstr_install.bbl" "vconstr_install" 1368428004
+["bibtex vconstr_install"] 1369037705 "vconstr_install.aux" "vconstr_install.bbl" "vconstr_install" 1369042787
   "./lmentelbst_sc.bst" 1368185922 26500 87bad03cb94229bdbb1eb97184cd56ff ""
   "library.bib" 1368185927 842 ecfb9718c79436e861fb5e082ba4459c ""
-  "vconstr_install.aux" 1368428004 1264 553dbb06755ccc92aaceb106418f4d1c ""
+  "vconstr_install.aux" 1369042786 1343 6eb7d213ae13531cb5978073b6981499 ""
   "vconstr_install.bcf" 0 -1 0 ""
   (generated)
   "vconstr_install.blg"
   "vconstr_install.bbl"
-["pdflatex"] 1368428003 "vconstr_install.tex" "vconstr_install.pdf" "vconstr_install" 1368428004
+["pdflatex"] 1369042786 "vconstr_install.tex" "vconstr_install.pdf" "vconstr_install" 1369042787
   "/dev/null" 1368245874 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/home/lmentel/.texlive2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1365845572 947571 fd052dc2e01470b9afd4633282d91824 ""
   "/usr/local/texlive/2012/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
@@ -66,6 +66,7 @@
   "/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty" 1303254447 9581 1158efc648bc09d5064db5703c882159 ""
   "/usr/local/texlive/2012/texmf-dist/tex/latex/pdftex-def/pdftex.def" 1306616590 55368 3c8a0d99822330f2dfabc0dfb09ce897 ""
   "/usr/local/texlive/2012/texmf-dist/tex/latex/tools/calc.sty" 1254151720 10075 18f0ccff816231e9905cd2b3a482a622 ""
+  "/usr/local/texlive/2012/texmf-dist/tex/latex/tools/enumerate.sty" 1254151720 3328 485bddd4058e8ddb2a8849a8d397dcbc ""
   "/usr/local/texlive/2012/texmf-dist/tex/latex/tools/multicol.sty" 1312409015 26766 56c30c5bea3083b5a0d6fc2ce0063096 ""
   "/usr/local/texlive/2012/texmf-dist/tex/latex/url/url.sty" 1264379145 21932 e3a9cf32ee9b853b42be14c2f25b873c ""
   "/usr/local/texlive/2012/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
@@ -73,12 +74,12 @@
   "/usr/local/texlive/2012/texmf.cnf" 1359675126 450 4d403dc0cdb7db5aa63be9299ca1475e ""
   "/usr/local/texlive/2012/texmf/web2c/texmf.cnf" 1336865692 31299 729e216d9b945005c0d4b079c0500bc9 ""
   "vconstr_install.aex" 0 -1 0 ""
-  "vconstr_install.aux" 1368428004 1264 553dbb06755ccc92aaceb106418f4d1c ""
-  "vconstr_install.bbl" 1368428003 354 2096ffea1ce8c7ece6058c0771b0fd79 "bibtex vconstr_install"
-  "vconstr_install.out" 1368428004 173 9a69f9122aba046f3ffabc8443f8e8ca ""
+  "vconstr_install.aux" 1369042786 1343 6eb7d213ae13531cb5978073b6981499 ""
+  "vconstr_install.bbl" 1369037705 354 2096ffea1ce8c7ece6058c0771b0fd79 "bibtex vconstr_install"
+  "vconstr_install.out" 1369042786 214 a8d7f59968b9692f57f3bc2964715b28 ""
   "vconstr_install.out.pyg" 0 -1 0 ""
   "vconstr_install.pyg" 0 -1 0 ""
-  "vconstr_install.tex" 1368282962 4304 584de909d9ad2e6d497d8b8ed7edc987 ""
+  "vconstr_install.tex" 1369042784 5303 94fe67d69ea9c399fbdd5a59e8940df5 ""
   "vconstr_install.w18" 0 -1 0 ""
   (generated)
   "vconstr_install.log"

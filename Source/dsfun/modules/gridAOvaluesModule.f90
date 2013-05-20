@@ -171,8 +171,8 @@ contains
         enddo 
     enddo
   enddo
-    if (printLevel > 3) then
-    call printAOvaluesAtPoint(basis, xp, yp, zp, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)
+    if (printLevel >= 5) then
+        call printAOvaluesAtPoint(basis, xp, yp, zp, AOvalue, gradX, gradY, gradZ, gradS, nuclearPotential)
     endif
   end subroutine getAOvaluesAtPoint
 

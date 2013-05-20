@@ -14,5 +14,7 @@ module commonsModule
 
 ! maximal exponent handled in the Grid calcalation in grid module
   real(dp), parameter :: explim = 50000.0_dp
+! epsilon 
+  real(dp), parameter :: epsilon = 1.0e-6_dp
 
 end module commonsModule

@@ -24,22 +24,16 @@ c***********************************************************************
       implicit real*8 (a-h,o-z),integer(i-n)
       parameter(nmomx  = 60)
       parameter(infmx  = 10)
-      parameter(eps = 1.d-6)
-c
-      character*4 ied 
-      character*44 fname
-      common/discc/ied(16),fname(16)
 c
       character*8 smtype,hmat,int2e
       logical lsym,lintsm,lrdocc,lrfun,lfield
       dimension occmo(nmomx),info(infmx)
       dimension fxyz(3)
-clmm..data structures  for handling gamess-us basis set stuff
-      character*80 gamtitle
 c
-c.....lmm stuff for input processing 
+clmm..stuff for input processing 
       character*100 buffer, inptf, gbasisfile, gdictnfile, gintegfile
       character*50  title
+      character*80  gamtitle
       namelist /input/ 
      & alpha, 
      & beta, 
@@ -71,13 +65,7 @@ c
       maxiters  = 75
       kpens = 0
 c
-      idmp = 2
-      ismo = 1
-      isno = 2
-      isks = 3
-      isao = -1
-      isoe = 198
-      iint = 7
+      iprint = 0
 c
       lsym   = .false.
       lintsm = .false.
@@ -88,8 +76,8 @@ c
       df     = 0.25d0
       dvdamp  = 0.7d0
       scfdamp = 3.d-1
-      tstthr = eps
-      thresh = eps
+      tstthr = epsilon
+      thresh = epsilon
       crrmin  = 0.95d0
       crrmax  = 1.05d0
       rnel   = 0.d0
@@ -252,9 +240,9 @@ c
         write(6,'(''   kpens = '',i4)')kpens
         write(6,'(''   dqmax = '',f4.2)')dqmax
       endif
-      if (isks.gt.0) then
-        write(6,'(''  Storage of KS orbitals  :'',i3)')isks
-      endif
+clmm      if (isks.gt.0) then
+clmm        write(6,'(''  Storage of KS orbitals  :'',i3)')isks
+clmm      endif
 c
       open(99,file='points',status='old',err=444)
       rewind(99)
@@ -275,11 +263,13 @@ c     + norb,nmos,nmomx,maxiters,ibcens,iscens,iint,idmp,ismo,isno,isao,
 c     + isoe,isks,lsym,lintsm,lrdocc,lrfun,nmosa,nmosb,atmol4)
 c      else
 c      nmos=2
+      write(*,*) 'shape(occmo) = ', shape(occmo)
+      write(*,*) 'size(occmo) = ',size(occmo)
+      write(*,*) 'occmo = ',occmo
       call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
      + thresh,dqmax,dvdamp,scfdamp,kpens,info,nppr,nvpr,npnt,npold,
-     + norb,nmos,nmomx,maxiters,ibcens,iscens,iint,
-     + isks,lsym,lintsm,lrdocc,lrfun,gdictnfile,gintegfile,nele,
-     + iprint) 
+     + norb,nmos,nmomx,maxiters,ibcens,iscens,
+     + lsym,lintsm,lrdocc,lrfun,nele) 
 c      endif
 
 clmm      call revind

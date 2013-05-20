@@ -1,21 +1,20 @@
       subroutine dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,
      + crrmx,thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
-     + norb,nmos,nmomx,itrx,ibcens,iscens,iint,
-     + isks,lsym,lintsm,lrdocc,lrfun,gdictfile,gintegfile,
-     + nele,iprint)
+     + norb,nmos,nmomx,itrx,ibcens,iscens,
+     + lsym,lintsm,lrdocc,lrfun,nele)
       use integralsModule
       use hartreePotentialModule
       use coulombAndExchangeModule
       use ioModule
+      use commonsModule
 c
 c-----------------------------------------------------------------------
 c
       implicit real*8 (a-h,o-z),integer(i-n)
-      parameter(espilon = 1.0d-8)
+!      parameter(epsilon = 1.0d-8)
       parameter(fparin = 1.01d0)
 c
-      logical lsym,lintsm,lrdocc,lrfun,lincpr,atmol4
-      character(*) gdictfile, gintegfile
+      logical lsym,lintsm,lrdocc,lrfun,lincpr
       dimension info(nppr)
       dimension occmo(nmomx)
 c
@@ -57,6 +56,8 @@ c
      + bm(:,:),cm(:,:),dsrho(:),vhartr(:),vcond(:),
      +pkd(:,:),apkd(:,:)
 c
+      write(*,'(/"now debuggin in dbrain"/)') 
+      write(*,*) 'occmo = ', occmo
       ltrian = .false.
       lcens  = .false.
       lvhart = .false.
@@ -106,9 +107,11 @@ c** determine symmetry of the orbitals, using the orbitals itself if
 c** lintsm, else using the hamiltonian matrix
 c
         if (lintsm) then
-          call orbsym(iorbsm,nsym,norb,thresh,iint)
-        else
-          call hsym(iorbsm,nsym,hmatx,norb,thresh)
+        write(*,*) 'Option lintsm=.true. not implemented yet'
+        stop 'bye bye from -dbrain-'
+!          call orbsym(iorbsm,nsym,norb,thresh,iint)
+!        else
+!          call hsym(iorbsm,nsym,hmatx,norb,thresh)
         endif
         do i=1,5
         j=i
@@ -141,8 +144,8 @@ clmm..write(6,'(/''  nuclear repulsion energy : '',f16.8,/)')enuc
 clmm..
 clmm..read kinetic energy electron-nucleus attarction integrals 
 clmm..and nuclear repulsion energy from gamess-us dictionary
-      call readOneEintegrals(tsmat, vnmat, enuc, gDictFile)
-      if (iprint >= 3) then 
+      call readOneEintegrals(tsmat, vnmat, enuc)
+      if (printLevel >= 1) then 
         call matPrint(tsmat, norb,'Kinetic energy integrals in AO')
         call matPrint(vnmat, norb,'Potential energy integrals in AO')
         write(*,'(/"Nuclear repulsion energy = ",f14.10/)') enuc
@@ -159,8 +162,8 @@ clmm..
 clmm..now read the orbitals
       call getOrbitalsAndDensities(vmopao, 
      & vmoao, pmo, pnomo, norb, 
-     & rnel, nele, gDictFile)
-      if (iprint >= 2) then 
+     & rnel, nele)
+      if (printLevel >= 2) then 
         call matPrint(reshape(vmopao, (/norb, norb/)), 
      & 'Vmo in primitive ao, vmopao')
       endif
@@ -181,7 +184,7 @@ c
         pksks(1:norbtr)=pmo(1:norbtr)
         do imo=norb,1,-1
           jmo=imo*(imo+1)/2
-          if (pksks(jmo).gt.espilon) then
+          if (pksks(jmo).gt.epsilon) then
             nmos=imo
             if (nmos.gt.nmomx) then
               write(6,'(''ERROR; nmos > nmomx'')')
@@ -208,7 +211,7 @@ c
           pksks(imo*(imo+1)/2) = occmo(imo)
         enddo
         rnelo=sum(occmo)
-        if (abs(rnelo-rnel).gt.espilon) then
+        if (abs(rnelo-rnel).gt.epsilon) then
           write(6,'(/''ERROR; sum of Kohn-Sham occupation numbers :'',
      + f8.3)') rnelo
           stop
@@ -409,9 +412,9 @@ c
         endif
 c
 c        if (.not.lvhart) then
-clmmm.. replacement for clcvhr is getHartreePot
+clmmm..replacement for clcvhr is getHartreePot
           call getHartreepot(vhrmat, pksmo, norb) 
-            if (iprint >= 3) then 
+            if (printLevel >= 4) then 
               call matPrint(vhrmat, norb, 'Hartree potential matrix')
             endif 
 c        endif
@@ -452,13 +455,13 @@ c
           enddo
         enddo
         do imo=nmos,1,-1
-          if (occmo(iorder(imo)).gt.espilon) then
+          if (occmo(iorder(imo)).gt.epsilon) then
             homo=eorb(imo)
             exit
           endif
         enddo
         do imo=nmos+1,norb
-          if ((eorb(imo)-homo).lt.espilon) then
+          if ((eorb(imo)-homo).lt.epsilon) then
             write(6,'(''WARNING; Spectrum is incorrect '',f8.4)')
      + eorb(imo)
             if (nmos.lt.nmomx) then
@@ -490,7 +493,7 @@ c
           qorb(imo)=occmo(jmo)
         enddo
         do imo=nmos,1,-1
-          if (qorb(imo).gt.espilon) then
+          if (qorb(imo).gt.epsilon) then
             nmopr=imo
             exit
           endif
@@ -681,7 +684,7 @@ c
           ilumo = -1
           elumo = 0.d0
           do iorb = 1,nmos
-            if ((qorb(iorb).gt.espilon).and.
+            if ((qorb(iorb).gt.epsilon).and.
      + (eorb(iorb).gt.efermi)) then
               efermi = eorb(iorb)
               ifermi = iorb
@@ -703,7 +706,7 @@ c
             call frcctr(nq,eorb(ilumo),qorb(ilumo),occorb,dqmax,parin,
      + epse,epsq,kkk)
             sumo=sum(qorb)
-            if (abs(sumi-sumo).gt.espilon) then
+            if (abs(sumi-sumo).gt.epsilon) then
               write(6,'(''ERROR; number of electrons destroyed'')')
               write(6,'(''  in  : '',f6.2,/,''  out : '',f6.2)')
      + sumi,sumo
@@ -975,9 +978,9 @@ c
 c
 c** store ks-vectors and occupation on dumpfile.
 c
-      if (isks.gt.0) then
-        call wrtkso(vksmo,vmoao,hksmat,occmo,nmos,norb,idmp,isks)
-      endif
+clmm      if (isks.gt.0) then
+clmm        call wrtkso(vksmo,vmoao,hksmat,occmo,nmos,norb,idmp,isks)
+clmm      endif
 c
 c** use hksmat as scratch to get the right order
 c
@@ -1068,10 +1071,10 @@ c
      +,f16.10)')eonks+exks+ehks+enuc
 clmm..
       write(*,*) 'nmos before -clcens- = ', nmos
-      write(*,*) 'espilon before -clcens- = ', epsilon
+      write(*,*) 'epsilon before -clcens- = ', epsilon
       do imo=1,nmos
-        if ((abs(occmo(imo)-occorb).gt.espilon).and.
-     + (abs(occmo(imo)).gt.espilon)) nfomos=nfomos+1
+        if ((abs(occmo(imo)-occorb).gt.epsilon).and.
+     + (abs(occmo(imo)).gt.epsilon)) nfomos=nfomos+1
       enddo
 clmm..print the nfomos variable
       write(*,*) 'nfomos before -clcens- = ', nfomos
@@ -1107,8 +1110,7 @@ c
      +,f16.10)')eonks+exks+ehks+enuc
 c
         else
-          call clcens(vksmo,pksks,occmo,occorb,eonks,norb,nmos,nfomos,
-     + iint)
+          call clcens(vksmo,pksks,occmo,occorb,eonks,norb,nmos,nfomos)
         endif
       endif
 c

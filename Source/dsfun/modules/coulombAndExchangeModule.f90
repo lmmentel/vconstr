@@ -1,4 +1,9 @@
 module CoulombAndExchangeModule
+!===============================================================================
+! this module is intended as a replacement for the erep.f file 
+! it calculates the Coulomb and Exchange energy assciated with 
+! one particle density matrix
+!===============================================================================
   use varModule
   use commonsModule
  
@@ -15,6 +20,17 @@ module CoulombAndExchangeModule
 contains 
 
   subroutine getCoulombAndExchangeEnergies(pmo, norb, ecoul, eexch) 
+!===============================================================================
+! calculate Coulomb and Exchange energies corresponding to the one particle 
+! density matrix stored in pmo.
+!
+!   input  :
+!       pmo  : density matrix
+!       norb : dimension of the density matrix
+!   output :
+!       ecoul : Coulomb energy
+!       eexch : Exchange energy  
+!===============================================================================
     real(DP),         intent(inout) :: pmo(:)
     integer,          intent(in)    :: norb 
     real(dp),         intent(out)   :: ecoul, eexch

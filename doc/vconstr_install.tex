@@ -1,6 +1,7 @@
 \documentclass[10pt]{article}
 \usepackage{multicol}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{enumerate}
 \usepackage{calc}
 % rules for the tables
 \usepackage{booktabs}
@@ -91,7 +92,7 @@ ls -lF
         \item \verb!vmoao! moelcular orbitals in mo basis
         \item \verb!pmo! mo density matrix in mo basis
         \item \verb!pnomo! ci density matrix in mo basis  
-    \end{item}
+    \end{itemize}
 \section{dsfun.x input}        
     \begin{table}[H]
         \begin{center}
@@ -120,6 +121,22 @@ ls -lF
         \end{center}
     \end{table}
 %\printindex
+\section{iPrint}
+\begin{enumerate}[1 - ]
+    \setcounter{enumi}{-1}
+    \item minimal printing, standard dsfun printing (this option is the default),
+    \item print one electron integrals (kinetic and nuclear-electron attraction) over AO's and nuclar repulsion energy 
+    read from Gamess-US dictionary file,
+    \item same as \verb!iPrint=1! plus orbitals (HF MO's in AO, NO's in AO), NO occupation numbers - 
+    read from Gamess-US dictionary file and calculates in the program (NO's in MO) and densities 
+    (CI-NO density in MO, HF-MO density in MO),
+    \item same as \verb!iPrint=2! plus basis set information as read from the Gamess-US basinfo file,
+    \item same as \verb!iPrint=3! plus Hartree potential at every iteration of KS potential,
+    \item same as \verb!iPrint=4! plus values, gradients, and laplacians for every AO and grid point,
+    {\color{red}Warning!} for large numbers of AO and grid points this will create very big files!
+\end{enumerate}
+
+
 \bibliographystyle{lmentelbst_sc}
 \bibliography{library}
 \end{document}

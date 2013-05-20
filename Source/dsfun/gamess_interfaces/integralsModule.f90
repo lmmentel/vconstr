@@ -2,6 +2,7 @@ module IntegralsModule
   use varModule
   use dictionaryModule
   use ioModule
+  use commonsModule
   implicit none 
 
   private
@@ -103,11 +104,7 @@ module IntegralsModule
 
   contains
 
-! subroutine readCoreHamiltonianMatrixInMO()
-! end subroutine readCoreHamiltonianMatrixInMO
-
- subroutine reshapeOrbitals(Vpaomo, Vaomo, Pmomo, Pnomo, nb, rnel, nele, dictionaryFile)
-  character(*), intent(in)  :: dictionaryFile
+ subroutine reshapeOrbitals(Vpaomo, Vaomo, Pmomo, Pnomo, nb, rnel, nele)
   integer,      intent(in)  :: nele, nb 
   real(DP),     intent(out) :: rnel 
   real(DP),     intent(out) :: Vpaomo(:), Vaomo(:), Pmomo(:), Pnomo(:)
@@ -119,7 +116,7 @@ module IntegralsModule
   Mpaomo = reshape(Vpaomo, (/nb, nb/))
   Maomo  = reshape(Vaomo,  (/nb, nb/))
   
-  call readOrbitalsAndComposeDensities(Mpaomo, Maomo, Pmomo, Pnomo, nb, rnel, nele, dictionaryFile)
+  call readOrbitalsAndComposeDensities(Mpaomo, Maomo, Pmomo, Pnomo, nb, rnel, nele)
   ij = 0
   do j = 1, nb
     do i = 1, nb
@@ -131,10 +128,9 @@ module IntegralsModule
   deallocate(Mpaomo, Maomo)
  end subroutine reshapeOrbitals
 
- subroutine readOrbitalsAndComposeDensities(Vpaomo, Vaomo, Pmomo, Pnomo, nb, rnel, nele, dictionaryFile)
+ subroutine readOrbitalsAndComposeDensities(Vpaomo, Vaomo, Pmomo, Pnomo, nb, rnel, nele)
   use dictionaryModule
   use ioModule
-  character(*), intent(in)  :: dictionaryFile
   integer,      intent(in)  :: nele, nb 
   real(DP),     intent(out) :: rnel 
   real(DP),     intent(out) :: Vpaomo(:,:), Vaomo(:,:), Pmomo(:), Pnomo(:)
@@ -144,13 +140,15 @@ module IntegralsModule
   integer  :: i
   real(DP) :: rhfnel
 
-  call new(dictionary, dictionaryfile)
+  call new(dictionary)
   allocate(VaomoInv(nb, nb), Vaono(nb, nb), Occ(nb), Vmono(nb, nb), Pnono(nb*(nb+1)/2))
   
 ! read HF MO's over AO's
 
   call readMOs(Vaomo, dictionary)
-  call matPrint(Vaomo, "MO's in AO basis ")
+  if (printLevel >=2 ) then
+    call matPrint(Vaomo, "MO's in AO basis ")
+  endif
 
   Pmomo = 0.0_DP
   forall (i = 1:nele/2) 
@@ -167,9 +165,11 @@ module IntegralsModule
 ! get NO's over AO's and Occupation numbers
 
   call readNOs(Vaono, dictionary)
-  call matPrint(Vaono, "NO's in AO basis ")
   call readOcc(Occ, dictionary)
-  call matPrint(Occ, "NO Occupation Numbers ")
+  if (printLevel >=2 ) then
+    call matPrint(Vaono, "NO's in AO basis ")
+    call matPrint(Occ, "NO Occupation Numbers ")
+  endif
 
   forall (i=1:size(Occ))
     Pnono(i*(i+1)/2) = Occ(i) 
@@ -187,23 +187,26 @@ module IntegralsModule
   Vmono = matmul(VaomoInv, Vaono)
 !  call minvr(VaomoInv, 1.0d-7, det, ier, nb)
 !  call matml(Vaono, VaomoInv, Vmono, nb)
-  call matPrint(Vmono, "NO's in MO basis ")
+  if (printLevel >=2 ) then
+    call matPrint(Vmono, "NO's in MO basis ")
+  endif
 
 ! transform the natural orbital occupation numbers from NO to MO basis
 ! store the resulting Pnomo in pnono
 !  call matTrans(Vmono, Pnono, Vmono)
 
   call tmtdag(Pnono, nb, Pnomo, nb, Vmono, 0.5_DP)
-  call matPrint(Pnono, nb, 'CI-density in MO basis')
-  call matPrint(Pmomo, nb, 'HF MO-density in MO basis')
+  if (printLevel >=2 ) then
+    call matPrint(Pnono, nb, 'CI-density in MO basis')
+    call matPrint(Pmomo, nb, 'HF MO-density in MO basis')
+  endif
   deallocate(VaomoInv, Vaono, Occ, Vmono,  Pnono)
   call delete(dictionary)
  end subroutine readOrbitalsAndComposeDensities
 
 
- subroutine readOneElectronIntegralsInAO(T, Ven, nuclearRepulsion, dictionaryFile)
+ subroutine readOneElectronIntegralsInAO(T, Ven, nuclearRepulsion)
   use dictionaryModule
-  character(*), intent(in)  :: dictionaryFile
   real(DP),     intent(out) :: T(:), Ven(:) 
   real(DP),     intent(out) :: nuclearRepulsion
 
@@ -211,7 +214,7 @@ module IntegralsModule
   type(energyType)      :: energy
   real(DP), allocatable :: Htemp(:)
    
-  call new(dictionary, dictionaryfile)
+  call new(dictionary)
 
   allocate(Htemp(size(T)))
 ! read core hamiltonian matrix elements

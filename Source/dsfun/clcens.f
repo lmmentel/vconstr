@@ -1,5 +1,5 @@
-      subroutine clcens(vksmo,pksks,occmo,occorb,eone,norb,nmos,nfomos,
-     + iint)
+      subroutine clcens(vksmo,pksks,occmo,occorb,eone,norb,nmos,nfomos)
+      use CoulombAndExchangeModule
 c
 c-----------------------------------------------------------------------
 c
@@ -67,7 +67,8 @@ c
           pksks(jmo*(jmo+1)/2)=detmat(i,j)
         enddo
         call tmtdag(pksks,nmos,scrtc,norb,vksmo,c)
-        call erep(scrtc,norb,iint,ectmp,extmp)
+clmm..replace erep with getCoulombAndExchange
+        call getCoulombAndExchange(scrtc,norb,ectmp,extmp)
         write(6,'('' '',i2,''   '',f6.4,'' '',f8.4,''   '',f8.4,
      + ''   '',3(15f3.0,/))')i,cdet,ectmp,extmp,
      + (pksks(k*(k+1)/2),k=1,nmos)

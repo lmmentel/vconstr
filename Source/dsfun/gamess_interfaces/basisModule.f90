@@ -139,7 +139,7 @@ contains
         enddo 
     enddo
 
-    if (printLevel > 1) call print_basis_info(self)
+    if (printLevel >= 3) call print_basis_info(self)
 ! deallocate temporary arrays
     deallocate(ish, ityp, expon, contrc1, contrc2) 
   end subroutine newBasis

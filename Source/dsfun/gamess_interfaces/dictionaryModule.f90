@@ -35,9 +35,16 @@ module dictionaryModule
   public :: readFrom
 contains
 
- subroutine newPrivate(self, filename)
+ subroutine newPrivate(self)
+!===============================================================================
+! create a dictionary type object that will hold the basic information about
+! gamess-us dictionary file, open the dictionary file and read the first 
+! record containing irect, ioda, ifilen, is , ipk varibles and set all the 
+! remaining required variables, structure of the dictionary type is given in 
+! the preamble of this module
+!===============================================================================
+  use commonsModule
   type(dictionaryType) :: self
-  character(*) :: filename
   integer(IPgamess) IRECLN,IRECST,IFILEN(950)
   integer(IPgamess) IR,IW,IP,IIS,IPK,IDAFX,NAV,IODAX(950)
   integer(IPgamess) ME, MASTER, NPROC, IBTYP, IPTIM 
@@ -49,7 +56,7 @@ contains
   self%idaf   = 10_IPgamess
   self%irecln = 4090_IPgamess
 
-  open(unit=self%idaf,file=trim(filename),access='direct',recl=8*self%irecln,form='unformatted')
+  open(unit=self%idaf,file=trim(dictionaryFile),access='direct',recl=8*self%irecln,form='unformatted')
   read(10,rec=1) self%irecst, self%ioda, self%ifilen, self%is, self%ipk
   ! set the required defaults to pass to the gamess-us common blocks
   IRECLN = self%irecln
