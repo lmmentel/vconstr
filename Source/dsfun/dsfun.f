@@ -230,7 +230,7 @@ c
         write(6,'(''  damping = '',f5.2)')dvdamp
       else
         write(6,'(''  shift   = '',f5.2)')df
-        write(6,'(''  bounds  = '',f5.2,'','',f5.2)')crrmn,crrmx
+        write(6,'(''  bounds  = '',f5.2,'','',f5.2)')crrmin,crrmax
       endif
       if (scfdamp.lt.1.d0) write(6,'(''  density damping : '',f5.2)')
      + scfdamp
@@ -263,10 +263,9 @@ c     + norb,nmos,nmomx,maxiters,ibcens,iscens,iint,idmp,ismo,isno,isao,
 c     + isoe,isks,lsym,lintsm,lrdocc,lrfun,nmosa,nmosb,atmol4)
 c      else
 c      nmos=2
-      write(*,*) 'shape(occmo) = ', shape(occmo)
-      write(*,*) 'size(occmo) = ',size(occmo)
-      write(*,*) 'occmo = ',occmo
-      call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,crrmx,
+clmm..initialized kpens variable to avoid a memory leak later  
+      kpens = 1
+      call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmin,crrmax,
      + thresh,dqmax,dvdamp,scfdamp,kpens,info,nppr,nvpr,npnt,npold,
      + norb,nmos,nmomx,maxiters,ibcens,iscens,
      + lsym,lintsm,lrdocc,lrfun,nele) 

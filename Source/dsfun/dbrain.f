@@ -11,7 +11,7 @@ c
 c-----------------------------------------------------------------------
 c
       implicit real*8 (a-h,o-z),integer(i-n)
-!      parameter(epsilon = 1.0d-8)
+c      parameter(epsilon = 1.0d-8)
       parameter(fparin = 1.01d0)
 c
       logical lsym,lintsm,lrdocc,lrfun,lincpr
@@ -23,7 +23,7 @@ c
       dimension iorder(nmomx),ityp(nmomx),iord(norb)
       dimension qorb(nmomx),qorbld(kpens*nmomx),chkval(nmomx),
      + tsorb(nmomx),mm(6),d1(norb),d2(norb),d3(norb)
-      dimension pnomoa(norb*norb),vnomoa(norb*norb),occnoa(norb)
+      dimension pnomoa(norb*norb)
       dimension pksks(norb*(norb+1)/2),pmo(norb*(norb+1)/2),
      + pmoao(norb*(norb+1)/2),pnomo(norb*(norb+1)/2),
      + pnoao(norb*(norb+1)/2),pksmo(norb*(norb+1)/2),
@@ -33,7 +33,7 @@ c
      + pksiks(norb*(norb+1)/2),pksimo(norb*(norb+1)/2),
      + pksiao(norb*(norb+1)/2),pvksmo(norb*(norb+1)/2)
       dimension vksmo(norb*norb),vmoao(norb*norb),hksmat(norb*norb),
-     + vmopao(norb*norb),vksmoo(norb*norb),vnoao(norb*norb),
+     + vmopao(norb*norb),vnoao(norb*norb),
      +vnomo(norb*norb),scrtc(norb*norb),pnono(norb*(norb+1)/2),
      +vksno(norb*norb),vksao(norb*norb)
       dimension rho(npnt),vxc(npnt),vnuc(npnt)
@@ -44,20 +44,15 @@ c
       dimension valmo(norb*npnt)
       dimension occtyp(nmos),anr(nmos),stp(nmos) 
       dimension vck(npnt),vresp(npnt),erv(norb),orbdnst(npnt*nmos)
-      dimension dymo(784),valdo(28*npnt),ia(28),anorm(28)
+      dimension ia(28),anorm(28)
       dimension skd(nmos,28),oc(28),vip(28),evip(nmos)
       dimension psnomo(norb*(norb+1)/2),srho(npnt),fij(norb*norb)
-      dimension ii1(8),jj1(8),ll1(8),kk1(8),iz(norb)
-      dimension wij(norb),pnovi((norb-nmos)*(norb-nmos+1)/2),
-     +vinomo((norb-nmos)*norb),pnomov(norb*(norb+1)/2)
-      common/atbuf/gin(340),gijkl(170),nword,ndum
-      common/scijkl/ijkl(4,340)
       allocatable grdmo(:,:),norbsm(:,:),drho(:,:),am(:,:),
      + bm(:,:),cm(:,:),dsrho(:),vhartr(:),vcond(:),
      +pkd(:,:),apkd(:,:)
 c
-      write(*,'(/"now debuggin in dbrain"/)') 
-      write(*,*) 'occmo = ', occmo
+clmm..set default for nfomos
+      nfomos = 0
       ltrian = .false.
       lcens  = .false.
       lvhart = .false.
@@ -97,6 +92,10 @@ c
 c** get one electron matrix (on mo basis) from dumpfile
 c
 clmm..call hmatmo(idmp,isoe,hmatx,norb)
+clmm..read core hamiltonian matrix in MO's
+      call getHcoreMO(hmatx, norb)
+      if (printLevel >= 1) call matPrint(hmatx, norb, 
+     & 'Core hamiltonian matrix in MO')
 clmm..added a call for reading gamess-us core hamiltonian matrix in MO basis (need transfomation)
       if (lsym) then
 clmm..write an information about features that are not implemented yet
@@ -135,13 +134,8 @@ c
           norbsm(isym,0)=item
         enddo
       endif
-c
-c** read kinetic and electron-nuclear attraction integrals from dumpfile,
-c** section 192, and store in the vector vnmat
-c
-clmm..call rdmat(idmp,norb,tsmat,vnmat,enuc)
-clmm..write(6,'(/''  nuclear repulsion energy : '',f16.8,/)')enuc
-clmm..
+clmm
+clmm..replacement for rdmat routine 
 clmm..read kinetic energy electron-nucleus attarction integrals 
 clmm..and nuclear repulsion energy from gamess-us dictionary
       call readOneEintegrals(tsmat, vnmat, enuc)
@@ -156,10 +150,7 @@ c**                 vmoao  - molecular orbitals in ao basis
 c**                 pmo    - mo density matrix in mo basis
 c**                 pnomo  - ci density matrix in mo basis
 c
-clmm..call rddmp(vmopao,vmoao,pmo,pnomo,norb,nvpr,rnel,idmp,ismo,isao,
-clmm..+ isno)
-clmm..
-clmm..now read the orbitals
+clmm..replacement for the rddmp routine now read the orbitals
       call getOrbitalsAndDensities(vmopao, 
      & vmoao, pmo, pnomo, norb, 
      & rnel, nele)
@@ -250,73 +241,6 @@ c
       do ip=1,npnt
         write(76,*) vnuc(ip)
       enddo
-c
-clmm      nroot=28
-clmm      na1=10
-clmm      ma1=28
-clmm      i=1
-clmm      open(88,file='dag.dat')
-clmm      do id=1,nroot
-clmm      do irow=1,na1
-clmm      if(irow.eq.10) then
-clmm      read(88,*) dymo(i)
-clmm      i=i+1
-clmm      else
-clmm      read (88,*) dymo(i),dymo(i+1),dymo(i+2)
-clmm      i=i+3
-clmm      endif
-clmm      enddo
-clmm      enddo
-clmm      close(88)
-clmm      open(77,file='dymo.dat')
-clmm      rewind(77)
-clmm      do id=1,nroot
-clmm      do irow=1,28
-clmm      i=(id-1)*ma1+irow
-clmm      write(77,*) dymo(i)
-clmm      enddo
-clmm      enddo
-clmm      close(77)
-clmm      open(66,file='iag.dat')
-clmm      rewind(66)
-clmm      do i=1,ma1
-clmm      read(66,*) ia(i)
-clmm      enddo
-clmm      close(66) 
-clmm      open(89,file='ocag.dat')
-clmm      rewind(89)
-clmm      do i=1,nroot
-clmm      read(89,*) oc(i)
-clmm      enddo
-clmm      close(89)
-clmm      do i=1,npnt
-clmm      do j=1,nroot
-clmm      ij=(i-1)*nroot+j
-clmm      valdo(ij)=0.0d0
-clmm      enddo
-clmm      enddo
-clmm      do ipnt=1,npnt
-clmm      k=(ipnt-1)*nroot
-clmm      j=(ipnt-1)*norb
-clmm      do id=1,nroot
-clmm      ic=(id-1)*ma1
-clmm      do im=1,ma1
-clmm      imo=ia(im)
-clmm      valdo(k+id)=valdo(k+id)+valmo(j+imo)*dymo(ic+im)
-clmm      enddo
-clmm      enddo
-clmm      enddo
-clmm      do i=1,nroot
-clmm      anorm(i)=0.0d0
-clmm      enddo
-clmm      do ipnt=1,npnt
-clmm      k=(ipnt-1)*nroot
-clmm      do id=1,nroot
-clmm      anorm(id)=anorm(id)+valdo(k+id)*valdo(k+id)*weight(ipnt)
-clmm      enddo
-clmm      enddo
-clmm      write(6,'(/"Dyson norm :",10(1x,f11.6))')
-clmm     +(anorm(i),i=1,nroot) 
 c
       open(11,file='rhcc.dat')
       rewind(11)
@@ -432,6 +356,8 @@ c** diagonalize matrix hksmat and return the eigenvalues on the main
 c** diagonal of hksmat. vksmo returns the eigenvectors in mo basis.
 c
         call diaglz(hksmat,vksmo,norb)
+        call matPrint(reshape(hksmat, (/norb, norb/)),
+     &  'hksmat after diaglz')
         do iorb=1,norb
           eorb(iorb)=hksmat((iorb-1)*norb+iorb)
         enddo
@@ -968,7 +894,8 @@ c
       close(16)
       close(26)
 c
-      call wrtorb(vksmo,occmo,ityp,ndvcr,nmos,norb,npnt,npold,valmo)
+clmm      write(*,*) 'ndvcr = ', ndvcr
+clmm      call wrtorb(vksmo,occmo,ityp,ndvcr,nmos,norb,npnt,npold,valmo)
 c
       if (lvhart) then
         print*,'reconstruct the Kohn-Sham potential from the orbitals'
@@ -1070,14 +997,11 @@ c
       write(6,'('' KS energy expectation value            :''
      +,f16.10)')eonks+exks+ehks+enuc
 clmm..
-      write(*,*) 'nmos before -clcens- = ', nmos
-      write(*,*) 'epsilon before -clcens- = ', epsilon
       do imo=1,nmos
         if ((abs(occmo(imo)-occorb).gt.epsilon).and.
      + (abs(occmo(imo)).gt.epsilon)) nfomos=nfomos+1
       enddo
 clmm..print the nfomos variable
-      write(*,*) 'nfomos before -clcens- = ', nfomos
       if ((nfomos.gt.0).and.(nmos.gt.1)) then
         if (nfomos.eq.1) then
 c

@@ -36,6 +36,9 @@ module IntegralsModule
   interface readH
       module procedure readCoreHamiltonian
   end interface
+  interface getHcoreMO
+      module procedure getHcoreMatrixInMO
+  end interface
   interface readT
       module procedure readKineticEnergyIntegrals
   end interface
@@ -49,7 +52,7 @@ module IntegralsModule
       module procedure readZdipoleIntegrals
   end interface
 
-  public :: readS, readH, readT, readXdip, readYdip, readZdip
+  public :: readS, readH, getHcoreMO, readT, readXdip, readYdip, readZdip
 
 ! ======================
 ! two electron integrals 
@@ -203,6 +206,27 @@ module IntegralsModule
   deallocate(VaomoInv, Vaono, Occ, Vmono,  Pnono)
   call delete(dictionary)
  end subroutine readOrbitalsAndComposeDensities
+
+  subroutine getHcoreMatrixInMO(hcoreMO, norb)
+    real(dp), intent(out) :: hcoreMO(:)
+    integer,  intent(in)  :: norb
+
+    type(dictionaryType)  :: dictionary
+    real(dp), allocatable :: Vaomo(:,:) 
+    
+    allocate(Vaomo(norb, norb))
+
+    call new(dictionary)
+! read MO's
+    call readMOs(Vaomo, dictionary)
+! read core hamiltonian in AO's
+    call readH(hcoreMO, dictionary)
+! transform core hamiltonian matrix from AO to MO
+    call matTrans(hcoreMO, Vaomo)
+
+    call delete(dictionary)
+    deallocate(Vaomo)
+  end subroutine getHcoreMatrixInMO
 
 
  subroutine readOneElectronIntegralsInAO(T, Ven, nuclearRepulsion)
@@ -496,8 +520,8 @@ module IntegralsModule
     integer(IK)       :: i,j,k,l
     integer(IK)       :: bufLength, twoIntIndexBufSize, twoIntBufferSize
     integer(IPgamess) :: label, label1, label2
-    integer(IPgamess) :: length, nintmx, labsiz, twoemo, iw, ipu, is, transInt
-    integer(IPgamess) :: nft11,nft12,nft13,nft14,nft15,nft16
+    integer(IPgamess) :: length, nintmx, labsiz, twoemo
+!    integer(IPgamess) :: nft11,nft12,nft13,nft14,nft15,nft16
     logical           :: largeLabels    
 
     nintmx = 15000
@@ -593,7 +617,7 @@ module IntegralsModule
 
   subroutine print4indexVec(fi, nb)
  !  use dmftHelpModule
-  integer(IK) :: i,j,k,l,ij,kl,ir,iw,ipu,is,nb, transInt
+  integer(IK) :: i,j,k,l,ij,kl,nb
   real(DP), intent(in)  :: fi(:)
 
   write(*,*)

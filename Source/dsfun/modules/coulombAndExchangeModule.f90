@@ -43,8 +43,9 @@ contains
     integer(IK)       :: i,j,k,l
     integer(IK)       :: bufLength, twoIntIndexBufSize, twoIntBufferSize
     integer(IPgamess) :: label, label1, label2
-    integer(IPgamess) :: length, nintmx, labsiz, twoemo, iw, ipu, is, transInt
-    integer(IPgamess) :: nft11,nft12,nft13,nft14,nft15,nft16
+!    integer(IPgamess) :: length, nintmx, labsiz, twoemo, iw, ipu, is, transInt
+    integer(IPgamess) :: length, nintmx, labsiz, twoemo
+!    integer(IPgamess) :: nft11,nft12,nft13,nft14,nft15,nft16
     logical           :: largeLabels    
 
     integer, allocatable  :: ij(:,:)
