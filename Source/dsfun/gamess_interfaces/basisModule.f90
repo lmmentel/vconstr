@@ -89,7 +89,7 @@ contains
 
     integer :: i, j, AOindex
 ! local arrays
-    integer,  allocatable :: ish(:), ityp(:)
+    integer,  allocatable :: ityp(:)
     real(dp), allocatable :: expon(:), contrc1(:), contrc2(:)
 
 ! first get information about the system
@@ -110,7 +110,7 @@ contains
     allocate(self%AOlocation(self%nshell))
 ! allocate temporary arrays 
     allocate(ityp(self%nprimi))
-    allocate(ish(self%nprimi))
+!    allocate(ish(self%nprimi))
     allocate(expon(self%nprimi))
     allocate(contrc1(self%nprimi))
     allocate(contrc2(self%nprimi))
@@ -118,7 +118,7 @@ contains
     call read_basis_info(trim(basisInfoFile), self%natoms, self%nshell, self%nprimi,                  &
                          self%znuc, self%coords, self%evec, expon, contrc1,              &
                          contrc2, self%imin, self%imax, self%katom, & 
-                         self%intyp, ish, ityp, self%kng, self%AOlocation)
+                         self%intyp, ityp, self%kng, self%AOlocation)
 
 ! calculate the total number of primitives (non-unique)
     self%nprimitives = 0
@@ -141,7 +141,7 @@ contains
 
     if (printLevel >= 3) call print_basis_info(self)
 ! deallocate temporary arrays
-    deallocate(ish, ityp, expon, contrc1, contrc2) 
+    deallocate(ityp, expon, contrc1, contrc2) 
   end subroutine newBasis
 
 subroutine read_system_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
@@ -167,13 +167,13 @@ subroutine read_system_info(filename, title, natoms, charge, mult, nbf, nx, ne, 
 end subroutine read_system_info
 
 subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,                   &
-                           expon, contrc1, contrc2, imin, imax, katom, intyp, ish, ityp, kng, kloc)
+                           expon, contrc1, contrc2, imin, imax, katom, intyp, ityp, kng, kloc)
  implicit none 
   character(len=*),  intent(in)  :: filename
   integer, intent(in)  :: natoms, nshell, nprimi
   real(dp),          intent(out) :: znuc(:), coords(:,:), evec(:)
   real(dp),          intent(out) :: expon(:), contrc1(:), contrc2(:) 
-  integer, intent(out) :: imin(:), imax(:), katom(:), intyp(:), ish(:), ityp(:), kng(:), kloc(:)
+  integer, intent(out) :: imin(:), imax(:), katom(:), intyp(:), ityp(:), kng(:), kloc(:)
 
   integer :: i, j 
 
@@ -189,7 +189,7 @@ subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,
       read(300,*) (evec(i),i=1,3)
       read(300,*) (katom(i),i=1,nshell)
       read(300,*) (intyp(i),i=1,nshell)
-      read(300,*) (ish(i),i=1,nprimi)
+!      read(300,*) (ish(i),i=1,nprimi)
       read(300,*) (ityp(i),i=1,nprimi)
       read(300,*) (expon(i),i=1,nprimi)
       read(300,*) (contrc1(i),i=1,nprimi) 
