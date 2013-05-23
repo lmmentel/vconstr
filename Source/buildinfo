@@ -1,0 +1,90 @@
+# Targets
+target = {
+  'name'            : 'dsfun',
+  'rootdirs'        : ['dsfun'],
+  'buildsubdir'     : 'dsfun',
+  'libraryname'     : 'dsfun',
+  'mainprogramfile' : 'dsfun.f', 
+  'skipdirs'        : [],
+  'skipfiles'       : [],
+  'dependson'       : [],
+  'exename'         : 'dsfun.x',
+  'compilegroups'   : {
+  }
+}
+
+# Fortran file types
+fortranfiles = {
+  'freeformregex'    : '.*\.f90$',
+  'fixedformregex'   : '.*\.f$',
+}
+
+# Build configs
+defaultconfig = {
+  'name'        : 'default',
+  'buildsubdir' : 'default',
+  'compileroptions' : {
+    'archivecommand'     : 'ar -r',
+    'unarchivecommand'   : 'ar -d',
+    'ranlibcommand'      : 'ar -s',
+    'f77compiler'        : 'ifort',
+    'f90compiler'        : 'ifort',
+    'f77flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
+    'f90flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
+    'modpathoption'      : '-I',
+    'ccompiler'          : 'gcc',
+    'cflags'             : '-c -m64 -D_FILE_OFFSET_BITS=64 -Dpentium_linux_ifc -O3 -funroll-loops',
+    'link'               : 'ifort',
+    'linkflags'          : '',
+    'prioritylibs'       : '',
+    'otherlibs'          : '-L$FORAY_PROJECT_ROOT/libgamess -lgamess -lddi \
+                            -L/usr/lib/atlas-base/atlas -llapack -lblas -lpthread \
+                            -L$MKL_ROOT -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lpthread',
+    'compilegroupflags' : {
+      'default'  : '-O2',
+      'fast'     : '-O3 -mp',
+      'safe'     : '-01',
+      'verysafe' : '-O0'
+    }
+  }
+}
+
+releaseconfig = {
+  'name'            : 'release',
+  'inherits'        : 'default',
+  'buildsubdir'     : 'release',
+  'installdir'      : '$FORAY_PROJECT_ROOT/bin.release',
+  'compileroptions' : {
+    'compilegroupflags' : {
+      'default' : '-O3 -mp',
+      'safe'    : '-O2'
+    }
+  }
+}
+
+debugconfig = {
+  'name'            : 'debug',
+  'inherits'        : 'default',
+  'buildsubdir'     : 'debug',
+  'installdir'      : '$FORAY_PROJECT_ROOT/bin/'+target['exename'],
+  'compileroptions' : {
+    'f77flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
+    'f90flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
+    'compilegroupflags' : {
+      'default' : '-O2',
+      'safe'    : '-O1'
+    }
+  }
+}
+
+#configs = [defaultconfig, releaseconfig, debugconfig]
+configs = [defaultconfig, debugconfig]
+
+# Combine everything in buildinfo dictionary   
+buildinfo = {
+  'builddir'      : '$FORAY_PROJECT_ROOT/dsfun_build',
+  'fortranfiles'  : fortranfiles,
+  'targets'       : [target],
+  'defaultconfig' : 'debug',
+  'configs'       : configs
+}
