@@ -110,7 +110,6 @@ contains
     allocate(self%AOlocation(self%nshell))
 ! allocate temporary arrays 
     allocate(ityp(self%nprimi))
-!    allocate(ish(self%nprimi))
     allocate(expon(self%nprimi))
     allocate(contrc1(self%nprimi))
     allocate(contrc2(self%nprimi))
@@ -189,7 +188,6 @@ subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,
       read(300,*) (evec(i),i=1,3)
       read(300,*) (katom(i),i=1,nshell)
       read(300,*) (intyp(i),i=1,nshell)
-!      read(300,*) (ish(i),i=1,nprimi)
       read(300,*) (ityp(i),i=1,nprimi)
       read(300,*) (expon(i),i=1,nprimi)
       read(300,*) (contrc1(i),i=1,nprimi) 

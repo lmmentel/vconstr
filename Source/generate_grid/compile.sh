@@ -14,14 +14,14 @@ for compLevel in 'dmod1' 'dmod2' 'dmod3' 'dmod4' 'dmod5' ; do
       echo ' file ' $file
 
       cp $file $f90filename
-      ifort -c $f90filename
+      ifort -g -c $f90filename
       rm $f90filename
    done
 done
 
 # now compile main.f90
 echo 'Compiling main...'
-ifort $main *.o -I`pwd` -o MyGrid.x
+ifort $main *.o -I`pwd` -o Grid.x
    
 
 # clean a bit

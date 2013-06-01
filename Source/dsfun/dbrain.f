@@ -78,9 +78,12 @@ c
         write(6,'(/'' No memory allocated for derivativess'')')
         stop
       endif
-c
-      do ipnt=1,npnt
-        read(99,*) grid(ipnt,1),grid(ipnt,2),grid(ipnt,3),weight(ipnt)
+clmm
+clmm..read the point from the grid file 
+      rewind(99)
+      do ipnt = 1, npnt
+        read(99,'(4e25.14)',iostat=ios) grid(ipnt,1),grid(ipnt,2),
+     &                                  grid(ipnt,3),weight(ipnt)
       enddo
       close(99)
 c

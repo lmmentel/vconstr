@@ -5,6 +5,7 @@
 	gbasisfile='h2_atmol.basinfo'
 	gdictnfile='h2_atmol.F10'
 	gintegfile='h2_atmol.F09'
+    gridfile='h2_atmol.xyzw'
 	iprint=3
 	lintsm=.false.
 	lrfun=.false.

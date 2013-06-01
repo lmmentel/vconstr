@@ -32,6 +32,7 @@ c
 c
 clmm..stuff for input processing 
       character*100 buffer, inptf, gbasisfile, gdictnfile, gintegfile
+      character*100 gridfile
       character*50  title
       character*80  gamtitle
       namelist /input/ 
@@ -42,6 +43,7 @@ clmm..stuff for input processing
      & gbasisfile, 
      & gdictnfile, 
      & gintegfile, 
+     & gridfile,
      & iprint, 
      & lfield, 
      & lintsm, 
@@ -58,6 +60,7 @@ clmm..stuff for input processing
       namelist /occupations/ occmo
       namelist /linresp/ df, dvdamp, crrmin, crrmax 
 c
+      gridfile='points'
       title = 'default '
       nmos = -1
       nppr = 0
@@ -244,11 +247,19 @@ clmm      if (isks.gt.0) then
 clmm        write(6,'(''  Storage of KS orbitals  :'',i3)')isks
 clmm      endif
 c
-      open(99,file='points',status='old',err=444)
+      ios = 0
+      counter = 0
+      open(99,file=trim(gridfile),status='old',err=444)
       rewind(99)
-      read(99,*)npnt,npold
+      read(99,*) npnt, npold
+c      do while (ios == 0)
+c        read(99,'(4e25.14)',iostat=ios) x,y,z,w
+c        counter = counter + 1
+c      enddo
+c      npnt = counter - 1 
+c      npold = 1
       write(6,'(/,'' Number of gridpoints in numerical'',
-     + '' integration :'',i5)')npold-1
+     + '' integration :'',i5)') npold-1
       write(6,'('' Number of dummy points :'',i5)')npnt+1-npold
 c
       if (lfield) write(6,'(/,'' Electric field : '',f6.4,

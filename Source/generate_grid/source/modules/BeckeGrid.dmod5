@@ -160,7 +160,7 @@ contains
    
             if (actualNumPoints>0_KINT) then
                do ipnt=1, actualNumPoints
-                  write(iupto1,"(4F19.14)") pntsAndWeights(:,ipnt)
+                  write(iupto1,"(4e25.14)") pntsAndWeights(:,ipnt)
                end do
                totNumPoints = totNumPoints + actualNumPoints
             end if
