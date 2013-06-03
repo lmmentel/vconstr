@@ -44,8 +44,6 @@ c
       dimension valmo(norb*npnt)
       dimension occtyp(nmos),anr(nmos),stp(nmos) 
       dimension vck(npnt),vresp(npnt),erv(norb),orbdnst(npnt*nmos)
-      dimension ia(28),anorm(28)
-      dimension skd(nmos,28),oc(28),vip(28),evip(nmos)
       dimension psnomo(norb*(norb+1)/2),srho(npnt),fij(norb*norb)
       allocatable grdmo(:,:),norbsm(:,:),drho(:,:),am(:,:),
      + bm(:,:),cm(:,:),dsrho(:),vhartr(:),vcond(:),
@@ -79,7 +77,7 @@ c
         stop
       endif
 clmm
-clmm..read the point from the grid file 
+clmm..read the integration points and weights from the grid file 
       rewind(99)
       do ipnt = 1, npnt
         read(99,'(4e25.14)',iostat=ios) grid(ipnt,1),grid(ipnt,2),

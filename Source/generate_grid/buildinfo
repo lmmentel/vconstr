@@ -1,0 +1,63 @@
+# Targets
+target = {
+  'name'            : 'grid',
+  'rootdirs'        : ['source'],
+  'buildsubdir'     : 'build',
+  'libraryname'     : 'grid',
+  'mainprogramfile' : 'main.f90', 
+  'skipdirs'        : [],
+  'skipfiles'       : [],
+  'dependson'       : [],
+  'exename'         : 'Grid.x',
+  'compilegroups'   : {
+  }
+}
+
+# Fortran file types
+fortranfiles = {
+  'freeformregex'    : '.*\.f90$',
+  'fixedformregex'   : '.*\.f$',
+}
+
+
+
+# Build configs
+defaultconfig = {
+  'name'        : 'default',
+  'buildsubdir' : 'default',
+  'installdir'      : '$FORAY_PROJECT_ROOT/'+target['exename'],
+  'compileroptions' : {
+    'archivecommand'     : 'ar -r',
+    'unarchivecommand'   : 'ar -d',
+    'ranlibcommand'      : 'ranlib -s',
+    'f77compiler'        : 'ifort',
+    'f90compiler'        : 'ifort',
+    'f77flags'           : '-c -i8 -O2 -ftz -auto  -warn nousage -inline-level=0 ',
+    'f90flags'           : '-c -i8 -O2 -ftz -auto  -warn nousage -inline-level=0 ',
+    'modpathoption'      : '-I',
+    'ccompiler'          : 'gcc',
+    'cflags'             : '-c -m64 -D_FILE_OFFSET_BITS=64 -Dpentium_linux_ifc -O3 -funroll-loops',
+    'link'               : 'ifort',
+    'linkflags'          : '',
+    'prioritylibs'       : '',
+    'otherlibs'          : '-lm',
+    'compilegroupflags' : {
+      'default'  : '-O2',
+      'fast'     : '-O3 -mp',
+      'safe'     : '-01',
+      'verysafe' : '-O0'
+    }
+  }
+}
+
+#configs = [defaultconfig, releaseconfig, debugconfig]
+configs = [defaultconfig]
+
+# Combine everything in buildinfo dictionary   
+buildinfo = {
+  'builddir'      : '$FORAY_PROJECT_ROOT/build',
+  'fortranfiles'  : fortranfiles,
+  'targets'       : [target],
+  'defaultconfig' : 'default',
+  'configs'       : configs
+}

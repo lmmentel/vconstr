@@ -62,6 +62,7 @@ program MyGrid
         write(*,*) 'nRadialPoints : ', nRadialPoints
         write(*,*) 'pruning : ', pruning 
     endif
+
 ! the system information will be read from the gamess-us $JOB.basinfo file 
 ! specified in the input file 
 
@@ -76,35 +77,9 @@ program MyGrid
 
    call CreateBeckeGrid (config, iounit, totNumPoints)
 
-   write(*,"(A,A25)") " Grid written to file: ", gridfile
-   write(*,*) "Total number of integration points: ", totNumPoints
-
     call deleteBasis(basis)
    call Delete (config)
    close (iounit)
-!   deallocate(xyzAtoms, qAtoms)
-
-   ! ==============
-   ! Test integral: 
-   ! ==============
-
-!   open (unit=iounit, file=filename, action='read' )
-!   allocate(xyzw(totNumPoints,4), r(totNumPoints), fun(totNumPoints))
-
-!   do ipnt=1, totNumPoints
-!      read(iounit,*) xyzw(ipnt,:)
-!   end do
-
-!   r(:) = sqrt(xyzw(:,1)**2 + xyzw(:,2)**2 + xyzw(:,3)**2)
-!   fun = exp(-r)
-!   integral = sum( fun*xyzw(:,4) ) / (4.0_KREAL*pi)
-!
-!   write(*,*) "Test integral, relative error:", (2.0_KREAL-integral)/2.0_KREAL
-!
-!   deallocate(xyzw,r,fun)
-!   close (iounit)
-
-
 
 end program 
 

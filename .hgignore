@@ -13,3 +13,4 @@ syntax: glob
 *.fls
 # ignore all the build stuff
 ./Source/dsfun_build/**
+./Source/generate_grid/build/**
