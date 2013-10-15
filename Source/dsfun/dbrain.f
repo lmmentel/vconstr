@@ -1,5 +1,5 @@
       subroutine dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,
-     + crrmx,thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,npold,
+     + crrmx,thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,
      + norb,nmos,nmomx,itrx,ibcens,iscens,
      + lsym,lintsm,lrdocc,lrfun,nele)
       use integralsModule
@@ -66,8 +66,8 @@ c
       scfdpi = 1.d0-scfdmp
 c
       npntmx=npnt
-      intpnt=npold-1
-      npold=1
+clmm      intpnt=npold-1
+clmm      npold=1
 c
       occorb=2.d0
 c
@@ -243,13 +243,13 @@ c
         write(76,*) vnuc(ip)
       enddo
 c
-      open(11,file='rhcc.dat')
-      rewind(11)
-      do ipnt=npold,npnt
-        write(11,*) dns(ipnt),ddns(ipnt,1),ddns(ipnt,2),ddns(ipnt,3),
-     + dsdns(ipnt)
-      enddo
-      close(11)
+clmm      open(11,file='rhcc.dat')
+clmm      rewind(11)
+clmm      do ipnt=npold,npnt
+clmm        write(11,*) dns(ipnt),ddns(ipnt,1),ddns(ipnt,2),ddns(ipnt,3),
+clmm     + dsdns(ipnt)
+clmm      enddo
+clmm      close(11)
 c
       rho(1:npnt)=dns(1:npnt)
       open(90,file='vntial.dat',status='old',err=222)
@@ -655,17 +655,17 @@ c
 c
 c** store some intermediate results
 c
-        if (itr.eq.info(ippr)) then
-          write(15,'('' vxc at iteration '',i2)')itr
-          write(25,'('' dns at iteration '',i2)')itr
-          do ip=npold,npnt
-            write(15,'(f12.6)') vxc(ip)
-            write(25,'(f12.6)') dns(ip)
-          enddo
-          if (ippr.lt.nppr) ippr=ippr+1
-          write(15,'(/)')
-          write(25,'(/)')
-        endif
+clmm        if (itr.eq.info(ippr)) then
+clmm          write(15,'('' vxc at iteration '',i2)')itr
+clmm          write(25,'('' dns at iteration '',i2)')itr
+clmm          do ip=npold,npnt
+clmm            write(15,'(f12.6)') vxc(ip)
+clmm            write(25,'(f12.6)') dns(ip)
+clmm          enddo
+clmm          if (ippr.lt.nppr) ippr=ippr+1
+clmm          write(15,'(/)')
+clmm          write(25,'(/)')
+clmm        endif
 c
   100 continue
 c
@@ -875,25 +875,25 @@ c  211 continue
 c
 c** write data to the files vxc.dat, dnst.dat
 c
-      write(15,'('' vxc at iteration '',i2)')itr
-      write(25,'('' dns at iteration '',i2)')itr
-      do ip=npold,npnt
-        write(15,'(f12.6)') vxc(ip)
-        write(25,'(f12.6)') dns(ip)
-      enddo
-      close(15)
-      close(25)
+clmm      write(15,'('' vxc at iteration '',i2)')itr
+clmm      write(25,'('' dns at iteration '',i2)')itr
+clmm      do ip=npold,npnt
+clmm        write(15,'(f12.6)') vxc(ip)
+clmm        write(25,'(f12.6)') dns(ip)
+clmm      enddo
+clmm      close(15)
+clmm      close(25)
 c
-      open(16,file='vxc.dat')
-      rewind(16)
-      open(26,file='dns.dat')
-      rewind(26)
-      do ip=npold,npnt
-        write(16,*) vxc(ip)
-        write(26,*) grid(ip,3),vresp(ip)
-      enddo
-      close(16)
-      close(26)
+clmm      open(16,file='vxc.dat')
+clmm      rewind(16)
+clmm      open(26,file='dns.dat')
+clmm      rewind(26)
+clmm      do ip=npold,npnt
+clmm        write(16,*) vxc(ip)
+clmm        write(26,*) grid(ip,3),vresp(ip)
+clmm      enddo
+clmm      close(16)
+clmm      close(26)
 c
 clmm      write(*,*) 'ndvcr = ', ndvcr
 clmm      call wrtorb(vksmo,occmo,ityp,ndvcr,nmos,norb,npnt,npold,valmo)

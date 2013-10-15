@@ -1,9 +1,9 @@
 ----- GAMESS execution script 'rungms' -----
 This job is running on host doreen
-under operating system Linux at śro, 15 maj 2013, 20:46:25 KST
+under operating system Linux at wto, 15 paź 2013, 11:20:42 KST
 Available scratch disk space (Kbyte units) at beginning of the job is
-System plików      1K-bl     użyte dostępne %uż. zamont. na
-/dev/sda5      242137496 192870208 36967412  84% /home
+System plików  1K-blocks     użyte dostępne %uż. zamont. na
+/dev/sda5      264208320 221640256 29124024  89% /home
 GAMESS temporary binary files will be written to /home/lmentel/scratch
 GAMESS supplementary output files will be written to /home/lmentel/scratch
 Copying input file h2o_cc-pvdz.inp to your run's scratch directory...
@@ -78,7 +78,7 @@ unset echo
      N. COPERNICUS UNIVERSITY AND JACKSON STATE UNIVERSITY:
           MARIA BARYSZ
 
- EXECUTION OF GAMESS BEGUN Wed May 15 20:46:25 2013
+ EXECUTION OF GAMESS BEGUN Tue Oct 15 11:20:43 2013
 
             ECHO OF THE FIRST FEW INPUT CARDS -
  INPUT CARD> $CONTRL                                                                        
@@ -278,7 +278,7 @@ unset echo
 
  ..... DONE SETTING UP THE RUN .....
  STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS  50.00%
+ TOTAL WALL CLOCK TIME=        0.6 SECONDS, CPU UTILIZATION IS   1.72%
 
           ********************
           1 ELECTRON INTEGRALS
@@ -542,7 +542,7 @@ unset echo
    17  H  2  S    0.201234   0.183000
    18  H  2  X    0.000000   0.000000   1.817500
    19  H  2  Y   -0.000000   0.000000   0.000000   1.817500
-   20  H  2  Z   -0.000000   0.000000  -0.000000   0.000000   1.817500
+   20  H  2  Z   -0.000000   0.000000   0.000000   0.000000   1.817500
    21  H  3  S    0.222142   0.136497   0.000000   0.573042  -0.000000
    22  H  3  S    0.136497   0.144268   0.000000   0.081049   0.000000
    23  H  3  X   -0.000000  -0.000000   0.526289  -0.000000  -0.000000
@@ -557,8 +557,8 @@ unset echo
    24  H  3  Y    0.000000   0.000000   0.000000   1.817500
    25  H  3  Z   -0.000000   0.000000   0.000000   0.000000   1.817500
  ...... END OF ONE-ELECTRON INTEGRALS ......
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS  50.00%
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.6 SECONDS, CPU UTILIZATION IS   3.45%
 
           -------------
           GUESS OPTIONS
@@ -577,7 +577,7 @@ unset echo
      9=A1      10=A1      11=A1      12=A1      13=A1      14=A1      15=A1  
  ...... END OF INITIAL ORBITAL SELECTION ......
  STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.0 SECONDS, CPU UTILIZATION IS  50.00%
+ TOTAL WALL CLOCK TIME=        0.6 SECONDS, CPU UTILIZATION IS   3.12%
 
                     ----------------------
                     AO INTEGRAL TECHNOLOGY
@@ -614,8 +614,8 @@ unset echo
  TOTAL NUMBER OF NONZERO TWO-ELECTRON INTEGRALS =               13863
           1 INTEGRAL RECORDS WERE STORED ON DISK FILE  8.
   ...... END OF TWO-ELECTRON INTEGRALS .....
- STEP CPU TIME =     0.04 TOTAL CPU TIME =        0.0 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  83.33%
+ STEP CPU TIME =     0.02 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.7 SECONDS, CPU UTILIZATION IS   5.56%
 
           --------------------------
                  RHF SCF CALCULATION
@@ -799,8 +799,8 @@ unset echo
    24  H  3  Y    0.000000   0.592105   0.353071   1.677544  -1.367820
    25  H  3  Z    0.000000  -0.681188   0.363932   0.885148  -1.566097
  ...... END OF RHF CALCULATION ......
- STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.1 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  85.71%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.8 SECONDS, CPU UTILIZATION IS   5.19%
 
      ----------------------------------------------------------------
      PROPERTY VALUES FOR THE RHF   SELF-CONSISTENT FIELD WAVEFUNCTION
@@ -1006,8 +1006,8 @@ unset echo
          DX          DY          DZ         /D/  (DEBYE)
      0.000000   -0.000000    1.638293    1.638293
  ...... END OF PROPERTY EVALUATION ......
- STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.1 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        0.1 SECONDS, CPU UTILIZATION IS  87.50%
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.0 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        0.8 SECONDS, CPU UTILIZATION IS   6.33%
 
  GUGA CI OPTIONS      NRNFG     NPFLG
  ------------------------------------
@@ -1066,8 +1066,8 @@ unset echo
  MAXIMUM RECORD SIZES ARE    1468 FOR UNIT 11    1468 FOR UNIT 12
                             30001 FOR UNIT 15   30001 FOR UNIT 16
  ...... END OF -DRT- GENERATION ...... 
- STEP CPU TIME =     0.62 TOTAL CPU TIME =        0.7 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.2 SECONDS, CPU UTILIZATION IS  56.56%
+ STEP CPU TIME =     0.44 TOTAL CPU TIME =        0.5 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.2 SECONDS, CPU UTILIZATION IS  39.20%
 
      --------------------------------------------
      PARTIAL TWO ELECTRON INTEGRAL TRANSFORMATION
@@ -6420,8 +6420,8 @@ unset echo
  TOTAL NUMBER OF TRANSFORMED 2E-INTEGRALS KEPT =         14749 IN          1 RECORD(S) OF 15000 INTEGRALS.
  TOTAL NUMBER OF TRANSFORMED 2E- INTEGRALS KEPT =        14749
  ... END OF INTEGRAL TRANSFORMATION ...
- STEP CPU TIME =     0.07 TOTAL CPU TIME =        0.8 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  54.68%
+ STEP CPU TIME =     0.08 TOTAL CPU TIME =        0.6 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.3 SECONDS, CPU UTILIZATION IS  42.54%
 
           ------------------------
           GUGA-CI INTEGRAL SORTING
@@ -6433,8 +6433,8 @@ unset echo
  IN CORE ALGORITHM SORTED            119 NON-ZERO 1E- INTEGRALS
  IN CORE ALGORITHM SORTED          14749 NON-ZERO 2E- INTEGRALS
  ...... END OF INTEGRAL SORTING ...... 
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.8 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  53.52%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.6 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.3 SECONDS, CPU UTILIZATION IS  42.54%
 
  -------------------------     ---------------------------------------
  ENERGY MATRIX CALCULATION     WRITTEN BY B.R.BROOKS,W.D.LAIDIG,P.SAXE
@@ -6450,8 +6450,8 @@ unset echo
         6094     DIAGONAL LOOPS ARE STORED ON WORK15 IN     1 BUFFERS OF  10000 ELEMENTS.
       127113 OFF DIAGONAL LOOPS ARE STORED ON WORK16 IN    13 BUFFERS OF  10000 ELEMENTS.
  ...... END OF ENERGY MATRIX CALCULATION ...... 
- STEP CPU TIME =     0.03 TOTAL CPU TIME =        0.8 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.5 SECONDS, CPU UTILIZATION IS  53.02%
+ STEP CPU TIME =     0.03 TOTAL CPU TIME =        0.6 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  43.80%
 
           -----------------------------------------
           DAVIDSON METHOD CI-MATRIX DIAGONALIZATION
@@ -6491,8 +6491,8 @@ unset echo
  C0SQ= 0.967692 EREF=      -74.552364 E-E(REF)=   0.181955 E(Q)=   0.006075
  GIVES A E(SD+Q) ESTIMATE OF      -74.7403940075
  ...... END OF CI-MATRIX DIAGONALIZATION ......
- STEP CPU TIME =     0.08 TOTAL CPU TIME =        0.9 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.6 SECONDS, CPU UTILIZATION IS  54.04%
+ STEP CPU TIME =     0.06 TOTAL CPU TIME =        0.7 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  46.15%
 
           --------------------------------------
           CI DENSITY MATRIX AND NATURAL ORBITALS
@@ -6654,8 +6654,8 @@ unset echo
    24  H  3  Y   -0.275530   1.977854   1.343127   0.712650  -0.049578
    25  H  3  Z    0.193353   0.068211   1.957492   0.520605  -0.106706
  ...... END OF DENSITY MATRIX CALCULATION ...... 
- STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.9 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.6 SECONDS, CPU UTILIZATION IS  53.99%
+ STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.7 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  45.83%
 
      --------------------------------------------------------
      GUGA  CI PROPERTIES...FOR THE WAVEFUNCTION OF STATE    1
@@ -6845,31 +6845,31 @@ unset echo
          DX          DY          DZ         /D/  (DEBYE)
      0.000000    0.000000    1.638167    1.638167
  ...... END OF PROPERTY EVALUATION ......
- STEP CPU TIME =     0.00 TOTAL CPU TIME =        0.9 (    0.0 MIN)
- TOTAL WALL CLOCK TIME=        1.6 SECONDS, CPU UTILIZATION IS  53.66%
+ STEP CPU TIME =     0.01 TOTAL CPU TIME =        0.7 (    0.0 MIN)
+ TOTAL WALL CLOCK TIME=        1.4 SECONDS, CPU UTILIZATION IS  46.53%
               1402784  WORDS OF DYNAMIC MEMORY USED
- EXECUTION OF GAMESS TERMINATED NORMALLY Wed May 15 20:46:27 2013
+ EXECUTION OF GAMESS TERMINATED NORMALLY Tue Oct 15 11:20:44 2013
  DDI: 263624 bytes (0.3 MB / 0 MWords) used by master data server.
 
  ----------------------------------------
  CPU timing information for all processes
  ========================================
- 0: 0.492 + 0.524 = 1.16
+ 0: 0.352 + 0.396 = 0.748
  ----------------------------------------
  ddikick.x: exited gracefully.
 unset echo
 ----- accounting info -----
 Files used on the master node doreen were:
--rw-rw-r-- 1 lmentel lmentel   23143 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.dat
--rw-rw-r-- 1 lmentel lmentel    1856 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F05
--rw-rw-r-- 1 lmentel lmentel  180016 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F08
--rw-rw-r-- 1 lmentel lmentel  182624 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F09
--rw-rw-r-- 1 lmentel lmentel 1210640 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F10
--rw-rw-r-- 1 lmentel lmentel  310776 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F11
--rw-rw-r-- 1 lmentel lmentel   11936 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F12
--rw-rw-r-- 1 lmentel lmentel  400008 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F14
--rw-rw-r-- 1 lmentel lmentel  171968 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F15
--rw-rw-r-- 1 lmentel lmentel 2600408 maj 15 20:46 /home/lmentel/scratch/h2o_cc-pvdz.F16
+-rw-r--r-- 1 lmentel lmentel   23143 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.dat
+-rw-r--r-- 1 lmentel lmentel    1856 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F05
+-rw-r--r-- 1 lmentel lmentel  180016 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F08
+-rw-r--r-- 1 lmentel lmentel  182624 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F09
+-rw-r--r-- 1 lmentel lmentel 1210640 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F10
+-rw-r--r-- 1 lmentel lmentel  310776 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F11
+-rw-r--r-- 1 lmentel lmentel   11936 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F12
+-rw-r--r-- 1 lmentel lmentel  400008 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F14
+-rw-r--r-- 1 lmentel lmentel  171968 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F15
+-rw-r--r-- 1 lmentel lmentel 2600408 paź 15 11:20 /home/lmentel/scratch/h2o_cc-pvdz.F16
 pwd
 cp /home/lmentel/scratch/h2o_cc-pvdz.F08 /home/lmentel/work/mercurial_repo/Vconstr/test/h2o/h2o_cc-pvdz.F08
 pwd
@@ -6882,5 +6882,5 @@ unset echo
 ls: No match.
 ls: No match.
 ls: No match.
-śro, 15 maj 2013, 20:46:30 KST
-0.0u 0.0s 0:05.21 0.5% 0+0k 1032+3112io 12pf+0w
+wto, 15 paź 2013, 11:20:47 KST
+0.0u 0.0s 0:05.11 0.3% 0+0k 2048+3112io 12pf+0w

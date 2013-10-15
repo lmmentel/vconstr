@@ -248,19 +248,16 @@ clmm        write(6,'(''  Storage of KS orbitals  :'',i3)')isks
 clmm      endif
 c
       ios = 0
-      counter = 0
+      icounter = 0
       open(99,file=trim(gridfile),status='old',err=444)
       rewind(99)
-      read(99,*) npnt, npold
-c      do while (ios == 0)
-c        read(99,'(4e25.14)',iostat=ios) x,y,z,w
-c        counter = counter + 1
-c      enddo
-c      npnt = counter - 1 
-c      npold = 1
+      do while (ios == 0)
+        read(99,'(4e25.14)',iostat=ios) x,y,z,w
+        icounter = icounter + 1
+      enddo
+      npnt = icounter  
       write(6,'(/,'' Number of gridpoints in numerical'',
-     + '' integration :'',i5)') npold-1
-      write(6,'('' Number of dummy points :'',i5)')npnt+1-npold
+     + '' integration :'',i5)') npnt
 c
       if (lfield) write(6,'(/,'' Electric field : '',f6.4,
      + ''x + '',f6.4,''y + '',f6.4,''z'')')(fxyz(i),i=1,3)
@@ -277,7 +274,7 @@ c      nmos=2
 clmm..initialized kpens variable to avoid a memory leak later  
       kpens = 1
       call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmin,crrmax,
-     + thresh,dqmax,dvdamp,scfdamp,kpens,info,nppr,nvpr,npnt,npold,
+     + thresh,dqmax,dvdamp,scfdamp,kpens,info,nppr,nvpr,npnt,
      + norb,nmos,nmomx,maxiters,ibcens,iscens,
      + lsym,lintsm,lrdocc,lrfun,nele) 
 c      endif
