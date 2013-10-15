@@ -5,6 +5,7 @@
 	gbasisfile='h2o_cc-pvdz.basinfo'
 	gdictnfile='h2o_cc-pvdz.F10'
 	gintegfile='h2o_cc-pvdz.F09'
+    gridfile='h2o_grid.xyzw'
 	iprint=2
 	lintsm=.false.
 	lrfun=.false.

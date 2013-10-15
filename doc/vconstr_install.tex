@@ -7,8 +7,6 @@
 \usepackage{booktabs}
 % minted is needed to generated sytax highlighted code listings
 \usepackage{minted}
-%headers and footers
-\usepackage{fancyhdr}
 % hyperref and link color definitions
 \usepackage{hyperref}
 \hypersetup{
@@ -27,6 +25,9 @@
 \usepackage{dirtree}
 \usepackage{xcolor}
 \usepackage{cite}
+
+%headers and footers
+\usepackage{fancyhdr}
 % specify header and footer
 \pagestyle{fancy}
 \lhead{}
@@ -74,6 +75,16 @@
 \end{center}
 
 \section{General Information}
+
+The dsfun code is available for users that have acces to the bitbucket repository at ???.
+
+The code requires the follwing input information to run
+\begin{itemize}
+    \item 3D grid $(x,y,z,w)$ for numerical integration,
+    \item system and basis set information,
+    \item one and two electron integrals
+\end{itemize}
+The infomation is usually provided in the form of files
 \begin{minted}[mathescape,
                linenos,
                numbersep=2pt,
@@ -83,6 +94,21 @@
 echo Files used on the master node master were:
 ls -lF 
 \end{minted}
+
+\subsection{Grid}
+
+The numerical grid can be calculated using the fortran code written by M.
+Franchini~\cite{Franchini2013} that is included as a standalone program in the
+dsfun repository. Firs the the grid program needs to be compiled which can be done
+using \verb!foray!~\cite{foray} utility by typing \verb!foray! comman in the \verb!generate_grid!
+directory:
+\begin{minted}[mathescape, linenos, numbersep=2pt, gobble=0, frame=lines,
+               framesep=2mm]{bash}
+cd Source/generate_grid
+foray
+\end{minted}
+
+
 \section{dbrain.f requires the following data}
     \begin{itemize}
         \item \verb!hmatx! core hamiltonian matrix 

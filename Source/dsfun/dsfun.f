@@ -154,6 +154,7 @@ clmm..rewrite some information to commons
       dictionaryFile = gdictnfile
       integralsFile  = gintegfile
       printLevel     = iprint
+      write(6,'(/,''grid file from nml: '',a)') gridfile
 c.....lmm end of input reading 
 clmm..
 clmm..get the gaussian basis information from the basis file
@@ -255,7 +256,8 @@ c
         read(99,'(4e25.14)',iostat=ios) x,y,z,w
         icounter = icounter + 1
       enddo
-      npnt = icounter  
+      npnt = icounter - 1  
+      write(6,'(/,''Grid points read from: '',a)') gridfile
       write(6,'(/,'' Number of gridpoints in numerical'',
      + '' integration :'',i5)') npnt
 c
@@ -287,7 +289,7 @@ clmm      call givtim(top,bot)
 10101 format(//' end of dnstyfun at',f13.3,' wall',f13.3,' secs')
       stop
 c
-  444 write(6,'(''ERROR; file "points" does not exist'')')
+  444 write(6,'(''ERROR; file '',a,'' does not exist'')') trim(gridfile)
       stop
 c
       end

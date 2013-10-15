@@ -1,0 +1,9 @@
+$input
+basinfo='h2o_cc-pvdz.basinfo'
+gridfile='h2o_grid.xyzw'
+! allowed values for angulaLOrder: 5,7,11,13,17,19,21,23,29,31,35,41,47,53,59
+angularLOrder=7
+nRadialPoints=1000
+pruning=.true.
+debug=.false.
+/

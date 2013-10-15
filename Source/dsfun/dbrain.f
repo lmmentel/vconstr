@@ -66,6 +66,8 @@ c
       scfdpi = 1.d0-scfdmp
 c
       npntmx=npnt
+      intpnt=npnt
+      npold=1
 clmm      intpnt=npold-1
 clmm      npold=1
 c

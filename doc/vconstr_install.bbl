@@ -1,4 +1,4 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -6,5 +6,14 @@
   \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
 \providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{Franchini2013}
+\textsc{M.~Franchini, P.~H.~T. Philipsen and L.~Visscher}.
+\newblock \emph{J.~Comput.~Chem.}, \textbf{34}, no.~21, 1819--27 (2013).
+
+\bibitem{foray}
+\textsc{D.~McCormack}.
+\newblock foraytool, An advanced build tool for Fortran developers. (2010).
+\newblock \urlprefix\url{http://code.google.com/p/foraytool/}.
 
 \end{thebibliography}
