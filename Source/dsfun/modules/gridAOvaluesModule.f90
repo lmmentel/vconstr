@@ -160,7 +160,81 @@ contains
                         write(*,*) 'wrong subshell for D shell in -grid-: ', k
                 end select
 !                write(*,'(2i4,3x,"Orbital: ",i4,3x,a7)') ij, k, AOindex, 'D shell'
-!            case(4)       ! F orbitals
+             case(4)       ! F orbitals
+                select case (k)     ! F
+                    case (11)    ! F XXX 
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * x*x*x
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * ( 3.0_dp*x*x - 2.0_dp*x**4*zeta) 
+                        grady(AOindex)   = grady(AOindex)   + gaus * dyg*x**3
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * dzg*x**3 
+                        grads(AOindex)   = grads(AOindex)   + gaus * 2.0_dp*x*( 3.0_dp + 2.0_dp*x**4*zeta*zeta &
+                             & + x*x*zeta*( -9.0_dp + 2.0_dp*y*y*zeta + 2.0_dp*z*z*zeta)) 
+                    case (12)    ! F YYY 
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * y*y*y
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * dxg*y**3
+                        grady(AOindex)   = grady(AOindex)   + gaus * ( 3.0_dp*y*y - 2.0_dp*y**4*zeta) 
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * dzg*y**3 
+                        grads(AOindex)   = grads(AOindex)   + gaus * 2.0_dp*y*( 3.0_dp + 2.0_dp*y**4*zeta*zeta &
+                             & + y*y*zeta*( -9.0_dp + 2.0_dp*x*x*zeta + 2.0_dp*z*z*zeta)) 
+                    case (13)    ! F ZZZ
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * z*z*z
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * dxg*z**3
+                        grady(AOindex)   = grady(AOindex)   + gaus * dyg*z**3
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * ( 3.0_dp*z*z - 2.0_dp*z**4*zeta) 
+                        grads(AOindex)   = grads(AOindex)   + gaus * 2.0_dp*z*( 3.0_dp + 2.0_dp*z**4*zeta*zeta &
+                             & + z*z*zeta*( -9.0_dp + 2.0_dp*x*x*zeta + 2.0_dp*y*y*zeta)) 
+                    case (14)    ! F XXY 
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * x*x*y
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * 2.0_dp*x*y*( 1.0_dp - x*x*zeta)
+                        grady(AOindex)   = grady(AOindex)   + gaus * x*x*( 1.0_dp - 2.0_dp*y*y*zeta)
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * dzg*x*x*y
+                        grads(AOindex)   = grads(AOindex)   + gaus * ( 2.0_dp*y*( 1.0_dp + 2*x**4*zeta*zeta &
+                             & + x*x*zeta*( -9.0_dp + 2.0_dp*y*y*zeta + 2.0_dp*z*z*zeta)))
+                    case (15)    ! F XXZ
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * x*x*z
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * 2.0_dp*x*z*( 1.0_dp - x*x*zeta)
+                        grady(AOindex)   = grady(AOindex)   + gaus * dyg*x*x*z
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * x*x*( 1.0_dp - 2.0_dp*z*z*zeta)
+                        grads(AOindex)   = grads(AOindex)   + gaus * ( 2.0_dp*z*( 1.0_dp + 2*x**4*zeta*zeta &
+                             & + x*x*zeta*( -9.0_dp + 2.0_dp*y*y*zeta + 2.0_dp*z*z*zeta)))
+                    case (16)    ! F YYX
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * y*y*x
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * y*y*( 1.0_dp - 2.0_dp*x*x*zeta)
+                        grady(AOindex)   = grady(AOindex)   + gaus * 2.0_dp*x*y*( 1.0_dp - y*y*zeta)
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * dzg*y*y*x 
+                        grads(AOindex)   = grads(AOindex)   + gaus * ( 2.0_dp*x*( 1.0_dp + 2*y**4*zeta*zeta &
+                             & + y*y*zeta*( -9.0_dp + 2.0_dp*x*x*zeta + 2.0_dp*z*z*zeta)))
+                    case (17)    ! F YYZ
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * y*y*z
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * dxg*y*y*z 
+                        grady(AOindex)   = grady(AOindex)   + gaus * 2.0_dp*y*z*( 1.0_dp - y*y*zeta)
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * y*y*( 1.0_dp - 2.0_dp*z*z*zeta)
+                        grads(AOindex)   = grads(AOindex)   + gaus * ( 2.0_dp*z*( 1.0_dp + 2*y**4*zeta*zeta &
+                             & + y*y*zeta*( -9.0_dp + 2.0_dp*x*x*zeta + 2.0_dp*z*z*zeta)))
+                    case (18)    ! F ZZX 
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * z*z*x
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * z*z*( 1.0_dp - 2.0_dp*x*x*zeta)
+                        grady(AOindex)   = grady(AOindex)   + gaus * dyg*x*z*z
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * 2.0_dp*x*z*( 1.0_dp - z*z*zeta)
+                        grads(AOindex)   = grads(AOindex)   + gaus * ( 2.0_dp*x*( 1.0_dp + 2*z**4*zeta*zeta &
+                             & + z*z*zeta*( -9.0_dp + 2.0_dp*x*x*zeta + 2.0_dp*y*y*zeta))) 
+                    case (19)    ! F ZZY
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * z*z*y
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * dxg*y*z*z
+                        grady(AOindex)   = grady(AOindex)   + gaus * z*z*( 1.0_dp - 2.0_dp*y*y*zeta)
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * 2.0_dp*y*z*( 1.0_dp - z*z*zeta)
+                        grads(AOindex)   = grads(AOindex)   + gaus * ( 2.0_dp*y*( 1.0_dp + 2*z**4*zeta*zeta &
+                             & + z*z*zeta*( -9.0_dp + 2.0_dp*x*x*zeta + 2.0_dp*y*y*zeta))) 
+                    case (20)    ! F XYZ
+                        AOvalue(AOindex) = AOvalue(AOindex) + gaus * x*y*z
+                        gradx(AOindex)   = gradx(AOindex)   + gaus * y*z*( 1.0_dp - 2.0_dp*x*x*zeta)
+                        grady(AOindex)   = grady(AOindex)   + gaus * x*z*( 1.0_dp - 2.0_dp*y*y*zeta)
+                        gradz(AOindex)   = gradz(AOindex)   + gaus * x*y*( 1.0_dp - 2.0_dp*z*z*zeta)
+                        grads(AOindex)   = grads(AOindex)   + gaus * 2.0_dp*x*y*z*zeta*( -9.0_dp + &
+                             & 2.0_dp*x*x*zeta + 2.0_dp*y*y*zeta + 2.0_dp*z*z*zeta)
+                    case default
+                        write(*,*) 'wrong subshell for F shell in -grid-: ', k
+                end select
 !                write(*,'(2i4,3x,"Orbital: ",i4,3x,a7)') ij, k, AOindex, 'F shell'
 !            case(5)       ! G orbitals
 !                write(*,'(2i4,3x,"Orbital: ",i4,3x,a7)') ij, k, AOindex, 'G shell'
