@@ -28,6 +28,7 @@ def main():
                         help="walltime in the format HH:MM:SS,\
                         default=120:00:00")
     args = vars(parser.parse_args())
+    submit_pbs(args)
 
 def set_defaults(args):
 
@@ -83,8 +84,6 @@ def submit_pbs(args):
                 files += ' ' + ' '.join(args['extrafiles'])
             script.write('cp -t {0} {1}\n'.format(wrkdir, files))
             script.write('cd {0}\n'.format(wrkdir))
-        script.write("\n{0:<s} {1} {2:<s} {3:<s} \n".format(args['rungms'],
-                     args['jobname'], args['gmsver'], args['ppn']))
         script.write("module load fortran/intel/64 c/intel/64 mkl/64 \n")
         script.write("\n{0:<s} {1:<s} {2:<s} {3:<s} \n".format(args['rungms'],
                      args['jobname'], args['gmsver'], args['ppn']))
