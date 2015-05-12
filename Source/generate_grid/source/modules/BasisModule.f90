@@ -2,7 +2,10 @@ module basisModule
   use vartypes
   implicit none
 
-  integer(KINT), parameter :: dp = kind(1.0d0) 
+  character(len=20), parameter :: titfmt='(a80)'
+  character(len=20), parameter :: intfmt='(i25)'
+  character(len=20), parameter :: int3fmt='(3(i25))'
+  character(len=20), parameter :: realfmt='(3(e25.15))'
 
   character(len=4), dimension(106) :: atomLabel = (/'H   ','HE  ','LI  ','BE  ','B   ','C   ',     &
                                                     'N   ','O   ','F   ','NE  ','NA  ','MG  ',     &
@@ -47,7 +50,7 @@ module basisModule
 
   integer, dimension(8) :: KMIN = (/1,2, 5,11,21,34,57,1/)
   integer, dimension(8) :: KMAX = (/1,4,10,20,35,56,84,4/)
-    
+
   type basisType
     character(len=80) :: title
     integer :: natoms
@@ -56,21 +59,21 @@ module basisModule
     integer :: nbf
     integer :: nx
     integer :: ne
-    integer :: na 
+    integer :: na
     integer :: nb
     integer :: nshell
     integer :: nprimi
     integer :: nPrimitives
-    real(dp), allocatable :: znuc(:) 
+    real(dp), allocatable :: znuc(:)
     real(dp), allocatable :: coords(:,:)
     real(dp), allocatable :: evec(:)
     integer, allocatable  :: imin(:)
     integer, allocatable  :: imax(:)
     integer, allocatable  :: katom(:)
     integer, allocatable  :: intyp(:)
-    integer, allocatable  :: shellType(:) 
-    integer, allocatable  :: kng(:) 
-    integer, allocatable  :: AOlocation(:) 
+    integer, allocatable  :: shellType(:)
+    integer, allocatable  :: kng(:)
+    integer, allocatable  :: AOlocation(:)
     real(dp), allocatable :: exponent(:)
     real(dp), allocatable :: coefficient(:)
   end type basisType
@@ -91,17 +94,18 @@ contains
     character(len=100) :: basisInfoFile
     logical            :: debug
     integer :: i, j, AOindex
-! local arrays
+
+    ! local arrays
     integer,  allocatable :: ityp(:)
     real(dp), allocatable :: expon(:), contrc1(:), contrc2(:)
 
-! first get information about the system
+    ! first get information about the system
 
     call read_system_info(trim(basisInfoFile), self%title, self%natoms, self%charge, self%mult,    &
                        self%nbf, self%nx, self%ne, self%na, self%nb, self%nshell, self%nprimi)
 
-! allocate first batch of arrays 
-    
+    ! allocate first batch of arrays
+
     allocate(self%znuc(self%natoms))
     allocate(self%coords(3, self%natoms))
     allocate(self%imin(self%natoms))
@@ -111,7 +115,8 @@ contains
     allocate(self%intyp(self%nshell))
     allocate(self%kng(self%nshell))
     allocate(self%AOlocation(self%nshell))
-! allocate temporary arrays 
+
+    ! allocate temporary arrays
     allocate(ityp(self%nprimi))
     allocate(expon(self%nprimi))
     allocate(contrc1(self%nprimi))
@@ -119,26 +124,26 @@ contains
 
     call read_basis_info(trim(basisInfoFile), self%natoms, self%nshell, self%nprimi,                  &
                          self%znuc, self%coords, self%evec, expon, contrc1,              &
-                         contrc2, self%imin, self%imax, self%katom, & 
+                         contrc2, self%imin, self%imax, self%katom, &
                          self%intyp, ityp, self%kng, self%AOlocation)
 
-! calculate the total number of primitives (non-unique)
+    ! calculate the total number of primitives (non-unique)
     self%nprimitives = 0
     do i = 1, self%nshell
             self%nPrimitives = self%nPrimitives + self%kng(i)
     enddo
-    
+
     allocate(self%exponent(self%nPrimitives))
-    allocate(self%coefficient(self%nPrimitives)) 
+    allocate(self%coefficient(self%nPrimitives))
     allocate(self%shellType(self%nPrimitives))
     AOindex = 0
     do i = 1, self%natoms
         do j = self%imin(i), self%imax(i)
-            AOindex = AOindex + 1 
+            AOindex = AOindex + 1
             self%exponent(AOindex)    = expon(j)
             self%coefficient(AOindex) = contrc1(j)
             self%shellType(AOindex)   = ityp(j)
-        enddo 
+        enddo
     enddo
 
     if (debug) call print_basis_info(self)
@@ -147,58 +152,58 @@ contains
   end subroutine newBasis
 
 subroutine read_system_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
- implicit none 
+ implicit none
   character(len=*),  intent(in)  :: filename
   character(len=80), intent(out) :: title
   integer, intent(out) :: natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi
 
   open(unit=300, file=filename, form='formatted', status='old')
-  read(300,'(a80)') title
-  read(300,*) natoms
-  read(300,*) charge
-  read(300,*) mult
-  read(300,*) nbf
-  read(300,*) nx
-  read(300,*) ne
-  read(300,*) na
-  read(300,*) nb
-  read(300,*) nshell
-  read(300,*) nprimi
+  read(300,titfmt) title
+  read(300,intfmt) natoms
+  read(300,intfmt) charge
+  read(300,intfmt) mult
+  read(300,intfmt) nbf
+  read(300,intfmt) nx
+  read(300,intfmt) ne
+  read(300,intfmt) na
+  read(300,intfmt) nb
+  read(300,intfmt) nshell
+  read(300,intfmt) nprimi
   close(300)
-  return 
+  return
 end subroutine read_system_info
 
 subroutine read_basis_info(filename, natoms, nshell, nprimi, znuc, coords, evec,                   &
                            expon, contrc1, contrc2, imin, imax, katom, intyp, ityp, kng, kloc)
- implicit none 
+ implicit none
   character(len=*),  intent(in)  :: filename
   integer, intent(in)  :: natoms, nshell, nprimi
   real(dp),          intent(out) :: znuc(:), coords(:,:), evec(:)
-  real(dp),          intent(out) :: expon(:), contrc1(:), contrc2(:) 
+  real(dp),          intent(out) :: expon(:), contrc1(:), contrc2(:)
   integer, intent(out) :: imin(:), imax(:), katom(:), intyp(:), ityp(:), kng(:), kloc(:)
 
-  integer :: i, j 
+  integer :: i, j
 
   open(unit=300, file=filename, form='formatted', status='old')
   rewind(300)
   do i = 1, 11
     read(300,*)
   enddo
-      read(300,*) (znuc(i),i=1,natoms)
-      read(300,*) ((coords(j,i),j=1,3),i=1,natoms)
-      read(300,*) (imin(i),i=1,natoms)
-      read(300,*) (imax(i),i=1,natoms)
-      read(300,*) (evec(i),i=1,3)
-      read(300,*) (katom(i),i=1,nshell)
-      read(300,*) (intyp(i),i=1,nshell)
-      read(300,*) (ityp(i),i=1,nprimi)
-      read(300,*) (expon(i),i=1,nprimi)
-      read(300,*) (contrc1(i),i=1,nprimi) 
-      read(300,*) (contrc2(i),i=1,nprimi)
-      read(300,*) (kng(i),i=1,nshell)
-      read(300,*) (kloc(i),i=1,nshell)
+      read(300,realfmt) znuc
+      read(300,realfmt) coords
+      read(300,int3fmt) imin
+      read(300,int3fmt) imax
+      read(300,realfmt) evec
+      read(300,int3fmt) katom
+      read(300,int3fmt) intyp
+      read(300,int3fmt) ityp
+      read(300,realfmt) expon
+      read(300,realfmt) contrc1
+      read(300,realfmt) contrc2
+      read(300,int3fmt) kng
+      read(300,int3fmt) kloc
   close(300)
-  return 
+  return
 end subroutine read_basis_info
 
   subroutine print_basis_info(self)
@@ -285,6 +290,7 @@ end subroutine read_basis_info
     real(DP), parameter  :: PI    = 3.1415926535897932384626433_DP 
     integer,  intent(in) :: ltype, mtype
     real(dp), intent(in) :: zeta
+    
     real(dp) :: norm = 0.0_dp
 
   select case (ltype)
@@ -322,10 +328,10 @@ end subroutine read_basis_info
                 norm = (16.0_dp*(2.0_dp/Pi)**0.75_dp)/(3.0_dp*dSqrt(zeta**(-5.5_dp)))
             case (33:35)       ! G xxyz, yyxz, zzxy
                 norm = (16.0_dp*(2.0_dp/Pi)**0.75_dp)/(dSqrt(3.0_dp)*dSqrt(zeta**(-5.5_dp)))
-            case default 
+            case default
                 write(*,*) "something wrong with mtype for G shell: ", mtype
         end select
-    case default 
+    case default
         write(*,*) 'Something wrong with the ltype in -normalizeGaussian-: ', ltype
     end select
 
@@ -336,7 +342,7 @@ end subroutine read_basis_info
   subroutine deleteBasis(self)
     type(basisType) :: self
 
-    if (allocated(self%exponent))    deallocate(self%exponent) 
+    if (allocated(self%exponent))    deallocate(self%exponent)
     if (allocated(self%coefficient)) deallocate(self%coefficient)
     if (allocated(self%shellType))   deallocate(self%shellType)
     if (allocated(self%AOlocation))  deallocate(self%AOlocation)
