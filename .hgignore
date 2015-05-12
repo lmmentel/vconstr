@@ -12,5 +12,6 @@ syntax: glob
 *.fdb_latexmk
 *.fls
 # ignore all the build stuff
+./Source/build/**
 ./Source/dsfun_build/**
 ./Source/generate_grid/build/**
