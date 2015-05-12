@@ -4,7 +4,7 @@ target = {
   'rootdirs'        : ['source'],
   'buildsubdir'     : 'build',
   'libraryname'     : 'grid',
-  'mainprogramfile' : 'main.f90',
+  'mainprogramfile' : 'main.f90', 
   'skipdirs'        : [],
   'skipfiles'       : [],
   'dependson'       : [],
@@ -48,10 +48,26 @@ defaultconfig = {
   }
 }
 
-#configs = [defaultconfig, releaseconfig, debugconfig]
-configs = [defaultconfig]
+debugconfig = {
+  'name'            : 'debug',
+  'inherits'        : 'default',
+  'buildsubdir'     : 'debug',
+  'installdir'      : '$FORAY_PROJECT_ROOT/'+target['exename'],
+  'compileroptions' : {
+    'f77flags'           : '-c -i8 -O2 -ftz -auto  -warn nousage -inline-level=0 -g',
+    'f90flags'           : '-c -i8 -O2 -ftz -auto  -warn nousage -inline-level=0 -g',
+    'compilegroupflags' : {
+      'default' : '-O2',
+      'safe'    : '-O1'
+    }
+  }
+}
 
-# Combine everything in buildinfo dictionary
+
+#configs = [defaultconfig, releaseconfig, debugconfig]
+configs = [defaultconfig, debugconfig]
+
+# Combine everything in buildinfo dictionary   
 buildinfo = {
   'builddir'      : '$FORAY_PROJECT_ROOT/build',
   'fortranfiles'  : fortranfiles,
