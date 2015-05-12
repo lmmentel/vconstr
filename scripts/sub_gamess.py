@@ -1,121 +1,143 @@
 #!/usr/bin/env python
+
+import argparse
 import os
-import re
-import string
+import socket
 import subprocess
-import sys
-from optparse import OptionParser
 
-def query_yes_no(question, default="yes"):
-    """Ask a yes/no question via raw_input() and return their answer.
-
-    "question" is a string that is presented to the user.
-    "default" is the presumed answer if the user just hits <Enter>.
-        It must be "yes" (the default), "no" or None (meaning
-        an answer is required of the user).
-
-    The "answer" return value is one of "yes" or "no".
-    """
-    valid = {"yes":True,   "y":True,  "ye":True,
-             "no":False,     "n":False}
-    if default == None:
-        prompt = " [y/n] "
-    elif default == "yes":
-        prompt = " [Y/n] "
-    elif default == "no":
-        prompt = " [y/N] "
-    else:
-        raise ValueError("invalid default answer: '%s'" % default)
-
-    while True:
-        sys.stdout.write(question + prompt)
-        choice = raw_input().lower()
-        if default is not None and choice == '':
-            return valid[default]
-        elif choice in valid:
-            return valid[choice]
-        else:
-            sys.stdout.write("Please respond with 'yes' or 'no' "\
-                             "(or 'y' or 'n').\n")
-
-
-def get_info(lines, rege):
-    '''Get the infromation form contents based on the regular expression.'''
-
-    cp = re.compile(rege)
-
-    for line in lines:
-        match = cp.search(line)
-        if match:
-            return match.group(1)
+def remove_dat(path, datfile):
+    '''Remove the dat file from the ASCII scratch.'''
+    if os.path.exists(os.path.join(path, datfile)):
+        os.remove(os.path.join(path, datfile))
 
 def main():
-    p = OptionParser()
-    p.add_option("-j",action="store",type="string",dest="jobname",default="")
-    p.add_option("-t",action="store",type="string",dest="timeLimit",default="120:00:00")
-    p.add_option("-m",action="store_true",dest="sendemail",default=False)
-    p.add_option("-d",action="store_true",dest="norun",default=False)
-    (opts, args) = p.parse_args()
+    '''
+    Script for submitting gamessus jobs to the queue.
+    '''
 
-    if opts.jobname == "":
-        sys.exit("no jobname given. bye bye...")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input",
+                        help='gamessus input file to be executed')
+    parser.add_argument("-d",
+                        "--dryrun",
+                        action="store_true",
+                        help="write the pbs script but don't submit to the queue, default-False")
+    parser.add_argument("-t",
+                        "--walltime",
+                        default="120:00:00",
+                        help="walltime in the format HH:MM:SS,\
+                        default=120:00:00")
+    args = vars(parser.parse_args())
 
-#check if .dat file from previosu run exists 
+def set_defaults(args):
 
-    dat     = opts.jobname.replace("inp","dat")
-    if os.path.exists(os.path.join('/home/lmentel/scr',dat)):
-        if query_yes_no('dat file from preious run exists, remove?',default="yes"):
-            os.remove(os.path.join('/home/lmentel/scr',dat))
+    args['extrafiles'] = []
+    args['gmsver'] = '00'
+    args['nodes'] = '1'
+    args['HOST'] = ''
+    args['ppn'] = '1'
+    args['usescratch'] = False
+    args['queue'] = 'default'
+
+    args['workdir'] = os.getcwd()
+    args['home'] = os.getenv("HOME")
+    if socket.gethostname() in ["login1.lisa.surfsara.nl", "login2.lisa.surfsara.nl"]:
+        args['scratch'] = os.getenv("TMPDIR")
+        args['rungms'] = os.getenv("RUNGMS")
+        args['gmsver'] = os.getenv("GMSVER")
+    args['local_scr'] = os.path.join(os.getenv('HOME'), 'scratch')
+    args['jobname'] = os.path.splitext(args["input"])[0]
+    args['outfile'] = args['jobname'] + ".log"
+    args['errfile'] = args['jobname'] + ".err"
+    args['datfile'] = args['jobname'] + ".dat"
+    args['script_name'] = "run." + args['jobname']
+    return args
+
+def submit_pbs(args):
+    '''
+    Write the run script for PBS and submit it to the queue.
+    '''
+
+    args = set_defaults(args)
+    remove_dat(args["local_scr"], args["datfile"])
+
+    with open(args['script_name'], 'w') as script:
+        script.write("#PBS -S /bin/bash\n")
+        if args['HOST'] != "":
+            script.write("#PBS -l nodes={0}:ppn={1}\n".format(args['HOST'], args['ppn']))
         else:
-            sys.exit('exiting script')
-    
-    executable = '/home/lmentel/Source/gamess-us-may2012/gamess/rungmsdsfun'
-    workdir = os.getcwd()
-    home    = os.getenv("HOME")
-    scratch = os.getenv("TMPDIR")
-    jobBase = os.path.splitext(opts.jobname)[0]
-    output  = jobBase+'.out'
-    error   = jobBase+'.err'
-# get the gamess filenames from the dmft input
-    f = open(opts.jobname, 'r')
-    contents = f.readlines()
-    f.close
+            script.write("#PBS -l nodes={0}:ppn={1}\n".format(args['nodes'], args['ppn']))
+        if "mem" in args.keys():
+            script.write("#PBS -l mem={0}\n".format(args["mem"]))
+        script.write("#PBS -l walltime={0}\n\n".format(args['walltime']))
+        #script.write('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/apps/lib\n\n')
+        script.write("#PBS -N {}\n".format(args["jobname"]))
+        if args["queue"] != "default":
+            script.write("#PBS -q {}\n".format(args["queue"]))
+        script.write("cd $PBS_O_WORKDIR\n")
+        if args['usescratch']:
+            wrkdir = os.path.join(args['scratch'], args['jobname'])
+            script.write("mkdir -p {}\n".format(wrkdir))
+            files = args['jobname']
+            if args['extrafiles']:
+                files += ' ' + ' '.join(args['extrafiles'])
+            script.write('cp -t {0} {1}\n'.format(wrkdir, files))
+            script.write('cd {0}\n'.format(wrkdir))
+        script.write("\n{0:<s} {1} {2:<s} {3:<s} \n".format(args['rungms'],
+                     args['jobname'], args['gmsver'], args['ppn']))
+        script.write("module load fortran/intel/64 c/intel/64 mkl/64 \n")
+        script.write("\n{0:<s} {1:<s} {2:<s} {3:<s} \n".format(args['rungms'],
+                     args['jobname'], args['gmsver'], args['ppn']))
+        script.write("cp -t {0:<s} *.F09 *.F10 *.basinfo ".format(args['workdir']))
 
-# open and  write the script PBS script file 
-    scriptName = "run." + opts.jobname
-    script = open(scriptName, 'w')
-
-    script.write("#PBS -S /bin/bash\n")
-    script.write("#PBS -l nodes=1:ppn=1\n")
-    script.write("#PBS -l walltime="+opts.timeLimit+"\n\n")
-    script.write("cd $PBS_O_WORKDIR\n")
-    script.write("mkdir -p $TMPDIR/{0}\n".format(jobBase))
-    script.write("cp {0} $TMPDIR/{1}/ \n".format(opts.jobname,  jobBase))
-    script.write("cd $TMPDIR/{0}\n\n".format(jobBase))  
-    if opts.sendemail:
-        script.write('''echo -e "Job STARTED\
-        \t\\nPBS_JOBID:  $PBS_JOBID \
-        \t\\nINPUT NAME: {0}\
-        \t\\nWORKDIR:    {1} \
-        \t\\nstarted at: `date`" | mail $USER -s "Job $PBS_JOBID"\n'''.format(opts.jobname,workdir))
-    script.write("module load fortran/intel/64 c/intel/64 mkl/64 \n")
-    script.write("{0:<s} {1:<s} 00 1 \n".format(executable, jobBase))
-    script.write("cp -t {0:<s} *.F09 *.F10 *.basinfo ".format(workdir))
-    if opts.sendemail:
-        script.write('''echo -e "Job FINISHED\
-        \t\\nPBS_JOBID:  $PBS_JOBID \
-        \t\\nINPUT NAME: {0}\
-        \t\\nWORKDIR:    {1} \
-        \t\\nfinished at: `date`" | mail $USER -s "Job $PBS_JOBID"'''.format(opts.jobname,workdir))
-    script.close()
-
-# submit the job to the queue if requested  
-    if opts.norun:
-        print "created job script: {0}\n NOT submitting to the queue\nbye...".format(scriptName) 
+    # submit the job to the queue if requested
+    if args['dryrun']:
+        print("Created job script: {0}\n NOT submitting to the queue\nbye...".format(args['script_name']))
     else:
-        print "created job script: {0}\n submitting to the queue".format(scriptName) 
-        sublog = open(opts.jobname.replace(".inp",".sublog"),'w')
-        proc = subprocess.Popen(["qsub",scriptName],stdout=sublog,stderr=sublog)
+        print("Created job script: {0}\nsubmitting to the queue".format(args['script_name']))
+        output = subprocess.check_output(["qsub", args['script_name']])
+        pid = output.split(".")[0]
+        return args['jobname'] + ".o" + pid
+
+def submit_slurm(args):
+    '''
+    Write the run script for SLURM and submit it to the queue.
+    '''
+
+    with open(args['script_name'], 'w') as script:
+
+        script.write("#!/bin/bash\n")
+        script.write("#SBATCH -t {0:<s} \n".format(args["walltime"]))
+        script.write("#SBATCH -N {0:<s} \n".format(args["nodes"]))
+        script.write("#SBATCH --ntasks-per-node={0:<s} \n".format(args["ppn"]))
+        script.write("#SBATCH -C {0:<s} \n".format(args["nodeType"]))
+        script.write("#SBATCH -o {0:>s}.%J \n".format(args['outfile']))
+        script.write("#SBATCH -e {0:>s}.%J \n".format(args['errfile']))
+
+        if int(args["walltime"].split(':')[0])*60 + int(args["walltime"].split(':')[1]) > 60 and args["nodeType"] == "thin":
+            script.write("#SBATCH -p normal \n\n")
+        elif int(args["walltime"].split(':')[0])*60 + int(args["walltime"].split(':')[1]) < 60 and args["nodeType"] == "thin":
+            script.write("#SBATCH -p short \n\n")
+        elif args["nodeType"] == "fat":
+            script.write("#SBATCH -p fat \n\n")
+
+        if args["mail"] != "":
+            script.write("#SBATCH --mail-type=ALL --mail-user={0:<s}\n\n".format(args["mail"]))
+        script.write("mkdir -p $TMPDIR/{0}\n".format(args['jobname']))
+        script.write("cp {0} $TMPDIR/{1} \n".format(args["input"], args['jobname']))
+        script.write("cd $TMPDIR/{0}\n\n".format(args['jobname']))
+
+        script.write("module load fortran/intel/64 c/intel/64 mkl/64 \n")
+        script.write("{0:<s} {1:<s} 00 1 \n".format(args['rungms'], args['jobname']))
+        script.write("cp -t {0:<s} *.F09 *.F10 *.basinfo ".format(args['workdir']))
+
+    # submit the job to the queue if requested
+    if args["dryrun"]:
+        print("Created job script: {0}\n NOT submitting to the queue\nbye...".format(args['script_name']))
+    else:
+        print("Created job script: {0}\nsubmitting to the queue".format(args['script_name']))
+        sublog = open(args['jobname'] + ".sublog", 'w')
+        proc = subprocess.Popen(["sbatch", args['script_name']], stdout=sublog, stderr=sublog)
         sublog.close()
 
 if __name__ == "__main__":
