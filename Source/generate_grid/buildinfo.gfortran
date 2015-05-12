@@ -4,7 +4,7 @@ target = {
   'rootdirs'        : ['source'],
   'buildsubdir'     : 'build',
   'libraryname'     : 'grid',
-  'mainprogramfile' : 'main.f90', 
+  'mainprogramfile' : 'main.f90',
   'skipdirs'        : [],
   'skipfiles'       : [],
   'dependson'       : [],
@@ -19,8 +19,6 @@ fortranfiles = {
   'fixedformregex'   : '.*\.f$',
 }
 
-
-
 # Build configs
 defaultconfig = {
   'name'        : 'default',
@@ -30,14 +28,14 @@ defaultconfig = {
     'archivecommand'     : 'ar -r',
     'unarchivecommand'   : 'ar -d',
     'ranlibcommand'      : 'ranlib -s',
-    'f77compiler'        : 'ifort',
-    'f90compiler'        : 'ifort',
-    'f77flags'           : '-c -i8 -O2 -ftz -auto  -warn nousage -inline-level=0 ',
-    'f90flags'           : '-c -i8 -O2 -ftz -auto  -warn nousage -inline-level=0 ',
+    'f77compiler'        : 'gfortran',
+    'f90compiler'        : 'gfortran',
+    'f77flags'           : '-c -D_FILE_OFFSET_BITS=64 -fdefault-integer-8 -std=legacy',
+    'f90flags'           : '-c -D_FILE_OFFSET_BITS=64 -fdefault-integer-8',
     'modpathoption'      : '-I',
     'ccompiler'          : 'gcc',
     'cflags'             : '-c -m64 -D_FILE_OFFSET_BITS=64 -Dpentium_linux_ifc -O3 -funroll-loops',
-    'link'               : 'ifort',
+    'link'               : 'gfortran',
     'linkflags'          : '',
     'prioritylibs'       : '',
     'otherlibs'          : '-lm',
@@ -53,7 +51,7 @@ defaultconfig = {
 #configs = [defaultconfig, releaseconfig, debugconfig]
 configs = [defaultconfig]
 
-# Combine everything in buildinfo dictionary   
+# Combine everything in buildinfo dictionary
 buildinfo = {
   'builddir'      : '$FORAY_PROJECT_ROOT/build',
   'fortranfiles'  : fortranfiles,

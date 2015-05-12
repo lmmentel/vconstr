@@ -147,8 +147,9 @@ contains
     enddo
 
     if (debug) call print_basis_info(self)
-! deallocate temporary arrays
-    deallocate(ityp, expon, contrc1, contrc2) 
+
+    ! deallocate temporary arrays
+    deallocate(ityp, expon, contrc1, contrc2)
   end subroutine newBasis
 
 subroutine read_system_info(filename, title, natoms, charge, mult, nbf, nx, ne, na, nb, nshell, nprimi)
