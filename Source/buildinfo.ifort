@@ -1,17 +1,31 @@
 # Targets
-target = {
-  'name'            : 'dsfun',
-  'rootdirs'        : ['dsfun'],
-  'buildsubdir'     : 'dsfun',
-  'libraryname'     : 'dsfun',
-  'mainprogramfile' : 'dsfun.f', 
-  'skipdirs'        : [],
-  'skipfiles'       : [],
-  'dependson'       : [],
-  'exename'         : 'dsfun.x',
-  'compilegroups'   : {
+
+def newtarget(name, dir):
+  target = {
+    'name'          : name,
+    'rootdirs'      : [dir],
+    'buildsubdir'   : name,
+    'libraryname'   : name,
+    'skipdirs'      : ['.hg'],
+    'skipfiles'     : ['.DS_Store'],
+    'dependson'     : [],
+    'compilegroups' : {
+    }
   }
-}
+  return target
+
+# dsfun target
+dsfuntarget = newtarget('dsfun', 'dsfun')
+dsfuntarget['mainprogramfile'] = 'dsfun.f'
+dsfuntarget['exename'] = 'dsfun.x'
+
+# grid program target
+gridtarget = newtarget('grid', 'generate_grid/source')
+gridtarget['mainprogramfile'] = 'main.f90'
+gridtarget['exename'] = 'grid.x'
+
+# combine the targets
+targets = [dsfuntarget, gridtarget]
 
 # Fortran file types
 fortranfiles = {
@@ -23,6 +37,7 @@ fortranfiles = {
 defaultconfig = {
   'name'        : 'default',
   'buildsubdir' : 'default',
+  'installdir'  : '$FORAY_PROJECT_ROOT/bin/',
   'compileroptions' : {
     'archivecommand'     : 'ar -r',
     'unarchivecommand'   : 'ar -d',
@@ -53,7 +68,7 @@ releaseconfig = {
   'name'            : 'release',
   'inherits'        : 'default',
   'buildsubdir'     : 'release',
-  'installdir'      : '$FORAY_PROJECT_ROOT/bin.release',
+  'installdir'      : '$FORAY_PROJECT_ROOT/bin.release/',
   'compileroptions' : {
     'compilegroupflags' : {
       'default' : '-O3 -mp',
@@ -66,10 +81,10 @@ debugconfig = {
   'name'            : 'debug',
   'inherits'        : 'default',
   'buildsubdir'     : 'debug',
-  'installdir'      : '$FORAY_PROJECT_ROOT/bin/'+target['exename'],
+  'installdir'      : '$FORAY_PROJECT_ROOT/bin.debug/',
   'compileroptions' : {
-    'f77flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
-    'f90flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
+    'f77flags'           : '-g -c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
+    'f90flags'           : '-g -c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
     'compilegroupflags' : {
       'default' : '-O2',
       'safe'    : '-O1'
@@ -78,13 +93,13 @@ debugconfig = {
 }
 
 #configs = [defaultconfig, releaseconfig, debugconfig]
-configs = [defaultconfig, debugconfig]
+configs = [defaultconfig, debugconfig, releaseconfig]
 
-# Combine everything in buildinfo dictionary   
+# Combine everything in buildinfo dictionary
 buildinfo = {
-  'builddir'      : '$FORAY_PROJECT_ROOT/dsfun_build',
+  'builddir'      : '$FORAY_PROJECT_ROOT/build',
   'fortranfiles'  : fortranfiles,
-  'targets'       : [target],
-  'defaultconfig' : 'debug',
+  'targets'       : targets,
+  'defaultconfig' : 'default',
   'configs'       : configs
 }

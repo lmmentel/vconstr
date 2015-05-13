@@ -21,7 +21,7 @@ dsfuntarget['exename'] = 'dsfun.x'
 
 # grid program target
 gridtarget = newtarget('grid', 'generate_grid/source')
-gridtarget['mainprogramfile'] = 'main.f'
+gridtarget['mainprogramfile'] = 'main.f90'
 gridtarget['exename'] = 'grid.x'
 
 # combine the targets
@@ -37,11 +37,11 @@ fortranfiles = {
 defaultconfig = {
   'name'        : 'default',
   'buildsubdir' : 'default',
-  'installdir'  : '$FORAY_PROJECT_ROOT/bin.debug',
+  'installdir'  : '$FORAY_PROJECT_ROOT/bin/',
   'compileroptions' : {
     'archivecommand'     : 'ar -r',
     'unarchivecommand'   : 'ar -d',
-    'ranlibcommand'      : 'ranlib -s',
+    'ranlibcommand'      : 'ar -s',
     'f77compiler'        : 'gfortran',
     'f90compiler'        : 'gfortran',
     'f77flags'           : '-c -D_FILE_OFFSET_BITS=64 -fdefault-integer-8 -std=legacy',
@@ -67,10 +67,10 @@ releaseconfig = {
   'name'            : 'release',
   'inherits'        : 'default',
   'buildsubdir'     : 'release',
-  'installdir'      : '$FORAY_PROJECT_ROOT/bin.release',
+  'installdir'      : '$FORAY_PROJECT_ROOT/bin.release/',
   'compileroptions' : {
     'compilegroupflags' : {
-      'default' : '-O3 -mp',
+      'default' : '-O3',
       'safe'    : '-O2'
     }
   }
@@ -80,7 +80,7 @@ debugconfig = {
   'name'            : 'debug',
   'inherits'        : 'default',
   'buildsubdir'     : 'debug',
-  'installdir'      : '$FORAY_PROJECT_ROOT/bin.debug',
+  'installdir'      : '$FORAY_PROJECT_ROOT/bin.debug/',
   'compileroptions' : {
     'f90flags' : '-g -Wall -Wextra -Wconversion-extra -Wunderflow -c \
                   -fcheck=all -finit-local-zero -fbacktrace -fno-whole-file -pedantic',
