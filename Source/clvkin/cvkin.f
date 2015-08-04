@@ -1,127 +1,181 @@
+cam... program that computes kinetic potential from a GAMESS-US
+cam... or KS probability amplitude \Phi(2...N|N)
+cam... 
+cam... v_kin(1) = 1/2 \int |\nabla_1 \Phi(2...N|1)|^2 d2...dN
+cam...
+cam... v_s,kin(1) = 1/2 \int |\nabla_1 \Phi_s(2...N|1)|^2 d2...dN
+cam...
+cam... also the kinetic correlation potential is computed
+cam... 
+cam... v_c,kin(1) = v_kin(1) - v_c,kin(1)
+cam...
+cam... the potentials are computed for the points provided in the
+cam... gridfile *.xyzw
+cam...
+cam... further a *.basinfo and *.F10 file from the GAMESS-US run 
+cam... and a *.kso file from a dsfun run need to be present
       program cvkin
+      use basisModule
+      use commonsModule
       implicit real*8 (a-h,o-z),integer(i-n)
+      parameter(nmomx  = 60)
 c
       character*4 ied,iednum 
       character*44 fname
       common/discc/ied(16),fname(16)
 c
-      logical atmol4
+cam      logical atmol4
 c
-      common /titel/title(10)
-c
-      call prep99
-      call tidajt(date,time,accno,anam,idum)
-      write(6,666)anam,date,time,accno
-  666 format(1h1//
-     *24x,18('*'),' dsfun ',18('*') //
-     *24x,'job name   ',a8//
-     *24x,'date       ',a8//
-     *24x,'time       ',a8//
-     *24x,'acct       ',a8//
-     *24x,44('*')///)
-c
-      idmp = 2
-      ismo = 1
-      isno = 2
-      isks = 3
-      isao = -1
+cam      common /titel/title(10)
+cam..input processing variables
+      character*100 buffer, inptf, gbasisfile, gdictnfile,
+     + gridfile, inpksoFile
+      character*50  title
+      character*80  gamtitle
+      namelist /input/ 
+     & gbasisfile, 
+     & gdictnfile,
+     & gridfile,
+     & inpksoFile,
+     & iprint, 
+     & nmos,
+     & nppr, 
+     & title
+cam
+      gridfile='points'
+      title = 'default'
+      nmos = -1
+      nppr = 0
+      nvpr = 0
+cam
+      iprint = 0
+cam
+      rnel   = 0.d0
+cam
+cam      info(1:infmx)=-1
 c
       write(6,'(''  Calculation of kinetic potential '')')
-      call givtim(top,bot)
-      write(6,'(/''****input read at'',f13.3,'' wall'',f13.3,
-     + '' secs''/)')top,bot
-      goto 55
 c
-   50 call input
-   55 call passdf(ii)
-      if (ii.le.0) then
-         call cinput(jrec,jump,0)
-         call erroutf(jrec)
-         call caserr(' password not recognised ')
+cam......input processing
+c$$$c
+c$$$      idmp = 2
+c$$$      ismo = 1
+c$$$      isno = 2
+c$$$      isks = 3
+c$$$      isao = -1
+c$$$c*** dmpfile
+c$$$    2 call inpi(idmp)
+c$$$      call inpi(ismo)
+c$$$      if ((ismo.lt.1).and.(ismo.gt.190)) then
+c$$$        write(6,'(''ERROR; mo section not properly specified'')')
+c$$$        stop
+c$$$      endif
+c$$$      call inpi(isno)
+c$$$      if ((isno.lt.1).and.(isno.gt.190)) then
+c$$$        write(6,'(''ERROR; no section not properly specified'')')
+c$$$        stop
+c$$$      endif
+c$$$      call inpi(isks)
+c$$$      if ((isks.lt.1).and.(isks.gt.190)) then
+c$$$        write(6,'(''ERROR; ks section not properly specified'')')
+c$$$        stop
+c$$$      endif
+c$$$      goto 50
+c$$$c
+c$$$c** adapt
+c$$$    3 call inpi(isao)
+c$$$      if ((isao.lt.1).and.(isao.gt.190)) then
+c$$$        write(6,'(''ERROR; isao not properly specified'')')
+c$$$        stop
+c$$$      endif
+c$$$      goto 50
+c$$$c
+c$$$c*** enter
+c$$$    4 call getgss(idmp,norb,atmol4)
+c$$$      iednum=ied(idmp)
+cam..get input file name form command line open it, read the 
+cam..contents and close
+      call getarg(1, buffer)
+      read(buffer, *) inptf
+      open(unit=11, file=trim(inptf), status='old',form='formatted',
+     &     delim='apostrophe', iostat=ios)
+      read(11, nml=input)
+      close(11)
+cam..rewrite some information to commons
+      basisInfoFile  = gbasisfile
+      dictionaryFile = gdictnfile
+      printLevel     = iprint
+      write(6,'(/,''grid file from nml: '',a)') gridfile
+c.....am end of input reading 
+cam..
+cam..get the gaussian basis information from the basis file
+cam..
+      call read_system_info(trim(gbasisfile), gamtitle, natoms, icharge, 
+     & mult, nbf, nx, nele, na, nb, nshell, nprimi) 
+cam..not sure if norb should be set to the number of cartesian gaussians
+cam..or number of orbitals used in the calculation
+      norb = nbf 
+c.....nmos
+      if (nmos.gt.-1) then
+        if (nmos.gt.nmomx) then
+          write(6,'(''ERROR; Too many Kohn-Sham orbitals specified; '',
+     + i4,'' > '',i4)')nmos,nmomx
+          stop
+        endif
       endif
-      go to (1,2,3,4)ii
-c
-c*** title
-    1 read(5,'(10a8)') title
-      goto 50
-c
-c*** dmpfile
-    2 call inpi(idmp)
-      call inpi(ismo)
-      if ((ismo.lt.1).and.(ismo.gt.190)) then
-        write(6,'(''ERROR; mo section not properly specified'')')
-        stop
-      endif
-      call inpi(isno)
-      if ((isno.lt.1).and.(isno.gt.190)) then
-        write(6,'(''ERROR; no section not properly specified'')')
-        stop
-      endif
-      call inpi(isks)
-      if ((isks.lt.1).and.(isks.gt.190)) then
-        write(6,'(''ERROR; ks section not properly specified'')')
-        stop
-      endif
-      goto 50
-c
-c** adapt
-    3 call inpi(isao)
-      if ((isao.lt.1).and.(isao.gt.190)) then
-        write(6,'(''ERROR; isao not properly specified'')')
-        stop
-      endif
-      goto 50
-c
-c*** enter
-    4 call getgss(idmp,norb,atmol4)
-      iednum=ied(idmp)
-      write(6,'(//''***** title : '',10a8,''*****'')')title
+c$$$c.....symdet
+c$$$      if (smtype.eq.int2e) then
+c$$$        lintsm = .true.
+c$$$      elseif (smtype.ne.hmat) then
+c$$$        write(6,'(/,''WARNING; symmetry determination not '',
+c$$$     + ''properly specified'')')
+c$$$      endif
+c.....amm end of check for input consistency 
+      write(6,'(//''***** title : '', a50,''*****'')')title
       write(6,'(/''  norb = '',i3)')norb
-      write(6,'(/'' Summary of dumpfile  '',a4,'' sections''/,
-     + ''  Molecular Orbital basis :'',i3,/,
-     + ''  Natural Orbitals        :'',i3,/,
-     + ''  Kohn-Sham orbitals      :'',i3)')iednum,ismo,isno,isks
-      if (isao.gt.0) then
-        write(6,'(''  Symmetry adaptation     :'',i3)')isao
-      endif
+c$$$      write(6,'(/'' Summary of dumpfile  '',a4,'' sections''/,
+c$$$     + ''  Molecular Orbital basis :'',i3,/,
+c$$$     + ''  Natural Orbitals        :'',i3,/,
+c$$$     + ''  Kohn-Sham orbitals      :'',i3)')iednum,ismo,isno,isks
+c$$$      if (isao.gt.0) then
+c$$$        write(6,'(''  Symmetry adaptation     :'',i3)')isao
+c$$$      endif
 c
-      open(99,file='points',status='old',err=222)
+cam      open(99,file='points',status='old',err=222)
+cam      rewind(99)
+cam      read(99,*)npnt,npold
+      ios = 0
+      icounter = 0
+      open(99,file=trim(gridfile),status='old',err=444)
       rewind(99)
-      read(99,*)npnt,npold
-      write(6,'(/,'' Number of gridpoints in numerical'',
-     + '' integration :'',i5)')npold-1
-      write(6,'('' Number of dummy points :'',i5)')npnt+1-npold
+      do while (ios == 0)
+        read(99,'(4e25.14)',iostat=ios) x,y,z,w
+        icounter = icounter + 1
+      enddo
+      npnt = icounter - 1  
+      write(6,'(/,''Grid points read from: '',a)') gridfile
+      write(6,'(/,'' computing vkin at '', i7, '' grid points'')')  npnt
+cam      write(6,'(/,'' Number of gridpoints in numerical'',
+cam     + '' integration :'',i5)')npold-1
+cam      write(6,'('' Number of dummy points :'',i5)')npnt+1-npold
 c
-      call vbrain(npnt,npold,norb,idmp,ismo,isno,isao,isks,atmol4) 
+cam      call vbrain(npnt,npold,norb,idmp,ismo,isno,isao,isks,atmol4) 
+      call vbrain(npnt,npold,norb,nmomx,nele,inpksoFile) 
 c
-      call revind
-      call secsum
-      call whtps
-      call givtim(top,bot)
-      write(6,10101)top,bot
-10101 format(//' end of clvkin at',f13.3,' wall',f13.3,' secs')
+cam      call revind
+cam      call secsum
+cam      call whtps
       stop
 c
-  222 write(6,'(''ERROR; file "points" does not exist'')')
+cam  222 write(6,'(''ERROR; file "points" does not exist'')')
+cam      stop
+c
+  444 write(6,'(''ERROR; grid file '',a,'' does not exist'')') 
+     + trim(gridfile)
       stop
 c
       end
 c
-c***********************************************************************
-c
-      subroutine passdf(ip)
-c     get data field of a card and see what it is
-c     ip =  0  : not recognised
-c     ip >  0  : it was item ip of the list
-      implicit real*8(a-h,o-z)
-      parameter (ncnt=4)
-      character*8 cnt(ncnt),word
-      data cnt/ 'title','dmpfile','adapt','enter' /
-c
-      call reada(word)
-      ip=locatc(cnt,ncnt,word)
-      return
-      end
 c
 c***********************************************************************
 c

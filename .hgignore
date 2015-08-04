@@ -16,3 +16,4 @@ syntax: glob
 ./Source/build/**
 ./Source/dsfun_build/**
 ./Source/generate_grid/build/**
+./Source_org/**

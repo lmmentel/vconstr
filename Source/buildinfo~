@@ -21,8 +21,8 @@ dsfuntarget['exename'] = 'dsfun.x'
 
 # clvkin target
 clvkintarget = newtarget('clvkin', 'clvkin')
-clvkintarget['mainprogramfile'] = 'clvkin.f'
-clvkintarget['exename'] = 'clvkin.x'
+clvkintarget['mainprogramfile'] = 'cvkin.f'
+clvkintarget['exename'] = 'cvkin.x'
 
 # grid program target
 gridtarget = newtarget('grid', 'generate_grid/source')
@@ -51,6 +51,7 @@ defaultconfig = {
     'f90compiler'        : 'ifort',
     'f77flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
     'f90flags'           : '-c -i8 -O2 -ftz -auto -assume byterecl -vec-report0 -warn nousage -inline-level=0 ',
+#    'modpathoption'      : '-I$FORAY_PROJECT_ROOT/modules',
     'modpathoption'      : '-I',
     'ccompiler'          : 'gcc',
     'cflags'             : '-c -m64 -D_FILE_OFFSET_BITS=64 -Dpentium_linux_ifc -O3 -funroll-loops',

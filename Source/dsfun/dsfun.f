@@ -31,7 +31,8 @@ c
       dimension fxyz(3)
 c
 clmm..stuff for input processing 
-      character*100 buffer, inptf, gbasisfile, gdictnfile, gintegfile
+      character*100 buffer, inptf, gbasisfile, gdictnfile, gintegfile, 
+     +     outksoFile
       character*100 gridfile
       character*50  title
       character*80  gamtitle
@@ -44,6 +45,7 @@ clmm..stuff for input processing
      & gdictnfile, 
      & gintegfile, 
      & gridfile,
+     & outksoFile,
      & iprint, 
      & lfield, 
      & lintsm, 
@@ -62,6 +64,7 @@ clmm..stuff for input processing
 c
       gridfile='points'
       title = 'default '
+      outksoFile = ''
       nmos = -1
       nppr = 0
       nvpr = 0
@@ -259,7 +262,7 @@ c
       npnt = icounter - 1  
       write(6,'(/,''Grid points read from: '',a)') gridfile
       write(6,'(/,'' Number of gridpoints in numerical'',
-     + '' integration :'',i5)') npnt
+     + '' integration :'',i9)') npnt
 c
       if (lfield) write(6,'(/,'' Electric field : '',f6.4,
      + ''x + '',f6.4,''y + '',f6.4,''z'')')(fxyz(i),i=1,3)
@@ -278,7 +281,7 @@ clmm..initialized kpens variable to avoid a memory leak later
       call dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmin,crrmax,
      + thresh,dqmax,dvdamp,scfdamp,kpens,info,nppr,nvpr,npnt,
      + norb,nmos,nmomx,maxiters,ibcens,iscens,
-     + lsym,lintsm,lrdocc,lrfun,nele) 
+     + lsym,lintsm,lrdocc,lrfun,nele,outksoFile) 
 c      endif
 
 clmm      call revind

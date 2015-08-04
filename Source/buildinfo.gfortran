@@ -19,13 +19,18 @@ dsfuntarget = newtarget('dsfun', 'dsfun')
 dsfuntarget['mainprogramfile'] = 'dsfun.f'
 dsfuntarget['exename'] = 'dsfun.x'
 
+# clvkin target
+clvkintarget = newtarget('clvkin', 'clvkin')
+clvkintarget['mainprogramfile'] = 'clvkin.f'
+clvkintarget['exename'] = 'clvkin.x'
+
 # grid program target
 gridtarget = newtarget('grid', 'generate_grid/source')
 gridtarget['mainprogramfile'] = 'main.f90'
 gridtarget['exename'] = 'grid.x'
 
 # combine the targets
-targets = [dsfuntarget, gridtarget]
+targets = [dsfuntarget, gridtarget, clvkintarget]
 
 # Fortran file types
 fortranfiles = {

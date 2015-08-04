@@ -21,8 +21,8 @@ dsfuntarget['exename'] = 'dsfun.x'
 
 # clvkin target
 clvkintarget = newtarget('clvkin', 'clvkin')
-clvkintarget['mainprogramfile'] = 'clvkin.f'
-clvkintarget['exename'] = 'clvkin.x'
+clvkintarget['mainprogramfile'] = 'cvkin.f'
+clvkintarget['exename'] = 'cvkin.x'
 
 # grid program target
 gridtarget = newtarget('grid', 'generate_grid/source')

@@ -1,25 +1,29 @@
-      subroutine vbrain(npnt,npold,norb,idmp,ismo,isno,isao,isks,atmol4)                                 
+cam      subroutine vbrain(npnt,npold,norb,idmp,ismo,isno,isao,isks,atmol4)
+      subroutine vbrain(npnt,npold,norb,nmomx,nele,inpksoFile)
+      use commonsModule
+      use integralsModule
+      use ioModule
 c
 c-----------------------------------------------------------------------
 c
       implicit real*8 (a-h,o-z),integer(i-n)
       parameter(eps = 1.0d-8)
+c     
+      character*100 inpksoFile
 c
-      logical atmol4,ltrian
+      logical ltrian
       dimension pksks(norb*(norb+1)/2),pmo(norb*(norb+1)/2),
      + pnomo(norb*(norb+1)/2),pksmo(norb*(norb+1)/2)
       dimension vksao(norb*norb),vksmo(norb*norb),vmoao(norb*norb),
      + vmopao(norb*norb),scrtc(norb*norb),occmo(norb),orbdns(norb)
 
       dimension rho(npnt),vnuc(npnt)
-      dimension grid(npnt,3),weight(npnt)
+      dimension grid(npnt,4)
       dimension dns(npnt),ddns(npnt,3),dsdns(npnt)
       dimension valmo(norb*npnt)
       allocatable grdmo(:,:)
 c
       ltrian = .false.
-c
-      npntmx=npnt
 c
       allocate(grdmo(norb*npnt,4),stat=ialloc)
       if (ialloc.ne.0) then
@@ -27,23 +31,42 @@ c
         stop
       endif
 c
-      do ip=1,npnt
-        read(99,*) grid(ip,1),grid(ip,2),grid(ip,3),weight(ip)
+      rewind(99)
+      do ipnt = 1, npnt
+        read(99,'(4e25.14)',iostat=ios) grid(ipnt,1),grid(ipnt,2),
+     &                                  grid(ipnt,3),grid(ipnt,4)
       enddo
       close(99)
-c
+*c
 c
 c** read dumpfile : vmopao - molecular orbitals in primitive ao basis
 c**                 vmoao  - molecular orbitals in ao basis
 c**                 pmo    - mo density matrix in mo basis
 c**                 pnomo  - ci density matrix in mo basis
 c
-      call rddmp(vmopao,vmoao,pmo,pnomo,norb,nvpr,rnel,idmp,ismo,isao,
-     + isno)
+cam      call rddmp(vmopao,vmoao,pmo,pnomo,norb,nvpr,rnel,idmp,ismo,isao,
+cam     + isno)
+cam..replacement for the rddmp routine now read the orbitals
+      call getOrbitalsAndDensities(vmopao, 
+     & vmoao, pmo, pnomo, norb, 
+     & rnel, nele)
+      if (printLevel >= 2) then 
+        call matPrint(reshape(vmopao, (/norb, norb/)), 
+     & 'Vmo in primitive ao, vmopao')
+      endif
 c     
 c** get Kohn-Sham Orbitals in ao basis
 c
-      call getdmp(idmp,isks,vksao,occmo,norb)
+cam      call getdmp(idmp,isks,vksao,occmo,norb)
+      open(26,file=trim(inpksoFile))
+      occmo = 0.d0
+      do i=1,nmomx
+         read(26,*) occmo(i)
+      enddo
+      do i=1,norb*norb
+         read(26,*) vksao(i)
+      enddo
+      close(26)
 c     
 c** transform natural orbitals from ao to mo basis
 c
@@ -89,8 +112,8 @@ c
       enddo   
       call tmtdag(pksks,nmos,pksmo,norb,vksmo,5.d-1)
 c     
-      call clcvls(dns,ddns,dsdns,vnuc,valmo,grdmo,npnt,npntmx,
-     + norb,pnomo,vmopao,grid,weight,rnel,atmol4)
+      call clcvls(dns,ddns,dsdns,vnuc,valmo,grdmo,npnt,
+     + norb,pnomo,vmopao,grid,rnel)
 c
       do ip=1,npnt
         k=(ip-1)*norb
@@ -110,7 +133,7 @@ c
         endif
       enddo
 c
-      call clvkin(norb,npold,npnt,pnomo,pksmo,rho,dns,ddns,grdmo)
+      call clvkin(norb,npold,npnt,pnomo,pksmo,rho,dns,ddns,grdmo,grid)
 c
       return
       end

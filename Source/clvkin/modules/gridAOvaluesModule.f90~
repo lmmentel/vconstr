@@ -140,21 +140,21 @@ contains
                         grads(AOindex)   = grads(AOindex)   + gaus*(2.0_dp+2.0_dp*z*z*zeta*(drg-7.0_dp)) 
                     case ( 8)    ! D XY
                         AOvalue(AOindex) = AOvalue(AOindex) + gaus*x*y
-                        gradx(AOindex)   = gradx(AOindex)   + gaus*(y+dxg*x*y) 
-                        grady(AOindex)   = grady(AOindex)   + gaus*(x+dyg*x*y)
+                        gradx(AOindex)   = gradx(AOindex)   + gaus*(y-dxg*x*y) 
+                        grady(AOindex)   = grady(AOindex)   + gaus*(x-dyg*x*y)
                         gradz(AOindex)   = gradz(AOindex)   + gaus*dzg*x*y 
                         grads(AOindex)   = grads(AOindex)   + gaus*2.0_dp*x*y*zeta*(drg-7.0_dp) 
                     case ( 9)    ! D XZ
                         AOvalue(AOindex) = AOvalue(AOindex) + gaus*x*z
-                        gradx(AOindex)   = gradx(AOindex)   + gaus*(z+dxg*x*z) 
+                        gradx(AOindex)   = gradx(AOindex)   + gaus*(z-dxg*x*z) 
                         grady(AOindex)   = grady(AOindex)   + gaus*dyg*x*z
-                        gradz(AOindex)   = gradz(AOindex)   + gaus*(x+dzg*x*z) 
+                        gradz(AOindex)   = gradz(AOindex)   + gaus*(x-dzg*x*z) 
                         grads(AOindex)   = grads(AOindex)   + gaus*2.0_dp*x*z*zeta*(drg-7.0_dp) 
                     case (10)    ! D YZ
                         AOvalue(AOindex) = AOvalue(AOindex) + gaus*y*z
                         gradx(AOindex)   = gradx(AOindex)   + gaus*dxg*y*z 
-                        grady(AOindex)   = grady(AOindex)   + gaus*(z+dyg*y*z)
-                        gradz(AOindex)   = gradz(AOindex)   + gaus*(y+dzg*y*z) 
+                        grady(AOindex)   = grady(AOindex)   + gaus*(z-dyg*y*z)
+                        gradz(AOindex)   = gradz(AOindex)   + gaus*(y-dzg*y*z) 
                         grads(AOindex)   = grads(AOindex)   + gaus*2.0_dp*y*z*zeta*(drg-7.0_dp) 
                     case default
                         write(*,*) 'wrong subshell for D shell in -grid-: ', k

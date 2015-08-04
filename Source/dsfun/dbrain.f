@@ -1,7 +1,7 @@
       subroutine dbrain(occmo,fxyz,tstthr,alpha,beta,gamma,df,crrmn,
      + crrmx,thresh,dqmax,dvdmp,scfdmp,kpens,info,nppr,nvpr,npnt,
      + norb,nmos,nmomx,itrx,ibcens,iscens,
-     + lsym,lintsm,lrdocc,lrfun,nele)
+     + lsym,lintsm,lrdocc,lrfun,nele,outksoFile)
       use integralsModule
       use hartreePotentialModule
       use coulombAndExchangeModule
@@ -15,6 +15,7 @@ c      parameter(epsilon = 1.0d-8)
       parameter(fparin = 1.01d0)
 c
       logical lsym,lintsm,lrdocc,lrfun,lincpr
+      character*100 outksoFile
       dimension info(nppr)
       dimension occmo(nmomx)
 c
@@ -286,6 +287,7 @@ c
       endif
       close(36) 
   333 continue
+c
       open(57,file='vcond.dat',status='old',err=332)
       rewind(57)
       allocate(vcond(npnt),stat=ialloc)
@@ -299,10 +301,10 @@ c
         enddo
         close(57)
       endif
-  332 continue
-c      do ip=1,npnt
-c      vxc(ip)=vcond(ip)-vhartr(ip)
-c      enddo
+      do ip=1,npnt
+         vxc(ip)=vcond(ip)-vhartr(ip)
+      enddo
+ 332  continue
 c
 c** In the following cycles, pksmo will converge to the KS-density matrix
 c
@@ -359,8 +361,8 @@ c** diagonalize matrix hksmat and return the eigenvalues on the main
 c** diagonal of hksmat. vksmo returns the eigenvectors in mo basis.
 c
         call diaglz(hksmat,vksmo,norb)
-        call matPrint(reshape(hksmat, (/norb, norb/)),
-     &  'hksmat after diaglz')
+cam        call matPrint(reshape(hksmat, (/norb, norb/)),
+cam     &  'hksmat after diaglz')
         do iorb=1,norb
           eorb(iorb)=hksmat((iorb-1)*norb+iorb)
         enddo
@@ -886,16 +888,16 @@ clmm      enddo
 clmm      close(15)
 clmm      close(25)
 c
-clmm      open(16,file='vxc.dat')
-clmm      rewind(16)
-clmm      open(26,file='dns.dat')
-clmm      rewind(26)
-clmm      do ip=npold,npnt
-clmm        write(16,*) vxc(ip)
-clmm        write(26,*) grid(ip,3),vresp(ip)
-clmm      enddo
-clmm      close(16)
-clmm      close(26)
+      open(16,file='vxc.dat')
+      rewind(16)
+cam      open(26,file='dns.dat')
+cam      rewind(26)
+      do ip=npold,npnt
+        write(16,*) vxc(ip)
+cam        write(26,*) grid(ip,3),vresp(ip)
+      enddo
+      close(16)
+cam      close(26)
 c
 clmm      write(*,*) 'ndvcr = ', ndvcr
 clmm      call wrtorb(vksmo,occmo,ityp,ndvcr,nmos,norb,npnt,npold,valmo)
@@ -911,6 +913,33 @@ c
 clmm      if (isks.gt.0) then
 clmm        call wrtkso(vksmo,vmoao,hksmat,occmo,nmos,norb,idmp,isks)
 clmm      endif
+c
+cam.... write KS orbitals to output
+      if ( outksoFile .ne. '') then
+         write(6,*) 'writing KS orbitals to file:', trim(outksoFile)
+         open(26, file=trim(outksoFile),form='formatted')
+cam...... first transform to AO basis
+         scrtc(1:norb*norb)=0.d0
+         do i=1,norb
+            iimo=(i-1)*norb
+            iiao=(i-1)*norb
+            do j=1,norb
+               jjao=(j-1)*norb
+               do k=1,norb
+                  scrtc(iiao+k) = scrtc(iiao+k)+
+     +                 vksmo(iimo+j)*vmoao(jjao+k)
+               enddo
+            enddo
+         enddo
+cam...... write
+         do i=1,nmomx
+            write(26,*) occmo(i)
+         enddo 
+         do i=1,norb*norb
+            write(26,*) scrtc(i)
+         enddo 
+         close(26)
+      endif
 c
 c** use hksmat as scratch to get the right order
 c
@@ -979,11 +1008,11 @@ c
      +f16.10)')evnno
       write(6,'('' CI coulomb repulsion energy            :''
      +,f16.10)')ehno
-      open(121,file='test')
-      write(121,*) (pnomo(i),i=1,norbtr)
-      close(121) 
-      write(6,'(''pnomo   : '',10(1x,f11.5))')
-     + (pnomo(i),i=1,norbtr)
+cam      open(121,file='test')
+cam      write(121,*) (pnomo(i),i=1,norbtr)
+cam      close(121) 
+cam      write(6,'(''pnomo   : '',10(1x,f11.5))')
+cam     + (pnomo(i),i=1,norbtr)
 c
 c** calculate Kohn-Sham kinetic energy which is the
 c** one-electron energy minus the electron nuclear
