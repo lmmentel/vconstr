@@ -54,7 +54,7 @@ KLOC   | INT  | NSHELL |    '(3(i25))' | GIVES THE LOCATION OF THIS SHELL IN THE
 
 # Documentation
 
-The documentation is currently provided only in a very limited form in 
+The documentation is currently provided only in a very limited form in the project's [doc directory](https://bitbucket.org/lukaszmentel/vconstr/src/tip/doc/?at=default).
 
 # Citing
 
