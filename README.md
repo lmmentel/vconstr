@@ -1,16 +1,23 @@
 # Vconstr
 
-Vconstr is a set bundle of programs with primartly developed at the Section of
-Theoretical Chemistry, VU Amsterdam for calculations of exact Kohn-Sham
-potentials.
+Vconstr is a bundle of programs with primarily developed at the [Section of
+Theoretical Chemistry](http://www.chem.vu.nl/en/research/division-theoretical-chemistry) at [VU Amsterdam](http://www.vu.nl/en/index.asp) for reconstructing the exact Kohn-Sham
+potentials based on accurate densities.
 
-## Grid generator
+## Authors
 
-The program for generating grid points for numerical integration of the KS (HF)
-equation was contributed by Mirko Franchini. To generate a grid the program
-requires the cartesian coordianes and nuclear charges of all the atoms in the
-studied system. An interface was made to obtain this data from an earlier
-GAMESS(US) calculation.
+Throughout the year several researchers contributed various features and improvements to the code.
+
+* Marten Buijse
+* Mirko Franchini
+* Oleg Gritsenko
+* Lukasz Mentel
+* Andre Mirtchink
+* Robert van Leeuwen
+
+# Interface
+
+The programs are currently interfaced with [GAMESS(US)](http://www.msg.ameslab.gov/gamess/) in order to obtain the one- and two-electron integrals, orbitals and densities. The communication occurs though a `basinfo` file.
 
 ## basinfo file
 
@@ -45,10 +52,11 @@ C2     | REAL | NPRIMI | '(3(e25.15))' |
 KNG    | INT  | NSHELL |    '(3(i25))' | IS THE NUMBER OF GAUSSIANS IN THIS SHELL.  THEIR DATA ARE STORED CONSECUTIVELY BEGINNING AT THE -KSTART- VALUE.
 KLOC   | INT  | NSHELL |    '(3(i25))' | GIVES THE LOCATION OF THIS SHELL IN THE TOTAL AO BASIS, PLEASE READ THE EXAMPLEcin gamess inputa.src file
 
-## Authors
+# Documentation
 
-* Mirko Franchini
-* Oleg Gritsenko
-* Lukasz Mentel
-* Andre Mirtchink
-* Robert van Leeuwen
+The documentation is currently provided only in a very limited form in 
+
+# Citing
+
+If you use mendeleev in a scientific publication, please cite the software as
+M. A. Buijse, M. Franchini, O. V. Gritsenko, L. M. Mentel, A. Mirtchink, R. van Leeuwen, "Vconstr", 1990-, https://bitbucket.org/lukaszmentel/vconstr
